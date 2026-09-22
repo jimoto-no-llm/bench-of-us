@@ -1,0 +1,23 @@
+{
+  "tag": "jin-qwen36-smoke-20260922-retry2",
+  "date": "2026-09-22T13:04:24+00:00",
+  "ctx": 8192,
+  "stages": "0,4000",
+  "n_predict": 100,
+  "modes": [
+    {
+      "name": "layer",
+      "device": "CUDA0,CUDA1",
+      "split": "layer",
+      "argv_file": "argv-layer.txt"
+    }
+  ],
+  "machine": "Dell PowerEdge C4130 - 2x Tesla P100-PCIE-12GB",
+  "bin": "~/workspace/llama.cpp/build/bin/llama-server",
+  "bin_version": "version: 0.4.0-dev (build 1, commit 6a1a922) built with GNU 13.4.0 for Linux x86_64",
+  "bin_sha256": "f981461497a3acb6e9cb970847b4a01c581f790b4f740f185f26957dfc8c0661",
+  "cache_k": "q8_0",
+  "cache_v": "q8_0",
+  "launch_prefix": "",
+  "tensor_split": ""
+}

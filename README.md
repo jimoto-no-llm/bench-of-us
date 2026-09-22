@@ -44,6 +44,8 @@ Claude Code、Codex、OpenCodeなどのコーディングエージェントを�
 
 | 日付 | タイトル | 作成者 | コンピュータ / マザーボード | GPU | ベンチ |
 |------|----------|--------|-----------------------------|-----|--------|
+| 2026-09-22 | [Tesla P100 2 枚で Qwen3.6 35B の layer 分割を測定](report/2026-09-22_130424_benchmarking_qwen3_6_35b_on_2x_tesla_p100.md) | jin | Dell PowerEdge C4130 / Dell 0VCHW8 | Tesla P100 12GB × 2 | Qwen3.6 35B A3B UD-Q4_K_M（スモーク） |
+| 2026-09-22 | [PowerEdge C4130 で Qwen3.6 35B の測定を試行（CUDA 初期化エラーで未計測）](report/2026-09-22_125121_attempting_qwen3_6_35b_benchmark_on_poweredge_c4130.md) | jin | Dell PowerEdge C4130 / Dell 0VCHW8 | Tesla P100 12GB × 3（2枚認識） | Qwen3.6 35B A3B UD-Q4_K_M（起動失敗・未計測） |
 | 2026-09-21 | [RTX 3060 + Tesla V100 で Qwen3.8 27B の tensor split を NCCL あり／なしで比較](report/2026-09-21_183303_comparing_nccl_vs_no_nccl_tensor_split_on_rtx3060_and_tesla_v100.md) | eightman999 | Thirdwave XA7C-R47T / ASRock B760 TW/D4 | RTX 3060 12GB + Tesla V100-PCIE-32GB | Qwen3.8 27B Q4_K_M NCCL |
 | 2026-09-21 | [RTX 3060 + Tesla V100 で Qwen3.8 27B の split-mode を比較](report/2026-09-21_170911_comparing_split_modes_of_qwen3.8_27b_on_rtx3060_and_tesla_v100.md) | eightman999 | Thirdwave XA7C-R47T / ASRock B760 TW/D4 | RTX 3060 12GB + Tesla V100-PCIE-32GB | Qwen3.8 27B Q4_K_M |
 | 2026-09-20 | [Tesla P100 7 枚で Qwen3.8 27B の split-mode を比較](report/2026-09-20_072013_comparing_split_modes_of_qwen3.8_27b_on_7x_tesla_p100.md) | miminashi | Supermicro SYS-4028GR-TRT2 | Tesla P100 × 7 | Qwen3.8 27B UD-Q4_K_XL |
