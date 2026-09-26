@@ -1,0 +1,35 @@
+{
+  "tag": "p40x4-131k",
+  "date": "2026-09-25T22:17:26+09:00",
+  "ctx": 131072,
+  "stages": "0,32000,64000,128000",
+  "n_predict": 1000,
+  "modes": [
+    {
+      "name": "layer",
+      "device": "CUDA0,CUDA1,CUDA2,CUDA3",
+      "split": "layer",
+      "argv_file": "argv-layer.txt"
+    },
+    {
+      "name": "tensor",
+      "device": "CUDA0,CUDA1,CUDA2,CUDA3",
+      "split": "tensor",
+      "argv_file": "argv-tensor.txt"
+    },
+    {
+      "name": "single",
+      "device": "CUDA1",
+      "split": "",
+      "argv_file": "argv-single.txt"
+    }
+  ],
+  "machine": "Supermicro X10DRG-Q — 4x Tesla P40",
+  "bin": "~/llama.cpp/build/bin/llama-server",
+  "bin_version": "0.00.000.801 I srv  llama_server: initializing ... version: 0.5.0-dev (build 11179, commit cd74ef627) built with GNU 15.2.0 for Linux x86_64",
+  "bin_sha256": "c7b430f146af35ec026c416af73795c027d513ded841b3ee9e130a677df1d395",
+  "cache_k": "q8_0",
+  "cache_v": "q8_0",
+  "launch_prefix": "",
+  "tensor_split": ""
+}
