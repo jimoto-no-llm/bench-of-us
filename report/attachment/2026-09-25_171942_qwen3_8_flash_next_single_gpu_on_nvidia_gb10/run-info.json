@@ -1,0 +1,23 @@
+{
+  "tag": "gb10-full",
+  "date": "2026-09-25T17:19:42+00:00",
+  "ctx": 262144,
+  "stages": "0,32000,64000,128000,196000,258000",
+  "n_predict": 1000,
+  "modes": [
+    {
+      "name": "single",
+      "device": "CUDA0",
+      "split": "",
+      "argv_file": "argv-single.txt"
+    }
+  ],
+  "machine": "NVIDIA GB10 (Blackwell sm_121) — 1x unified-memory SoC",
+  "bin": "~/llama-build/llama-src/build/bin/llama-server",
+  "bin_version": "0.00.000.912 I srv  llama_server: initializing ... version: 0.5.0-dev (build 11146, commit 7fe450e19) built with GNU 13.3.0 for Linux aarch64",
+  "bin_sha256": "f7b71cb44b1f0487cb42c3de4e1aadbaab9f7d6f2a5befb4804ecb66713b3211",
+  "cache_k": "q8_0",
+  "cache_v": "q8_0",
+  "launch_prefix": "",
+  "tensor_split": ""
+}
