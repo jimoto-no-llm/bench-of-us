@@ -1,0 +1,124 @@
+{
+  "measurement": "cold full-context prefill + 1000-token decode",
+  "runs_per_context": 3,
+  "thinking": false,
+  "temperature": 0,
+  "mtp": true,
+  "note": "196K and 258K extension runs used the same content_for_tokens() generator but included a short unique benchmark-metadata prefix. All runs had cache_n=0.",
+  "results": [
+    {
+      "target": 8192,
+      "prompt_median": 8298,
+      "prompt_min": 8293,
+      "prompt_max": 8298,
+      "prefill_median": 1062.933,
+      "prefill_min": 1019.586,
+      "prefill_max": 1068.38,
+      "decode_median": 41.091,
+      "decode_min": 40.726,
+      "decode_max": 41.256,
+      "completion_min": 1000,
+      "completion_max": 1000,
+      "cache_values": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "target": 32768,
+      "prompt_median": 32875,
+      "prompt_min": 32869,
+      "prompt_max": 32875,
+      "prefill_median": 1097.861,
+      "prefill_min": 1097.362,
+      "prefill_max": 1100.49,
+      "decode_median": 43.503,
+      "decode_min": 43.496,
+      "decode_max": 44.015,
+      "completion_min": 1000,
+      "completion_max": 1000,
+      "cache_values": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "target": 65536,
+      "prompt_median": 65643,
+      "prompt_min": 65637,
+      "prompt_max": 65643,
+      "prefill_median": 1084.617,
+      "prefill_min": 1083.779,
+      "prefill_max": 1085.545,
+      "decode_median": 42.439,
+      "decode_min": 41.654,
+      "decode_max": 42.716,
+      "completion_min": 1000,
+      "completion_max": 1000,
+      "cache_values": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "target": 131072,
+      "prompt_median": 131180,
+      "prompt_min": 131173,
+      "prompt_max": 131180,
+      "prefill_median": 1050.377,
+      "prefill_min": 1050.285,
+      "prefill_max": 1050.932,
+      "decode_median": 41.856,
+      "decode_min": 40.96,
+      "decode_max": 43.155,
+      "completion_min": 1000,
+      "completion_max": 1000,
+      "cache_values": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "target": 196000,
+      "prompt_median": 196107,
+      "prompt_min": 196107,
+      "prompt_max": 196107,
+      "prefill_median": 1026.972,
+      "prefill_min": 1026.668,
+      "prefill_max": 1029.373,
+      "decode_median": 41.829,
+      "decode_min": 40.926,
+      "decode_max": 44.453,
+      "completion_min": 1000,
+      "completion_max": 1000,
+      "cache_values": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "target": 258000,
+      "prompt_median": 258107,
+      "prompt_min": 258107,
+      "prompt_max": 258107,
+      "prefill_median": 1001.653,
+      "prefill_min": 1001.195,
+      "prefill_max": 1001.66,
+      "decode_median": 41.967,
+      "decode_min": 40.003,
+      "decode_max": 44.112,
+      "completion_min": 1000,
+      "completion_max": 1000,
+      "cache_values": [
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}
