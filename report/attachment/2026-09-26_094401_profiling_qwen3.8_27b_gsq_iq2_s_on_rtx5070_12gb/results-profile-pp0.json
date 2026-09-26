@@ -1,0 +1,21 @@
+{
+  "tag": "profile",
+  "pp512": {
+    "prompt_n": 512,
+    "cache_n": 0,
+    "prompt_ms": 569.044,
+    "prompt_per_second": 899.7546762640499,
+    "predicted_n": 64,
+    "predicted_per_second": 41.225429153445624,
+    "wall_s": 2.14
+  },
+  "pp2048": {
+    "prompt_n": 1978,
+    "cache_n": 0,
+    "prompt_ms": 2339.778,
+    "prompt_per_second": 845.3793479552335,
+    "predicted_n": 64,
+    "predicted_per_second": 36.678361047813446,
+    "wall_s": 4.06
+  }
+}
