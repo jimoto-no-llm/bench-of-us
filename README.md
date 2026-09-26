@@ -44,6 +44,7 @@ Claude Code、Codex、OpenCodeなどのコーディングエージェントを�
 
 | 日付 | タイトル | 作成者 | コンピュータ / マザーボード | GPU | ベンチ |
 |------|----------|--------|-----------------------------|-----|--------|
+| 2026-09-26 | [RTX 5090 で Qwen3.8 27B を 262k コンテキストで測定](report/2026-09-26_203225_measuring_qwen3_8_27b_at_262k_context_on_rtx_5090.md) | completenovice-eng | Micro-Star International Co., Ltd. PRO B650-S (MS-7E26) | RTX 5090 × 1 | Huihui-Qwen3.8-27B-abliterated-Q4_K |
 | 2026-09-24 | [Tesla V100-SXM2-32GB 2 枚で Qwen3.8 Flash Next（MoE）の layer 分割と単一 GPU を比較](report/2026-09-24_144622_comparing_layer_split_and_single_gpu_of_qwen3.8_flash_next_on_2x_tesla_v100_sxm2_32gb.md) | pentacoxian | Inspur NF5468M5 | Tesla V100-SXM2-32GB × 2 | Qwen3.8 Flash Next IQ3E-Q8D-MTP |
 | 2026-09-23 | [Tesla V100 2 枚で Qwen3.8 27B の split-mode を比較](report/2026-09-23_060231_comparing_split_modes_of_qwen3.8_27b_on_2x_tesla_v100.md) | miminashi | ASRock X99 Taichi | Tesla V100-SXM2-16GB × 2 | Huihui Qwen3.8 27B abliterated UD-Q4_K_XL |
 | 2026-09-22 | [Tesla V100 2枚で Qwen3.8 27B の split-mode を比較（単一GPU ベースライン付き）](report/2026-09-22_210206_comparing_split_modes_of_qwen3.8_27b_on_2x_tesla_v100_with_single_gpu_baseline.md) | kuraneko1 | ASUS Z170-A | Tesla V100-PCIE-32GB + Tesla PG500-216 | Qwen3.8 27B UD-Q4_K_M |
