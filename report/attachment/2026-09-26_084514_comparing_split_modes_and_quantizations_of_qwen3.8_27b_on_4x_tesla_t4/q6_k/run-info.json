@@ -1,0 +1,29 @@
+{
+  "tag": "t4x4-q6k-262k",
+  "date": "2026-09-26T07:46:45+00:00",
+  "ctx": 262144,
+  "stages": "0,32000,64000,128000,196000,258000",
+  "n_predict": 1000,
+  "modes": [
+    {
+      "name": "layer",
+      "device": "CUDA0,CUDA1,CUDA2,CUDA3",
+      "split": "layer",
+      "argv_file": "argv-layer.txt"
+    },
+    {
+      "name": "tensor",
+      "device": "CUDA0,CUDA1,CUDA2,CUDA3",
+      "split": "tensor",
+      "argv_file": "argv-tensor.txt"
+    }
+  ],
+  "machine": "HPE ProLiant DL380 Gen10 - 4x Tesla T4",
+  "bin": "/opt/llama.cpp/build/bin/llama-server",
+  "bin_version": "0.00.000.509 I srv  llama_server: initializing ... version: 0.5.0-dev (build 11195, commit d834d44e6) built with GNU 15.2.0 for Linux x86_64",
+  "bin_sha256": "40c8b1ae054f8efe6363931c6f1286d0319cd4b078645f3b523e14001f140f80",
+  "cache_k": "q8_0",
+  "cache_v": "q8_0",
+  "launch_prefix": "",
+  "tensor_split": ""
+}
