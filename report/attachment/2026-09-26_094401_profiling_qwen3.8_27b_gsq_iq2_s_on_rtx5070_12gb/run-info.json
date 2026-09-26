@@ -1,0 +1,23 @@
+{
+  "tag": "2026-09-26_094156-gsq-iq2s-8k-profile-287",
+  "date": "2026-09-26T09:43:44+09:00",
+  "ctx": 8192,
+  "stages": "0,4000",
+  "n_predict": 1000,
+  "modes": [
+    {
+      "name": "profile",
+      "device": "CUDA0",
+      "split": "",
+      "argv_file": "argv-profile.txt"
+    }
+  ],
+  "machine": "RTX 5070 12GB / Ryzen 7 9700X / WSL2 / GSQ IQ2_S / 8K",
+  "bin": "/opt/llama-b10981/llama-server",
+  "bin_version": "version: 0.4.1-dev (build 10981, commit 77d554b26) built with GNU 13.3.0 for Linux x86_64",
+  "bin_sha256": "a658e174cbec2128b051724301bc6673e236b1fa6066ac793d3d53c08c8b7dfe",
+  "cache_k": "q4_0",
+  "cache_v": "q4_0",
+  "launch_prefix": "",
+  "tensor_split": ""
+}
