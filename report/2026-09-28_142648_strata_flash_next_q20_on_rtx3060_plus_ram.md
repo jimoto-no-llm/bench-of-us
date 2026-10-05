@@ -55,7 +55,7 @@ export CUDA_VISIBLE_DEVICES="GPU-<3060のUUID>"
 
 llama-split-bench 式の深度ラダー：各段は指定トークン長の新規プロンプトを投げて prefill（read）/ decode を計測する（Strata は OpenAI API 経由のため llama-split-bench は非適用、自作スクリプトで同等の計測を実施）。
 
-![深度ラダー](attachment/2026-09-28_142648_strata_flash_next_q20_on_rtx3060_plus_ram/strata-ladder-ja.png)
+![深度ラダー](attachment/2026-09-28_142648_strata_flash_next_q20_on_rtx3060_plus_ram/strata-ladder-ja.svg)
 
 | depth（プロンプト tok） | prefill t/s | decode t/s |
 |------:|------:|------:|
@@ -96,7 +96,7 @@ depth 0 相当の prefill（生成なし・プロンプト長別）:
 
 ## 添付
 
-- [strata-ladder-ja.png](attachment/2026-09-28_142648_strata_flash_next_q20_on_rtx3060_plus_ram/strata-ladder-ja.png) / [strata-ladder-en.png](attachment/2026-09-28_142648_strata_flash_next_q20_on_rtx3060_plus_ram/strata-ladder-en.png)（深度ラダーの図）
+- [strata-ladder-ja.svg](attachment/2026-09-28_142648_strata_flash_next_q20_on_rtx3060_plus_ram/strata-ladder-ja.svg) / [strata-ladder-en.svg](attachment/2026-09-28_142648_strata_flash_next_q20_on_rtx3060_plus_ram/strata-ladder-en.svg)（深度ラダーの図）
 - [results-strata-ladder.json](attachment/2026-09-28_142648_strata_flash_next_q20_on_rtx3060_plus_ram/results-strata-ladder.json)（新規プロンプト型ラダー + depth0 prefill の生データ）
 - [argv-3060-ladder.txt](attachment/2026-09-28_142648_strata_flash_next_q20_on_rtx3060_plus_ram/argv-3060-ladder.txt)（エンジン起動引数）
 - [results-strata-ladder-cumulative.json](attachment/2026-09-28_142648_strata_flash_next_q20_on_rtx3060_plus_ram/results-strata-ladder-cumulative.json)（初回計測：会話累積型ラダーの usage・速度・採用率）

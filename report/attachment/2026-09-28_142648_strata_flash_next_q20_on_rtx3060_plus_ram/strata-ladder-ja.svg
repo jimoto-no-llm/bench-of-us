@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1260" height="770" viewBox="0 0 1260 770">
+<rect width="100%" height="100%" fill="white"/>
+<text x="630" y="32" text-anchor="middle" font-family="sans-serif" font-size="24" fill="#111">コンテキスト深度と速度 (Qwen3.8-Flash-Next Q2_0, Strata)</text>
+<line x1="100.00" y1="55" x2="100.00" y2="685" stroke="#b0b0b0" stroke-opacity=".35"/><text x="100.00" y="715" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#111">0</text>
+<line x1="275.78" y1="55" x2="275.78" y2="685" stroke="#b0b0b0" stroke-opacity=".35"/><text x="275.78" y="715" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#111">5k</text>
+<line x1="451.56" y1="55" x2="451.56" y2="685" stroke="#b0b0b0" stroke-opacity=".35"/><text x="451.56" y="715" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#111">10k</text>
+<line x1="627.34" y1="55" x2="627.34" y2="685" stroke="#b0b0b0" stroke-opacity=".35"/><text x="627.34" y="715" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#111">15k</text>
+<line x1="803.13" y1="55" x2="803.13" y2="685" stroke="#b0b0b0" stroke-opacity=".35"/><text x="803.13" y="715" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#111">20k</text>
+<line x1="978.91" y1="55" x2="978.91" y2="685" stroke="#b0b0b0" stroke-opacity=".35"/><text x="978.91" y="715" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#111">25k</text>
+<line x1="1154.69" y1="55" x2="1154.69" y2="685" stroke="#b0b0b0" stroke-opacity=".35"/><text x="1154.69" y="715" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#111">30k</text>
+<line x1="100" y1="548.04" x2="1225" y2="548.04" stroke="#b0b0b0" stroke-opacity=".35"/><text x="85" y="554.04" text-anchor="end" font-family="sans-serif" font-size="18" fill="#111">100</text>
+<line x1="100" y1="411.09" x2="1225" y2="411.09" stroke="#b0b0b0" stroke-opacity=".35"/><text x="85" y="417.09" text-anchor="end" font-family="sans-serif" font-size="18" fill="#111">200</text>
+<line x1="100" y1="274.13" x2="1225" y2="274.13" stroke="#b0b0b0" stroke-opacity=".35"/><text x="85" y="280.13" text-anchor="end" font-family="sans-serif" font-size="18" fill="#111">300</text>
+<line x1="100" y1="137.17" x2="1225" y2="137.17" stroke="#b0b0b0" stroke-opacity=".35"/><text x="85" y="143.17" text-anchor="end" font-family="sans-serif" font-size="18" fill="#111">400</text>
+<rect x="100" y="55" width="1125" height="630" fill="none" stroke="#222" stroke-width="1.4"/>
+<text x="662.5" y="745" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#111">プロンプト深度 (tokens)</text>
+<text x="28" y="370" text-anchor="middle" transform="rotate(-90 28 370)" font-family="sans-serif" font-size="20" fill="#111">速度 (tokens/s)</text>
+<polyline points="104.57,605.43 376.05,89.51 663.98,86.64 946.42,93.62 1171.28,114.85" fill="none" stroke="#1f77b4" stroke-width="4"/>
+<polyline points="104.57,644.60 376.05,644.32 663.98,648.98 946.42,643.23 1171.28,646.52" fill="none" stroke="#1f77b4" stroke-width="4" stroke-dasharray="12 8" stroke-opacity=".85"/>
+<circle cx="104.57" cy="605.43" r="7" fill="#1f77b4"/>
+<circle cx="376.05" cy="89.51" r="7" fill="#1f77b4"/>
+<circle cx="663.98" cy="86.64" r="7" fill="#1f77b4"/>
+<circle cx="946.42" cy="93.62" r="7" fill="#1f77b4"/>
+<circle cx="1171.28" cy="114.85" r="7" fill="#1f77b4"/>
+<rect x="98.57" y="638.60" width="12" height="12" fill="#1f77b4" fill-opacity=".75" stroke="#1f77b4" stroke-width="2"/>
+<rect x="370.05" y="638.32" width="12" height="12" fill="#1f77b4" fill-opacity=".75" stroke="#1f77b4" stroke-width="2"/>
+<rect x="657.98" y="642.98" width="12" height="12" fill="#1f77b4" fill-opacity=".75" stroke="#1f77b4" stroke-width="2"/>
+<rect x="940.42" y="637.23" width="12" height="12" fill="#1f77b4" fill-opacity=".75" stroke="#1f77b4" stroke-width="2"/>
+<rect x="1165.28" y="640.52" width="12" height="12" fill="#1f77b4" fill-opacity=".75" stroke="#1f77b4" stroke-width="2"/>
+<rect x="110" y="63" width="230" height="73" rx="3" fill="white" fill-opacity=".92" stroke="#bbb"/>
+<line x1="116" y1="83" x2="154" y2="83" stroke="#1f77b4" stroke-width="4"/><circle cx="135" cy="83" r="7" fill="#1f77b4"/><text x="168" y="89" font-family="sans-serif" font-size="18" fill="#111">RTX 3060 prefill</text>
+<line x1="116" y1="118" x2="154" y2="118" stroke="#1f77b4" stroke-width="4" stroke-dasharray="12 8" stroke-opacity=".85"/><rect x="129" y="112" width="12" height="12" fill="#1f77b4" fill-opacity=".75" stroke="#1f77b4" stroke-width="2"/><text x="168" y="124" font-family="sans-serif" font-size="18" fill="#111">RTX 3060 decode</text>
+</svg>
