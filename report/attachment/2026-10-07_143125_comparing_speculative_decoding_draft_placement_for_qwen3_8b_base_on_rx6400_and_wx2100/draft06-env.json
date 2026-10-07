@@ -1,0 +1,18 @@
+{
+ "started_at": "2026-10-07T12:26:54+0900",
+ "platform": "Linux-6.12.107+deb13-amd64-x86_64-with-glibc2.41",
+ "python": "3.13.5 (main, Aug 10 2026, 12:06:59) [GCC 14.2.0]",
+ "git_commit": "uncommitted-1f0e32653774",
+ "icd": "/usr/share/vulkan/icd.d/radeon_icd.json",
+ "llama_dir": "~/bench/llama-bin/llama-b11384",
+ "models": {
+  "~/bench/models/qwen3-0.6b-base-q4_k_m.gguf": 396704576,
+  "~/bench/models/qwen3-0.6b-base-q8_0.gguf": 639446848,
+  "~/bench/models/qwen3-0.6b-q8_0.gguf": 639446688,
+  "~/bench/models/qwen3-8b-base-q2_k.gguf": 3281732448,
+  "~/bench/models/qwen3-8b-base-q3_k_s.gguf": 3769611104
+ },
+ "other_llama_servers": [],
+ "version": "version: 0.5.0-dev (build 11384, commit 0faee5004)\nbuilt with GNU 11.4.0 for Linux x86_64",
+ "list_devices": "Available devices:\n  Vulkan0: AMD Radeon RX 6400 (RADV NAVI24) (4080 MiB, 4064 MiB free)\n  Vulkan1: AMD Radeon Pro WX 2100 (RADV POLARIS12) (2048 MiB, 2042 MiB free)\n"
+}

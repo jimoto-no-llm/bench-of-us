@@ -1,0 +1,38 @@
+# t8q2_rx (ok, load 4.0 s)
+~/bench/llama-bin/llama-b11384/llama-server -m ~/bench/models/qwen3-8b-base-q2_k.gguf -dev Vulkan0 -ngl all -sm none -c 1024 -np 1 -t 2 -fit off --host 127.0.0.1 --port 18190
+
+# t8q2_rx__d17wx_n2 (ok, load 7.0 s)
+~/bench/llama-bin/llama-b11384/llama-server -m ~/bench/models/qwen3-8b-base-q2_k.gguf -dev Vulkan0 -ngl all -sm none -c 1024 -np 1 -t 2 -fit off --spec-type draft-simple -md ~/bench/models/Qwen3-1.7B-Q4_K_M.gguf -devd Vulkan1 -ngld all --spec-draft-n-max 2 --host 127.0.0.1 --port 18190
+
+# t8q2_rx__d17wx_n4 (ok, load 7.0 s)
+~/bench/llama-bin/llama-b11384/llama-server -m ~/bench/models/qwen3-8b-base-q2_k.gguf -dev Vulkan0 -ngl all -sm none -c 1024 -np 1 -t 2 -fit off --spec-type draft-simple -md ~/bench/models/Qwen3-1.7B-Q4_K_M.gguf -devd Vulkan1 -ngld all --spec-draft-n-max 4 --host 127.0.0.1 --port 18190
+
+# t8q2_rx__d17wx_n8 (ok, load 7.0 s)
+~/bench/llama-bin/llama-b11384/llama-server -m ~/bench/models/qwen3-8b-base-q2_k.gguf -dev Vulkan0 -ngl all -sm none -c 1024 -np 1 -t 2 -fit off --spec-type draft-simple -md ~/bench/models/Qwen3-1.7B-Q4_K_M.gguf -devd Vulkan1 -ngld all --spec-draft-n-max 8 --host 127.0.0.1 --port 18190
+
+# t8q2_rx__d17wx_n8_p075 (ok, load 7.0 s)
+~/bench/llama-bin/llama-b11384/llama-server -m ~/bench/models/qwen3-8b-base-q2_k.gguf -dev Vulkan0 -ngl all -sm none -c 1024 -np 1 -t 2 -fit off --spec-type draft-simple -md ~/bench/models/Qwen3-1.7B-Q4_K_M.gguf -devd Vulkan1 -ngld all --spec-draft-n-max 8 --spec-draft-p-min 0.75 --host 127.0.0.1 --port 18190
+
+# t8q2_rx__d17rx_n4 (ok, load 5.0 s)
+~/bench/llama-bin/llama-b11384/llama-server -m ~/bench/models/qwen3-8b-base-q2_k.gguf -dev Vulkan0 -ngl all -sm none -c 1024 -np 1 -t 2 -fit off --spec-type draft-simple -md ~/bench/models/Qwen3-1.7B-Q4_K_M.gguf -devd Vulkan0 -ngld all --spec-draft-n-max 4 --host 127.0.0.1 --port 18190
+
+# t8q2_rx__d17cpu_n4 (ok, load 5.1 s)
+~/bench/llama-bin/llama-b11384/llama-server -m ~/bench/models/qwen3-8b-base-q2_k.gguf -dev Vulkan0 -ngl all -sm none -c 1024 -np 1 -t 2 -fit off --spec-type draft-simple -md ~/bench/models/Qwen3-1.7B-Q4_K_M.gguf -devd none -ngld all --spec-draft-n-max 4 --host 127.0.0.1 --port 18190
+
+# t8q2_rx__ngram_simple (ok, load 4.0 s)
+~/bench/llama-bin/llama-b11384/llama-server -m ~/bench/models/qwen3-8b-base-q2_k.gguf -dev Vulkan0 -ngl all -sm none -c 1024 -np 1 -t 2 -fit off --spec-type ngram-simple --host 127.0.0.1 --port 18190
+
+# t8q2_rx__ngram_mod (ok, load 4.0 s)
+~/bench/llama-bin/llama-b11384/llama-server -m ~/bench/models/qwen3-8b-base-q2_k.gguf -dev Vulkan0 -ngl all -sm none -c 1024 -np 1 -t 2 -fit off --spec-type ngram-mod --host 127.0.0.1 --port 18190
+
+# t8q2_split (ok, load 7.0 s)
+~/bench/llama-bin/llama-b11384/llama-server -m ~/bench/models/qwen3-8b-base-q2_k.gguf -dev Vulkan0,Vulkan1 -ngl all -sm layer -c 1024 -np 1 -t 2 -fit off --host 127.0.0.1 --port 18190
+
+# t8q3_split (ok, load 7.0 s)
+~/bench/llama-bin/llama-b11384/llama-server -m ~/bench/models/qwen3-8b-base-q3_k_s.gguf -dev Vulkan0,Vulkan1 -ngl all -sm layer -c 1024 -np 1 -t 2 -fit off --host 127.0.0.1 --port 18190
+
+# t8q3_rx (ok, load 4.0 s)
+~/bench/llama-bin/llama-b11384/llama-server -m ~/bench/models/qwen3-8b-base-q3_k_s.gguf -dev Vulkan0 -ngl all -sm none -c 1024 -np 1 -t 2 -fit off -ctk q8_0 -ctv q8_0 --host 127.0.0.1 --port 18190
+
+# t8q3_rx__d17wx_n4 (ok, load 8.0 s)
+~/bench/llama-bin/llama-b11384/llama-server -m ~/bench/models/qwen3-8b-base-q3_k_s.gguf -dev Vulkan0 -ngl all -sm none -c 1024 -np 1 -t 2 -fit off -ctk q8_0 -ctv q8_0 --spec-type draft-simple -md ~/bench/models/Qwen3-1.7B-Q4_K_M.gguf -devd Vulkan1 -ngld all --spec-draft-n-max 4 --host 127.0.0.1 --port 18190
