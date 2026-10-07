@@ -1,0 +1,38 @@
+[
+  {
+    "prompt": "design",
+    "decode_tok_s": 55.28602656975428,
+    "predicted_n": 1200,
+    "prefill_tok_s": 173.39543898737065,
+    "accepted": 661,
+    "draft_n": 1073,
+    "wall_s": 22.10968889101059,
+    "stop_type": "limit",
+    "truncated": false,
+    "text_sha256": "884c2d1bcd246b0f8ab455ac598d2669dcf8c1df24f501a3b627722a72a2f70d"
+  },
+  {
+    "prompt": "review",
+    "decode_tok_s": 55.833072988541375,
+    "predicted_n": 1200,
+    "prefill_tok_s": 355.2854841377283,
+    "accepted": 666,
+    "draft_n": 1063,
+    "wall_s": 21.639659078005934,
+    "stop_type": "limit",
+    "truncated": false,
+    "text_sha256": "8298a4462fc388bd178d6879e3c68498c394a7dc24a5bd4c1aef74a7481f3114"
+  },
+  {
+    "prompt": "qa",
+    "decode_tok_s": 58.39072815624288,
+    "predicted_n": 1200,
+    "prefill_tok_s": 411.02628546786246,
+    "accepted": 690,
+    "draft_n": 1018,
+    "wall_s": 20.68435038201278,
+    "stop_type": "limit",
+    "truncated": false,
+    "text_sha256": "828ab7fad92e89af04b1432cfb7761de658c876584f1dd044e128b6da5dc7e7a"
+  }
+]

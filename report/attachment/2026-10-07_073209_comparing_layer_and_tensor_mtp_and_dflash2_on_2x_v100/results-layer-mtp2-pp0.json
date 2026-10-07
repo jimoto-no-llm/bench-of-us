@@ -1,0 +1,30 @@
+{
+  "tag": "layer-mtp2",
+  "pp512": {
+    "prompt_n": 512,
+    "cache_n": 0,
+    "prompt_ms": 712.804,
+    "prompt_per_second": 718.2900208191874,
+    "predicted_n": 64,
+    "predicted_per_second": 69.82922874171055,
+    "wall_s": 1.62
+  },
+  "pp2048": {
+    "prompt_n": 1978,
+    "cache_n": 0,
+    "prompt_ms": 2562.723,
+    "prompt_per_second": 771.8352705306036,
+    "predicted_n": 64,
+    "predicted_per_second": 68.60891610980912,
+    "wall_s": 3.48
+  },
+  "pp8192": {
+    "prompt_n": 8077,
+    "cache_n": 0,
+    "prompt_ms": 10749.058,
+    "prompt_per_second": 751.4146821051668,
+    "predicted_n": 64,
+    "predicted_per_second": 65.2148934254071,
+    "wall_s": 11.73
+  }
+}
