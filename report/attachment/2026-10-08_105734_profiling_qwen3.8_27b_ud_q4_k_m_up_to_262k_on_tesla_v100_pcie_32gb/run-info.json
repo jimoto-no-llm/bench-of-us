@@ -1,0 +1,23 @@
+{
+  "tag": "v100-27b-q4km-fanfull",
+  "date": "2026-10-08T10:56:07+09:00",
+  "ctx": 262144,
+  "stages": "0,32000,64000,128000,196000,258000",
+  "n_predict": 1000,
+  "modes": [
+    {
+      "name": "profile",
+      "device": "CUDA0",
+      "split": "",
+      "argv_file": "argv-profile.txt"
+    }
+  ],
+  "machine": "Supermicro SYS-1019GP-TT — Tesla V100-PCIE-32GB",
+  "bin": "~/llama.cpp/build/bin/llama-server",
+  "bin_version": "version: 0.6.0-dev (build 11472, commit d0b490f25) built with GNU 14.2.0 for Linux x86_64",
+  "bin_sha256": "3f0a3cc0e08d5775f67b1a267e21c58901ebdfd0b226eb00c00b41d23aca1097",
+  "cache_k": "q8_0",
+  "cache_v": "q8_0",
+  "launch_prefix": "",
+  "tensor_split": ""
+}
