@@ -1,0 +1,30 @@
+{
+  "tag": "layer-dflash3",
+  "pp512": {
+    "prompt_n": 512,
+    "cache_n": 0,
+    "prompt_ms": 754.242,
+    "prompt_per_second": 678.8272199108509,
+    "predicted_n": 64,
+    "predicted_per_second": 80.50079159111732,
+    "wall_s": 1.54
+  },
+  "pp2048": {
+    "prompt_n": 1978,
+    "cache_n": 0,
+    "prompt_ms": 2685.974,
+    "prompt_per_second": 736.4181485003205,
+    "predicted_n": 64,
+    "predicted_per_second": 75.11580353044276,
+    "wall_s": 3.53
+  },
+  "pp8192": {
+    "prompt_n": 8077,
+    "cache_n": 0,
+    "prompt_ms": 11223.282,
+    "prompt_per_second": 719.6647112671677,
+    "predicted_n": 64,
+    "predicted_per_second": 72.83893807765324,
+    "wall_s": 12.1
+  }
+}

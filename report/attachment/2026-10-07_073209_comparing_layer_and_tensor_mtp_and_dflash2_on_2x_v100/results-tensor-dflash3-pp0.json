@@ -1,0 +1,30 @@
+{
+  "tag": "tensor-dflash3",
+  "pp512": {
+    "prompt_n": 512,
+    "cache_n": 0,
+    "prompt_ms": 567.116,
+    "prompt_per_second": 902.8135337391292,
+    "predicted_n": 64,
+    "predicted_per_second": 96.88357823348943,
+    "wall_s": 1.22
+  },
+  "pp2048": {
+    "prompt_n": 1978,
+    "cache_n": 0,
+    "prompt_ms": 2211.155,
+    "prompt_per_second": 894.5551080770005,
+    "predicted_n": 64,
+    "predicted_per_second": 94.30135419738322,
+    "wall_s": 2.88
+  },
+  "pp8192": {
+    "prompt_n": 8077,
+    "cache_n": 0,
+    "prompt_ms": 9023.824,
+    "prompt_per_second": 895.0750812515846,
+    "predicted_n": 64,
+    "predicted_per_second": 90.00154288359228,
+    "wall_s": 9.73
+  }
+}
