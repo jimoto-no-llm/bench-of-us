@@ -36,6 +36,13 @@ Claude Code、Codex、OpenCodeなどのコーディングエージェントを�
 - 図や JSON は `report/attachment/<レポートのbasename>/` に置きます
 - 下の「レポート一覧」の表に 1 行追加します
 
+## 関連プロジェクト
+
+- [mmlu-bench](https://github.com/moriyasujapan/mmlu-bench) — こちらが「速度」を集めるのに対して、
+  MMLU の 4 択正答率で「賢さ」を集める姉妹リポジトリです。量子化やバックエンドを変えたときに
+  どれだけ精度が落ちるかを、同じ問題セットで比較できます。OpenAI 互換 API を喋るものなら
+  vLLM・llama.cpp・Ollama などを問わず測れます。順位表: https://moriyasujapan.github.io/mmlu-bench/
+
 ## レポート一覧
 
 新しいものが上です。
