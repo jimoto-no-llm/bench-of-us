@@ -39,7 +39,7 @@ Frontmatter takes precedence; otherwise, fields are extracted from headings, aut
 
 - Title: the first `# Heading`, unless provided in frontmatter.
 - Author / date: English `Author`/`Date`, Japanese `作成者`/`作成日`, or Chinese `作者`/`日期` (and filename date fallback).
-- Machine, GPU, CPU, model, and benchmark information: recognized table labels; frontmatter avoids ambiguity.
+- Machine, GPU, model, and benchmark information: recognized table labels; frontmatter avoids ambiguity.
 - Summary: `概要`, `Summary`, `摘要`, or `概述`.
 
 If extraction fails, the website displays its unknown-value placeholder and logs a warning. A single malformed report does not fail the entire build.
