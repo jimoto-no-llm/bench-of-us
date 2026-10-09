@@ -1,49 +1,50 @@
-# site — Bench of Us の GitHub Pages サイト
+# site — Bench of Us GitHub Pages website
 
-`report/*.md` と `report/attachment/` を読み取って、静的サイトを生成します。
-公開先: https://jimoto-no-llm.github.io/bench-of-us/
+**English (primary)** · [简体中文](README.zh-CN.md) · [日本語](README.ja.md)
 
-レポートの正本は `report/` です。サイトのためにデータを二重管理しません。
+This Astro project generates a static website from `report/*.md` and `report/attachment/`.
 
-## 開発
+**Live site:** https://jimoto-no-llm.github.io/bench-of-us/
+
+The source of truth is `report/`. Reports are not duplicated or manually edited for the website.
+
+## Development
 
 ```bash
 cd site
 npm install
 npm run dev      # http://localhost:4321/bench-of-us/
-npm run build    # dist/ に出力
-npm run preview  # build 結果を確認
-npm test         # build + 生成物チェック（リンク切れ・レポート数）
+npm run build    # output to dist/
+npm run preview  # preview the built site
+npm test         # build + report-count and local-link checks
 ```
 
-`npm run build` / `npm run dev` は先に `scripts/sync-assets.mjs` を実行し、`report/attachment/` を
-`site/public/report-assets/` にコピーします（このコピーは git 管理外）。
+`npm run build` and `npm run dev` run `scripts/sync-assets.mjs` first to copy `report/attachment/` into `site/public/report-assets/`. This copy is excluded from Git.
 
-## 構成
+## Project layout
 
-| パス | 内容 |
-|------|------|
-| `src/lib/reports.ts` | `report/*.md` の読み込みとメタデータ抽出 |
-| `src/lib/parse.ts` | 既存 Markdown（frontmatter なし）からの抽出 |
-| `src/lib/frontmatter.ts` | 任意の frontmatter の最小パーサ |
-| `src/lib/markdown.ts` | Markdown → HTML（生 HTML は除去、相対 URL を base 付きに変換） |
-| `src/pages/` | トップ / レポート一覧 / 個別レポート / Performance Explorer / Contribute |
-| `scripts/sync-assets.mjs` | 添付のコピー |
-| `scripts/check-build.mjs` | 生成物の検査（CI で実行） |
+| Path | Purpose |
+|------|---------|
+| `src/lib/reports.ts` | Read `report/*.md` and extract report metadata |
+| `src/lib/parse.ts` | Parse existing Markdown without frontmatter |
+| `src/lib/frontmatter.ts` | Minimal optional YAML frontmatter parser |
+| `src/lib/markdown.ts` | Render Markdown safely and rewrite relative URLs for the site base |
+| `src/pages/` | Home, report index, report details, Performance Explorer, and Contribute |
+| `scripts/sync-assets.mjs` | Copy report attachments |
+| `scripts/check-build.mjs` | Check generated report count and links in CI |
 
-## メタデータの読み取り
+## Report metadata
 
-frontmatter があればそれを優先し、無ければ本文から抽出します。
+Frontmatter takes precedence; otherwise, fields are extracted from headings, author/date bullets, and hardware/benchmark tables.
 
-- タイトル: 先頭の `# 見出し`
-- 作成者 / 作成日: `- **作成者**: …` / `- **作成日**: …`（無ければファイル名の日付）
-- マシン / GPU / CPU など: ハードウェア表の行
-- モデル / ツール: ベンチマーク条件表の行
+- Title: the first `# Heading`, unless provided in frontmatter.
+- Author / date: English `Author`/`Date`, Japanese `作成者`/`作成日`, or Chinese `作者`/`日期` (and filename date fallback).
+- Machine, GPU, CPU, model, and benchmark information: recognized table labels; frontmatter avoids ambiguity.
+- Summary: `概要`, `Summary`, `摘要`, or `概述`.
 
-抽出に失敗した項目は「不明」として表示し、ビルドログに warning を出します。
-1 本のレポートの解析失敗でサイト全体のビルドは落ちません。
+If extraction fails, the website displays its unknown-value placeholder and logs a warning. A single malformed report does not fail the entire build.
 
-frontmatter を使う場合（すべて任意）:
+All frontmatter fields below are optional:
 
 ```yaml
 ---
@@ -62,8 +63,16 @@ tags:
 ---
 ```
 
-## base path
+English, Chinese, and Japanese reports can use these keys. The original Markdown remains unchanged.
 
-GitHub Pages の project site なので `astro.config.mjs` で `base: '/bench-of-us'` を設定しています。
-レポート内の `attachment/…` への相対リンクは、ビルド時に `/bench-of-us/report-assets/…` へ書き換えます。
-別の場所で公開する場合は `site` と `base` を変更してください。
+## Base path
+
+This is a GitHub Pages project site: `astro.config.mjs` configures `base: '/bench-of-us'`. Relative `attachment/…` URLs inside reports are rewritten to `/bench-of-us/report-assets/…` during rendering.
+
+If deploying elsewhere, update the `site` and `base` settings in the Astro configuration.
+
+## Related docs
+
+- [English contributor guide](../CONTRIBUTING.md)
+- [简体中文贡献指南](../CONTRIBUTING.zh-CN.md)
+- [Main README](../README.md)

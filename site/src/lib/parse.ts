@@ -113,7 +113,7 @@ export function extractSection(body: string, heading: string): string | undefine
 
 /** 概要節を 1 段落の平文にする。 */
 export function extractSummary(body: string): string | undefined {
-  const section = extractSection(body, '概要') ?? extractSection(body, 'Summary');
+  const section = extractSection(body, '概要') ?? extractSection(body, 'Summary') ?? extractSection(body, '摘要') ?? extractSection(body, '概述');
   if (!section) return undefined;
   const paragraph = section.split(/\r?\n\s*\r?\n/)[0];
   return stripMarkdown(paragraph.replace(/\r?\n/g, ' ')) || undefined;

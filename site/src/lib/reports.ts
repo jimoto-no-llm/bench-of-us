@@ -67,16 +67,16 @@ function parseReport(file: string, raw: string): Report {
   const tables = extractTables(body);
 
   const title = fmString(data, 'title') ?? extractTitle(body) ?? titleFromFilename(file);
-  const author = fmString(data, 'author') ?? extractBullet(body, ['作成者', 'author']) ?? UNKNOWN;
+  const author = fmString(data, 'author') ?? extractBullet(body, ['作成者', 'author', '作者']) ?? UNKNOWN;
   const date =
     fmString(data, 'date') ??
-    extractBullet(body, ['作成日', 'date']) ??
+    extractBullet(body, ['作成日', 'date', '日期', '创建日期']) ??
     dateFromFilename(file) ??
     UNKNOWN;
 
   const machine =
     fmString(data, 'machine') ??
-    lookup(['コンピュータ / マザーボード', 'コンピュータ', 'マザーボード', 'machine']) ??
+    lookup(['コンピュータ / マザーボード', 'コンピュータ', 'マザーボード', 'machine', 'computer', 'motherboard', 'computer / motherboard', '计算机 / 主板', '计算机', '主板', '机器 / 主板']) ??
     UNKNOWN;
 
   const gpuRaw = lookup(['GPU']);
@@ -84,18 +84,19 @@ function parseReport(file: string, raw: string): Report {
   const gpu = fmString(data, 'gpu') ?? parsedGpu?.gpu ?? UNKNOWN;
   const gpuCount = fmNumber(data, 'gpu_count') ?? parsedGpu?.gpuCount;
 
-  const benchSection = extractSection(body, 'ベンチマーク') ?? extractSection(body, 'Benchmark');
-  const hasBenchmark = benchSection !== undefined && !/^\s*未実施\s*$/m.test(benchSection);
+  const benchSection = extractSection(body, 'ベンチマーク') ?? extractSection(body, 'Benchmark') ?? extractSection(body, '基准测试');
+  const notRun = /^(?:未実施|未运行|未执行|未测试|not\s+(?:run|performed|measured))[.。]?$/i;
+  const hasBenchmark = benchSection !== undefined && !notRun.test(benchSection.trim());
 
   const model =
-    fmString(data, 'model') ?? parseModel(lookup(['モデル', 'model'])) ?? (hasBenchmark ? UNKNOWN : '未実施');
+    fmString(data, 'model') ?? parseModel(lookup(['モデル', 'model', '模型'])) ?? (hasBenchmark ? UNKNOWN : '未実施');
 
-  const toolRaw = lookup(['ツール', 'tool', 'benchmark']);
+  const toolRaw = lookup(['ツール', 'tool', 'benchmark', '工具', '基准测试工具']);
   const benchmark =
     fmString(data, 'benchmark') ?? (toolRaw ? toolRaw.split(/\s+/)[0] : hasBenchmark ? UNKNOWN : '未実施');
 
-  const backend = fmString(data, 'backend') ?? lookup(['llama.cpp', 'backend', 'バックエンド']) ?? UNKNOWN;
-  const os = fmString(data, 'os') ?? lookup(['OS']);
+  const backend = fmString(data, 'backend') ?? lookup(['llama.cpp', 'backend', 'バックエンド', '后端']) ?? UNKNOWN;
+  const os = fmString(data, 'os') ?? lookup(['OS', '操作系统']);
 
   const benchTable = hasBenchmark ? extractBenchTable(tables) : undefined;
   if (hasBenchmark && !benchTable) {
