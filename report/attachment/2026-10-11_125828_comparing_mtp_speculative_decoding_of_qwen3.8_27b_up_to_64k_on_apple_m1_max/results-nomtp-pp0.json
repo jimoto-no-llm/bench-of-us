@@ -1,0 +1,30 @@
+{
+  "tag": "nomtp",
+  "pp512": {
+    "prompt_n": 512,
+    "cache_n": 0,
+    "prompt_ms": 5413.456,
+    "prompt_per_second": 94.57913761560083,
+    "predicted_n": 64,
+    "predicted_per_second": 7.733521032844878,
+    "wall_s": 13.58
+  },
+  "pp2048": {
+    "prompt_n": 1978,
+    "cache_n": 0,
+    "prompt_ms": 20961.666,
+    "prompt_per_second": 94.36272861136132,
+    "predicted_n": 64,
+    "predicted_per_second": 8.0587557485791,
+    "wall_s": 28.78
+  },
+  "pp8192": {
+    "prompt_n": 8077,
+    "cache_n": 0,
+    "prompt_ms": 87475.578,
+    "prompt_per_second": 92.33434273506602,
+    "predicted_n": 64,
+    "predicted_per_second": 7.670891014172153,
+    "wall_s": 95.7
+  }
+}

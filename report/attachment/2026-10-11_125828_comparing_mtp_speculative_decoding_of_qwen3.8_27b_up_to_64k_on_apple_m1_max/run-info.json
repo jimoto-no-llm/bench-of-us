@@ -1,0 +1,29 @@
+{
+  "tag": "m1max-27b-64k",
+  "date": "2026-10-11T12:56:17+09:00",
+  "ctx": 65536,
+  "stages": "0,16000,32000,48000,64000",
+  "n_predict": 1000,
+  "modes": [
+    {
+      "name": "nomtp",
+      "device": "MTL0",
+      "split": "",
+      "argv_file": "argv-nomtp.txt"
+    },
+    {
+      "name": "mtp",
+      "device": "MTL0",
+      "split": "",
+      "argv_file": "argv-mtp.txt"
+    }
+  ],
+  "machine": "MacBook Pro 18,4 - Apple M1 Max (32-core GPU, 64GB unified)",
+  "bin": "/opt/homebrew/bin/llama-server",
+  "bin_version": "version: 0.4.1 (build 10964, commit b29c606e2) built with AppleClang 21.0.0.21000334 for Darwin arm64",
+  "bin_sha256": "fa26e4e4490be1b9749ca2d58b53a1dcc1315983b0be2fdeeaea6d50ab247d7e",
+  "cache_k": "q8_0",
+  "cache_v": "q8_0",
+  "launch_prefix": "env",
+  "tensor_split": ""
+}
