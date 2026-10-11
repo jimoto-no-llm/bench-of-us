@@ -1,0 +1,30 @@
+{
+  "tag": "mtp",
+  "pp512": {
+    "prompt_n": 512,
+    "cache_n": 0,
+    "prompt_ms": 6569.92,
+    "prompt_per_second": 77.93093370999951,
+    "predicted_n": 64,
+    "predicted_per_second": 7.292725968876265,
+    "wall_s": 15.22
+  },
+  "pp2048": {
+    "prompt_n": 1978,
+    "cache_n": 0,
+    "prompt_ms": 23067.091,
+    "prompt_per_second": 85.74986763610549,
+    "predicted_n": 64,
+    "predicted_per_second": 7.212263320420711,
+    "wall_s": 31.81
+  },
+  "pp8192": {
+    "prompt_n": 8077,
+    "cache_n": 0,
+    "prompt_ms": 103286.192,
+    "prompt_per_second": 78.20019156093973,
+    "predicted_n": 64,
+    "predicted_per_second": 7.463052559080723,
+    "wall_s": 111.74
+  }
+}
