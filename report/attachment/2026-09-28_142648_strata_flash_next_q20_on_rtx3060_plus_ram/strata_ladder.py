@@ -3,10 +3,10 @@
 Grows one conversation so the engine re-reads only the new suffix each stage.
 Reads exact stats from strata-q2_0.log lines emitted per request.
 """
-import json, re, sys, time, urllib.request
+import json, os, re, sys, time, urllib.request
 
 URL = "http://127.0.0.1:8080/v1/chat/completions"
-LOG = "~/dev/tools/Strata/strata-q2_0.log"
+LOG = os.path.expanduser("~/dev/tools/Strata/strata-q2_0.log")
 GEN_TOKENS = 220
 
 # filler: numbered pseudo-technical paragraphs; ~1 token per ~3.2 chars JP-ish, use EN text
