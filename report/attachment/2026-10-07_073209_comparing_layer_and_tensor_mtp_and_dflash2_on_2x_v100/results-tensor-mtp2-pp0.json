@@ -1,0 +1,30 @@
+{
+  "tag": "tensor-mtp2",
+  "pp512": {
+    "prompt_n": 512,
+    "cache_n": 0,
+    "prompt_ms": 517.43,
+    "prompt_per_second": 989.5058268751329,
+    "predicted_n": 64,
+    "predicted_per_second": 91.78375165356442,
+    "wall_s": 1.21
+  },
+  "pp2048": {
+    "prompt_n": 1978,
+    "cache_n": 0,
+    "prompt_ms": 2049.255,
+    "prompt_per_second": 965.2288270615419,
+    "predicted_n": 64,
+    "predicted_per_second": 91.08784917008849,
+    "wall_s": 2.74
+  },
+  "pp8192": {
+    "prompt_n": 8077,
+    "cache_n": 0,
+    "prompt_ms": 8428.662,
+    "prompt_per_second": 958.2778381669593,
+    "predicted_n": 64,
+    "predicted_per_second": 88.45655940489796,
+    "wall_s": 9.15
+  }
+}
