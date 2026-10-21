@@ -1,0 +1,46 @@
+[
+ {
+  "stage_target": 8000,
+  "prompt_tokens": 8708,
+  "reused": 0,
+  "read": 8708,
+  "prefill_tps": 384.6,
+  "gen_tokens": 220,
+  "decode_tps": 27.2,
+  "accept": "149/196",
+  "wall_s": 30.9
+ },
+ {
+  "stage_target": 16000,
+  "prompt_tokens": 14719,
+  "reused": 8703,
+  "read": 6016,
+  "prefill_tps": 394.5,
+  "gen_tokens": 220,
+  "decode_tps": 33.1,
+  "accept": "148/169",
+  "wall_s": 21.9
+ },
+ {
+  "stage_target": 24000,
+  "prompt_tokens": 23720,
+  "reused": 14714,
+  "read": 9006,
+  "prefill_tps": 375.0,
+  "gen_tokens": 220,
+  "decode_tps": 32.1,
+  "accept": "143/188",
+  "wall_s": 30.9
+ },
+ {
+  "stage_target": 30000,
+  "prompt_tokens": 29732,
+  "reused": 23715,
+  "read": 6017,
+  "prefill_tps": 377.7,
+  "gen_tokens": 220,
+  "decode_tps": 30.2,
+  "accept": "131/169",
+  "wall_s": 23.3
+ }
+]
