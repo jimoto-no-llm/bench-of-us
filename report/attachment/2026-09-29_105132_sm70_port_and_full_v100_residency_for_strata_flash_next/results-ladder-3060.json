@@ -1,0 +1,55 @@
+{
+ "label": "rtx3060",
+ "ladder": [
+  {
+   "prompt_tokens": 130,
+   "read_tps": 58.1,
+   "gen_tokens": 256,
+   "gen_tps": 29.5,
+   "reps": 1
+  },
+  {
+   "prompt_tokens": 7852,
+   "read_tps": 434.8,
+   "gen_tokens": 256,
+   "gen_tps": 29.7,
+   "reps": 100
+  },
+  {
+   "prompt_tokens": 16042,
+   "read_tps": 436.9,
+   "gen_tokens": 256,
+   "gen_tps": 26.3,
+   "reps": 205
+  },
+  {
+   "prompt_tokens": 24076,
+   "read_tps": 431.8,
+   "gen_tokens": 256,
+   "gen_tps": 30.5,
+   "reps": 308
+  },
+  {
+   "prompt_tokens": 30472,
+   "read_tps": 416.3,
+   "gen_tokens": 256,
+   "gen_tps": 28.1,
+   "reps": 390
+  }
+ ],
+ "pp0": [
+  {
+   "prompt_tokens": 598,
+   "prefill_tps": 226.1
+  },
+  {
+   "prompt_tokens": 2080,
+   "prefill_tps": 369.0
+  },
+  {
+   "prompt_tokens": 8242,
+   "prefill_tps": 420.1
+  }
+ ],
+ "vram_peak_mib": 11521
+}
