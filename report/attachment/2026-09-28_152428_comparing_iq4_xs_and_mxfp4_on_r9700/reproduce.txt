@@ -1,0 +1,70 @@
+# 再現手順
+
+添付拡張子はサイト規則のPNG/JSON/TXTに合わせた。*.py.txtは*.pyへリネームして実行する。
+この添付は速度測定用。モデル重み・raw生成文・サーバログは含めない。
+commit/model revision/hashはmeasurement-identity.json、実引数は各run-info/argvを参照。
+
+## llama.cpp
+
+1. llama-split-benchを取得して `7af72d4085aa5073677d41389144112dd94fcb74` に固定する。
+2. 添付のargv-profile.txtを参考に、手元のモデル・HIP build・GPU selectorをbench.local.confへ設定する。
+   匿名化した `~` / `<R9700-selector>` は実環境に置き換える。
+3. profile / ctx40960 / stages0,8000,16000,32000 / n_predict1000 / pp0 512,2048,8192。
+   MTP draft2、KV q8_0、その他は固定したbench.confの既定を使う。MACHINEは中立名を設定する。
+4. smokeの後、添付のllama_warmup_python.pyをPATH先頭の専用directoryへpython3という名前で置き、
+   `bash run-bench.sh <unique-tag> --profile` を3回実行する。
+   launcherはmeasure_ladder.pyの直前だけ専用prefixのwarmupを行い、その後/usr/bin/python3で上流scriptを実行する。
+   warmup.jsonが出力され、最初の8K段のcache_nが0であることを確認する。
+5. Matplotlibを利用できるPythonをVENV_PYに設定して日英図を生成する。
+
+## GGZ14 / Radiance
+
+GGZ14/vllm-mxfp4 commit `31b9a94a7f74eeb3f59e66d16b1b27dfafcd0663` のserve-mxfp4.shを使う。
+モデルは元からMXFP4のAMD Quark artifactとDFlash2 draft。既存target-mtpfp8の変換由来はmeasurement-identity.jsonに記載。
+Radiance image0.9.3、libr4d b9e42ab-rx9。GPUはR9700単体、TP1、MAXLEN40960、text-only。
+MAXSEQS3 / CHUNK2560 / GPU_UTIL0.98 / DFlash2 draft7等は単体recipeの既定。
+実効環境変数・serve argvはggz14-run-info.jsonを参照する。
+NVFP4変換flagは0であり、今回のmodel本体のロード時再量子化は行わない。
+
+serverが準備完了したら、同じ添付内のmeasure_vllm.pyで測定する:
+
+```bash
+python3 measure_vllm.py \
+  --upstream /path/to/llama-split-bench \
+  --llama-run /path/to/this-attachment/llama-r1 \
+  --url http://127.0.0.1:18184 --model Qwen3.8 \
+  --out /path/to/new-output --repeats 3
+```
+
+公開添付にはraw prompt dumpがないため、clientは標準fillerとprompt_charsから同一文を再構成する。
+この再構成のSHA-256が測定時のprompt_sha256と一致することを確認済み。
+pp0/実用promptは固定したllama-split-benchの関数から取得する。
+各反復でwarmup2本を除外し、SSE token IDs/usageとPrometheus count増分1を確認する。
+
+## 温度・電力・VRAM
+
+```bash
+python3 collect_gpu.py --output /path/to/new-gpu.jsonl --interval 1
+```
+
+サーバ起動前から終了後まで動かし、SIGINTで終了する。sudo不要。
+UTC/monotonic時刻、温度℃、PPT W、VRAM bytes、clock MHzを保存する。
+JSONLにはローカルdevice対応も含むので、そのまま外部へ公開せず集計/匿名化する。
+summary.jsonはwarmup/load/idle/pp0を除いたladder＋real要求区間を集計したもの。
+llamaの区間はstdout受信時刻から丸め済みwall_sを引いた近似、vLLMはresults-api.jsonのstart/end monotonic時刻。
+PPTを台形積分し、sample間隔が3秒超の場合はそのgapを集計しない。平均電力/energyは3反復中央値。
+
+## タイマーの違い
+
+llamaはserver timings。vLLM prefillはfirst scheduled→first new token、decodeはfirst→last new token。
+API TTFT/E2Eは別指標。KV再利用の粒度も異なるため、同じ内部演算を測った値とは扱わない。
+KLD/top1と省メモリ設定探索は今回の測定範囲に含めない。
+
+## GGZ14の反復別の図
+
+添付のggz14_run_artifacts.py.txtを.pyへリネームし、Matplotlibのある環境で次を実行する。
+日本語図にはNoto Sans CJK JPを使う。raw生成内容がなくてもresults-api.jsonだけで図を再生成できる。
+
+python3 ggz14_run_artifacts.py --attachment /path/to/this-attachment
+
+run-info.jsonは各反復の項目数・元JSONのhash・共通の実行設定への参照を記録する。

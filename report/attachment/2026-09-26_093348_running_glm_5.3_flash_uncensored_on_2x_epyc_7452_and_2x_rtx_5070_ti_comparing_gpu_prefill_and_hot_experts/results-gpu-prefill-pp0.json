@@ -1,0 +1,23 @@
+{
+  "pp512": {
+    "n_prompt_target": 512,
+    "prompt_n": 497,
+    "cached": 0,
+    "prompt_ms": 6463.474988937378,
+    "prompt_per_second": 76.8936215968415
+  },
+  "pp2048": {
+    "n_prompt_target": 2048,
+    "prompt_n": 1890,
+    "cached": 0,
+    "prompt_ms": 11338.58346939087,
+    "prompt_per_second": 166.68748835356365
+  },
+  "pp8192": {
+    "n_prompt_target": 8192,
+    "prompt_n": 7547,
+    "cached": 0,
+    "prompt_ms": 46627.98523902893,
+    "prompt_per_second": 161.855588683745
+  }
+}

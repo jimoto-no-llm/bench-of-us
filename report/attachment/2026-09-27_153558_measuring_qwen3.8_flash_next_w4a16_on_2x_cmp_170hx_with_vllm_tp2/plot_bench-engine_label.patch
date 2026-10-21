@@ -1,0 +1,10 @@
+--- /tmp/claude-1000/-home-build-ai-bench-of-us/b682229e-bcf3-422a-aa8c-79cbc2c69e67/scratchpad/plot_bench.py.orig	2026-09-27 15:30:15.564100319 +0900
++++ src/llama-split-bench/plot_bench.py	2026-09-27 15:30:15.579082050 +0900
+@@ -298,6 +298,7 @@
+     m = re.search(r"commit ([0-9a-f]+)", info.get("bin_version", ""))
+     sha8 = info.get("bin_sha256", "")[:8]
+     ver = f"llama.cpp master {m.group(1)} (sha {sha8})" if m else f"llama.cpp (sha {sha8})"
++    ver = info.get("engine_label") or ver
+     machine = info.get("machine", "")
+     npred = info.get("n_predict", 1000)
+     ctxk = info.get("ctx", 0) // 1024

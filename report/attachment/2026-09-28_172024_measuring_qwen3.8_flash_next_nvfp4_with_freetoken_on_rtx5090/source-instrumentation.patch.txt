@@ -1,0 +1,110 @@
+diff --git a/python/freetoken/scheduler/scheduler.py b/python/freetoken/scheduler/scheduler.py
+index 17d538f..4379b06 100644
+--- a/python/freetoken/scheduler/scheduler.py
++++ b/python/freetoken/scheduler/scheduler.py
+@@ -5,6 +5,7 @@ import time
+ from typing import TYPE_CHECKING, List, NamedTuple, NoReturn, Set, Tuple, TypeAlias
+ 
+ import torch
++from freetoken import benchmark_timing
+ from freetoken.attention.linear import build_fla_metadata
+ from freetoken.core import Batch, Req
+ from freetoken.env import ENV
+@@ -274,6 +275,19 @@ class Scheduler(SchedulerIOMixin):
+         torch.cuda.synchronize(self.device)
+         if self.config.tp_info.size > 1:
+             self.sync_all_ranks()
++        # Benchmark-only same-geometry prefix flush. Keep expert residency, KV
++        # allocation and CUDA graphs intact; only discard idle prefix ownership.
++        # This avoids a runtime resize budget recheck for an unchanged allocation.
++        if (
++            os.getenv("FREETOKEN_BENCH_TIMING_FILE")
++            and num_pages == self.engine.num_pages
++            and all(x is None for x in (
++                moe_cache_size, num_mamba_slots, num_swa_pages, moe_markov_protect
++            ))
++        ):
++            self.cache_manager.rebuild(self.engine.num_pages, self.engine.page_table)
++            self.cache_manager.check_integrity()
++            return
+         self.engine.rebuild_runtime_cache(
+             moe_cache_size=moe_cache_size, num_pages=num_pages, num_mamba_slots=num_mamba_slots,
+             num_swa_pages=num_swa_pages, moe_markov_protect=moe_markov_protect,
+@@ -806,6 +820,7 @@ class Scheduler(SchedulerIOMixin):
+ 
+     def _publish_batch_result(self, batch: Batch, reply: List[DetokenizeMsg]) -> None:
+         """Attach resource telemetry, report the phase and publish its client tokens."""
++        benchmark_timing.published(reply)
+         # Stamp each reply with the post-batch KV page occupancy so the frontend (shell
+         # status bar) can show live KV usage without a separate query.
+         used, total = self._kv_usage_pages()
+@@ -1814,6 +1829,7 @@ class Scheduler(SchedulerIOMixin):
+         """
+         if not batch.is_prefill or not batch.prompt_admissions:
+             return
++        benchmark_timing.admitted(batch.prompt_admissions)
+         self.send_result(
+             [
+                 PromptAdmittedMsg(uid=uid, prompt_tokens=prompt_tokens, cached_tokens=cached_tokens)
+diff --git a/python/freetoken/benchmark_timing.py b/python/freetoken/benchmark_timing.py
+new file mode 100644
+index 0000000..e86eec2
+--- /dev/null
++++ b/python/freetoken/benchmark_timing.py
+@@ -0,0 +1,56 @@
++"""Benchmark-only host wall timers; no CUDA synchronization or per-token file I/O.
++
++Start: first prepared prefill admission. First/last token: scheduler publication,
++after its existing result synchronization. Prefill includes chunked scheduling,
++MTP catch-up and first-token sampling, but excludes tokenization and queue wait.
++Only a completed request is written. No prompts, tokens or generated text logged.
++"""
++import json
++import os
++import time
++
++_PATH = os.environ.get("FREETOKEN_BENCH_TIMING_FILE")
++_REQUESTS = {}
++
++
++def admitted(rows):
++    if not _PATH:
++        return
++    now = time.perf_counter()
++    for uid, prompt_tokens, cached_tokens in rows:
++        if uid in _REQUESTS:
++            raise RuntimeError(f"benchmark timing: repeated admission for {uid}")
++        _REQUESTS[uid] = dict(uid=uid, prompt_tokens=prompt_tokens,
++                              cached_tokens=cached_tokens, admitted_at=now,
++                              first_at=None, first_batch_tokens=0,
++                              completion_tokens=0)
++
++
++def published(messages):
++    if not _PATH or not messages:
++        return
++    now = time.perf_counter()
++    counts = {}
++    for msg in messages:
++        counts[msg.uid] = counts.get(msg.uid, 0) + 1
++    for uid, n in counts.items():
++        state = _REQUESTS[uid]
++        if state["first_at"] is None:
++            state["first_at"] = now
++            state["first_batch_tokens"] = n
++        state["completion_tokens"] += n
++    for msg in messages:
++        if not msg.finished:
++            continue
++        state = _REQUESTS.pop(msg.uid)
++        state["last_at"] = now
++        state["finish_reason"] = msg.finish_reason
++        state["prompt_n"] = state["prompt_tokens"] - state["cached_tokens"]
++        state["prefill_wall_s"] = state["first_at"] - state["admitted_at"]
++        state["decode_wall_s"] = state["last_at"] - state["first_at"]
++        state["prefill_tps"] = state["prompt_n"] / state["prefill_wall_s"]
++        state["decode_tps"] = (
++            (state["completion_tokens"] - state["first_batch_tokens"])
++            / state["decode_wall_s"] if state["decode_wall_s"] > 0 else None)
++        with open(_PATH, "a") as out:
++            out.write(json.dumps(state) + "\n")

@@ -1,0 +1,40 @@
+{
+  "llama_split_bench_commit": "7af72d4085aa5073677d41389144112dd94fcb74",
+  "ggz14_commit": "31b9a94a7f74eeb3f59e66d16b1b27dfafcd0663",
+  "warmup": "llama: distinct-prefix 521/8086 actual input + 128 output; vLLM: fresh salts 512/8077 input + 128 output; all excluded",
+  "clock_policy": "unchanged driver-managed clocks; sampled in telemetry",
+  "model_gguf": "40fac4050e940397dbf13087afd50f4734a11805bf9d65ef8ddd7483470e6199",
+  "ggz14_recipe_overrides": {
+    "GPU": "R9700 x1",
+    "MAXLEN": 40960,
+    "network": "localhost only",
+    "text_only": true
+  },
+  "excluded_preliminary_llama_runs": [
+    "iq4-r1",
+    "iq4-r2",
+    "iq4-r3",
+    "iq4-r4",
+    "iq4-r5"
+  ],
+  "llama_binary_sha256": "3ccf2bbef854ab829eaa644e5832f048daccc2bd27a4e0b81fc1c2540761a76f",
+  "ggz14_launcher_sha256": "a0b286fdda986cba968ca17a18e5130968f40139161fd3a83fd8e2017ab5a014",
+  "libr4d_sha256": "cc824770ff0c0a814bf2349263644b7e902ccad2e14e5efbfb30efa1aae5bb6f",
+  "ggz14_model": {
+    "repository": "amd/Qwen3.8-27B-Quark-AWQ-MXFP4",
+    "source_revision": "5233554c5fa56afda40150556b95573c2d7d29c0",
+    "converter_revision": "31b9a94a7f74eeb3f59e66d16b1b27dfafcd0663",
+    "artifact_sha256": "334792fd42359130552130a1315348ef69c97d1550e0fc42db77be94797d1a07",
+    "artifact_bytes": 19373796656,
+    "hash_provenance": "prior verified artifact manifest; not rehashed while GPU benchmarking"
+  },
+  "drafter": {
+    "id": "tcclaviger/Qwen3.8-27B-DFlash2-FP8",
+    "sha": "ee0cb26a8279b7910cc28d82a8a3e15e4728d56f"
+  },
+  "final_llama_runs": [
+    "iq4-r6",
+    "iq4-r7",
+    "iq4-r8"
+  ]
+}

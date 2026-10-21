@@ -1,0 +1,118 @@
+{
+  "base_commit": "a72b8e3979021888ee3f0a429a816e572c660605",
+  "benchmark_reference_commit": "7af72d4085aa5073677d41389144112dd94fcb74",
+  "model": "orcarouter/Qwen3.8-Flash-Next-Uncensored-NVFP4",
+  "production_service_before": "inactive",
+  "benchmark_port": 8082,
+  "host": "loopback only",
+  "instrumentation": "backend host wall time after existing CUDA result synchronization; no additional synchronization",
+  "hardware": {
+    "motherboard": "ASRock Z890 Pro RS WiFi",
+    "gpu": "NVIDIA GeForce RTX 5090 32607 MiB",
+    "cpu": "Intel Core Ultra 7 265K",
+    "ram": "96 GB (OS: 93 GiB)",
+    "pcie": "Gen5 x16"
+  },
+  "date": "2026-09-28",
+  "machine": "ASRock Z890 Pro RS WiFi — RTX 5090 — FreeToken adapter",
+  "stages": "0,32000,64000,128000,196000,258000",
+  "ctx": 262144,
+  "n_predict": 1000,
+  "cache_k": "K5 group32",
+  "cache_v": "V6 group32",
+  "modes": [
+    {
+      "name": "freetoken",
+      "device": "RTX 5090",
+      "split": "single, expert host offload"
+    }
+  ],
+  "repeats": 3,
+  "driver": "580.142",
+  "kernel": "6.12.93",
+  "python": "3.12.13",
+  "packages": {
+    "torch": "2.11.0+cu130",
+    "triton": "3.6.0",
+    "transformers": "5.16.1",
+    "flashinfer-python": "0.6.18",
+    "freetoken": "0.1.2",
+    "tokenizers": "0.23.1"
+  },
+  "timing_definition": "scheduler admission to synchronized first publication; subsequent published tokens divided by first-to-last interval",
+  "prefix_flush": "benchmark-only idle ownership reset, physical pools/graphs and expert/PLE cache preserved",
+  "artifact_sha256": {
+    "bench.py": "b1c6ffc6353caafb4751baf5bd9cba0ace3dfa21f73280923da591b6b61cc26a",
+    "PROTOCOL.md": "be27f013cd3cacf2a7d788d69242a8db10f07d0b36191cd2a267f17d0eed4ae6",
+    "source-instrumentation.patch": "85ef865dae4eb6939ded506fb78ccd88c8c50cf032cfdcd38679e4881b350915",
+    "start-bench.sh": "33d5a04eb728ac10204829a46ec7e04672dc9a32939956a2106cfc02eb289299",
+    "source/python/freetoken/benchmark_timing.py": "70798fef38bc0a2273f9ebdee1f11daaf7030ab5b9a0bd6f366328f4965e4d56",
+    "run-full.sh": "1e622909b5428c0eafcb0931741fbfd9f87e0c3974a6794a447272095a8d80d6",
+    "monitor.py": "5c7a8849c31beb2270f878e64ee15ea33d1206429b9bad39dc6ca98ba28e4913"
+  },
+  "runtime_settings": {
+    "expert_cache_slots": 4816,
+    "expert_scratch_slots": 512,
+    "kv_pages": 10000,
+    "kv_page_tokens": 64,
+    "max_running_requests": 8,
+    "measured_concurrency": 1,
+    "prefill_chunk_tokens": 4096,
+    "linear_state_cache_ratio": 0,
+    "mamba_slots": 32,
+    "memory_ratio": 0.9,
+    "mtp_speculative_tokens": 1,
+    "mtp_moe_quant": "nvfp4",
+    "mtp_moe_cache_size": 80,
+    "moe_backend": "offload",
+    "nvfp4_backend": "triton",
+    "vision_loaded": true,
+    "resident_attention": "FP8 W8A16",
+    "resident_shared_expert": "FP8 W8A16",
+    "lm_head": "FP8 W8A16",
+    "ple_table": "FP8 host mmap, approximately 47.684 GiB",
+    "mamba_slots_derivation": "hybrid_radix: 4*8 + max(int(0*8), max(0,1-2)*8) = 32 usable slots; 33 physical slots including one padding sink"
+  },
+  "freetoken_environment": {
+    "FREETOKEN_MOE_LAYER_LRU_SLOTS": "80",
+    "FREETOKEN_LOAD_VISION": "1",
+    "FREETOKEN_MTP_MAX_BATCH": "8",
+    "FREETOKEN_MTP_MIXED_CUDA_GRAPH": "1",
+    "FREETOKEN_MTP_MIN_BATCH": "1",
+    "FREETOKEN_PREFILL_COALESCE_MS": "10",
+    "FREETOKEN_MOE_LAYER_LRU_COMPACT_SCAN": "1",
+    "FREETOKEN_MAMBA_SSM_DTYPE": "bfloat16",
+    "FREETOKEN_MOE_LAYER_LRU_QUOTAS": "114,107,103,87,93,96,101,101,89,86,92,91,99,94,90,73,77,90,100,91,90,96,102,79,87,83,91,90,96,91,88,72,76,90,99,89,84,92,100,72,76,81,91,78,82,81,85,89",
+    "FREETOKEN_QWEN4_ATTN_FP8": "1",
+    "FREETOKEN_MTP_SINGLE_VERIFY_MARGIN": "2",
+    "FREETOKEN_MTP_VERIFY_PAD_GRAPH": "1",
+    "FREETOKEN_MTP_VERIFY_TOP_REQS": "4",
+    "FREETOKEN_MTP_SAMPLED_VERIFY_TOP_REQS": "4",
+    "FREETOKEN_MTP_START_MIN_BATCH": "1",
+    "FREETOKEN_MTP_DRAFT_CUDA_GRAPH": "1",
+    "FREETOKEN_MTP_DRAFT_CUDA_GRAPH_DYNAMIC": "1",
+    "FREETOKEN_MTP_FULL_VERIFY_CUDA_GRAPH": "1",
+    "FREETOKEN_MAX_IMAGE_BYTES": "20971520",
+    "FREETOKEN_QWEN4_LM_HEAD_FP8": "1",
+    "FREETOKEN_MTP_SINGLE_MIN_VERIFY_RATE": "0.65",
+    "FREETOKEN_MTP_CAPTURE_TOP2": "1",
+    "FREETOKEN_MOE_DECODE_H2D_OVERLAP": "1",
+    "FREETOKEN_MTP_SINGLE_PROBE_WINDOW": "16",
+    "FREETOKEN_MOE_DECODE_H2D_OVERLAP_MIN_ROWS": "12",
+    "FREETOKEN_MTP_CATCHUP_CUDA_GRAPH": "1"
+  },
+  "model_metadata_sha256": {
+    "config.json": "14f55cb64ae44a057ea77d83c1314896cc8d2d7786c10d9b0b07b2277dd7b06a",
+    "tokenizer.json": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523",
+    "tokenizer_config.json": "66e427c470fe580fe8c7b5725d857af23d8417e37fae62667ec698306a19987b",
+    "generation_config.json": "a38679b4e2684094a224758f6953ec2cb9d816ec27eb41d595feaf1d38a6fff5"
+  },
+  "package_version_provenance": {
+    "tokenizers": {
+      "verified_on": "2026-09-29",
+      "source": "importlib.metadata in the original measurement virtual environment",
+      "metadata_mtime_utc": "2026-08-30T08:33:23Z",
+      "note": "Retrospectively recorded; package metadata predates the 2026-09-28 measurement."
+    }
+  }
+}

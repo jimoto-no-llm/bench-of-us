@@ -1,0 +1,21 @@
+{
+  "tag": "rx6400",
+  "pp512": {
+    "prompt_n": 512,
+    "cache_n": 0,
+    "prompt_ms": 408.271,
+    "prompt_per_second": 1254.068988490488,
+    "predicted_n": 64,
+    "predicted_per_second": 77.7063071619313,
+    "wall_s": 1.23
+  },
+  "pp2048": {
+    "prompt_n": 1978,
+    "cache_n": 0,
+    "prompt_ms": 1801.098,
+    "prompt_per_second": 1098.2189753139473,
+    "predicted_n": 64,
+    "predicted_per_second": 73.21937454383168,
+    "wall_s": 2.67
+  }
+}

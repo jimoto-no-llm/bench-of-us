@@ -1,0 +1,90 @@
+#!/usr/bin/env python3
+"""Add per-run views and provenance to the existing vLLM measurements."""
+import argparse
+import hashlib
+import json
+from collections import Counter
+from pathlib import Path
+
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--attachment', type=Path, required=True)
+    parser.add_argument('--raw-root', type=Path, help='Optional private raw-stream directory for output fingerprints')
+    args = parser.parse_args()
+    for repetition in (1, 2, 3):
+        folder = args.attachment / f'ggz14-r{repetition}'
+        source = folder / 'results-api.json'
+        rows = json.loads(source.read_text())
+        counts = dict(Counter(row['kind'] for row in rows))
+        assert counts == {'ladder': 4, 'pp0': 3, 'real': 3}
+        warmups = json.loads((folder / 'warmup.json').read_text())
+        assert len(warmups) == 2
+        metadata = {
+            'schema': 'vllm-replay-run-reference-v1', 'date': '2026-09-28',
+            'engine': 'GGZ14/Radiance vLLM 0.27.1', 'repetition': repetition,
+            'gpu': 'Radeon AI PRO R9700 x1', 'context_limit': 40960,
+            'target_stages': [0, 8000, 16000, 32000], 'ladder_output_tokens': 1000,
+            'measurement_counts': counts, 'warmup_count_excluded': len(warmups),
+            'results_file': 'results-api.json',
+            'results_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),
+            'shared_runtime_and_argv': '../ggz14-run-info.json',
+            'shared_model_identity': '../measurement-identity.json',
+            'timer_semantics': rows[0]['engine_timing_note'],
+            'figures': ['profile-ja.png', 'profile-en.png'],
+            'note': 'Existing measurements; figures and indexes added without a benchmark rerun.',
+        }
+        (folder / 'run-info.json').write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + '\n')
+        if args.raw_root:
+            fingerprints = []
+            for row in rows:
+                stream = args.raw_root / f'r{repetition}' / (row['case'] + '-stream.json')
+                chunks = json.loads(stream.read_text())
+                choices = [choice for chunk in chunks for choice in chunk['response'].get('choices', [])]
+                token_ids = [token for choice in choices for token in (choice.get('token_ids') or [])]
+                text = ''.join(choice.get('text') or '' for choice in choices)
+                assert len(token_ids) == row['output_tokens']
+                fingerprints.append({'case': row['case'], 'output_tokens': len(token_ids),
+                    'output_token_ids_sha256': hashlib.sha256(json.dumps(token_ids).encode()).hexdigest(),
+                    'output_text_sha256': hashlib.sha256(text.encode()).hexdigest()})
+            (folder / 'output-fingerprints.json').write_text(json.dumps({
+                'token_serialization': 'Python json.dumps(list[int]), UTF-8',
+                'text_serialization': 'Concatenated choices[].text, UTF-8',
+                'results': fingerprints,
+            }, indent=2) + '\n')
+        ladder = sorted((row for row in rows if row['kind'] == 'ladder'), key=lambda row: row['target_tokens'])
+        pp2048 = next(row for row in rows if row['case'] == 'pp2048')
+        depth = [row['prompt_tokens'] / 1000 for row in ladder]
+        prefill = [pp2048['engine_prefill_tok_s']] + [row['engine_prefill_tok_s'] for row in ladder[1:]]
+        decode = [row['engine_decode_tok_s'] for row in ladder]
+        for lang in ('ja', 'en'):
+            japanese = lang == 'ja'
+            with plt.rc_context({'font.family': 'Noto Sans CJK JP' if japanese else 'DejaVu Sans'}):
+                fig, axes = plt.subplots(1, 2, figsize=(11, 4.4))
+                for axis, values, title in zip(axes, (prefill, decode),
+                    ('入力処理（prefill）', '生成（decode）') if japanese else ('Prefill', 'Decode')):
+                    axis.plot(depth, values, marker='o', color='#d97706')
+                    for x, y in zip(depth, values):
+                        axis.annotate(f'{y:.1f}', (x, y), xytext=(0, 8), textcoords='offset points', ha='center', fontsize=9)
+                    axis.set_title(title)
+                    axis.xaxis.set_major_formatter(FuncFormatter(lambda value, _: '0' if value == 0 else f'{value:g}k'))
+                    axis.set_xlabel('実入力トークン数' if japanese else 'Actual input tokens')
+                    axis.set_ylabel('tokens / s')
+                    axis.margins(x=.08, y=.20)
+                    axis.grid(alpha=.25)
+                fig.suptitle(f'GGZ14 MXFP4 + DFlash2-7 / R9700 / ' + (f'反復 {repetition}' if japanese else f'Run {repetition}'))
+                note = ('vLLM内部タイマー。左端のprefillは新規1,978トークン（pp2048）。推定速度への補正なし。'
+                        if japanese else 'vLLM engine timers. Leftmost prefill: fresh 1,978-token pp2048. No estimated-speed correction.')
+                fig.text(.5, .015, note, ha='center', fontsize=9)
+                fig.tight_layout(rect=(0, .07, 1, .95))
+                fig.savefig(folder / f'profile-{lang}.png', dpi=150)
+                plt.close(fig)
+
+
+if __name__ == '__main__':
+    main()

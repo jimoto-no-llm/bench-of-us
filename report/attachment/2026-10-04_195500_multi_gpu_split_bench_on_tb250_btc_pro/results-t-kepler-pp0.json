@@ -1,0 +1,21 @@
+{
+  "tag": "t-kepler",
+  "pp512": {
+    "prompt_n": 617,
+    "cache_n": 0,
+    "prompt_ms": 6274.941,
+    "prompt_per_second": 98.3276177417445,
+    "predicted_n": 64,
+    "predicted_per_second": 10.560699379801974,
+    "wall_s": 12.32
+  },
+  "pp1024": {
+    "prompt_n": 1201,
+    "cache_n": 0,
+    "prompt_ms": 12101.893,
+    "prompt_per_second": 99.24067251296967,
+    "predicted_n": 64,
+    "predicted_per_second": 9.768076406823948,
+    "wall_s": 18.55
+  }
+}

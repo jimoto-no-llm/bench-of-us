@@ -1,0 +1,25 @@
+"""One-second resource samples, without hardware identifiers."""
+import csv
+import json
+import subprocess
+import time
+from pathlib import Path
+
+root = Path(__file__).resolve().parent
+fields = ["memory.used", "memory.total", "utilization.gpu", "temperature.gpu", "clocks.sm", "power.draw"]
+with (root / "resources.jsonl").open("x") as out:
+    while True:
+        t = time.time()
+        raw = subprocess.check_output(["nvidia-smi", "--query-gpu="+",".join(fields),
+                                       "--format=csv,noheader,nounits"], text=True)
+        values = next(csv.reader(raw.splitlines()))
+        item = {"unix_s": t}
+        for k, v in zip(fields, values):
+            try: item[k] = float(v.strip())
+            except ValueError: item[k] = v.strip()
+        mem = dict(line.split(":",1) for line in Path("/proc/meminfo").read_text().splitlines())
+        item["mem_available_kib"] = int(mem["MemAvailable"].split()[0])
+        item["swap_free_kib"] = int(mem["SwapFree"].split()[0])
+        out.write(json.dumps(item)+"\n")
+        out.flush()
+        time.sleep(max(.1, 1-(time.time()-t)))

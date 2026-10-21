@@ -1,0 +1,23 @@
+{
+  "tag": "tb250-gt730",
+  "date": "2026-10-04T19:35:04+09:00",
+  "ctx": 2048,
+  "stages": "0,512,1024,1792",
+  "n_predict": 150,
+  "modes": [
+    {
+      "name": "gt730",
+      "device": "CUDA0",
+      "split": "",
+      "argv_file": "argv-gt730.txt"
+    }
+  ],
+  "machine": "BIOSTAR TB250-BTC PRO + Celeron G3930 (GT 730 + GT 710 via sm_35 CUDA build)",
+  "bin": "~/bench/llama-src/build-sm35/bin/llama-server",
+  "bin_version": "~/bench/llama-src/build-sm35/bin/llama-server: error while loading shared libraries: libllama-server-impl.so: cannot open shared object file: No such file or directory",
+  "bin_sha256": "26085d75b36f128d4ce8d0a63fdd7dbfcb8de1751fb279cd59d277390504a848",
+  "cache_k": "q8_0",
+  "cache_v": "q8_0",
+  "launch_prefix": "env LD_LIBRARY_PATH=~/bench/llama-src/build-sm35/bin:/opt/bullseye/opt/cuda-11.4/lib64",
+  "tensor_split": ""
+}

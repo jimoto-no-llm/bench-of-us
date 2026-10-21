@@ -1,0 +1,33 @@
+{
+  "tag": "q4-64k",
+  "date": "2026-10-05T20:18:39+09:00",
+  "ctx": 65536,
+  "stages": "0,8192,16384,32768,63488",
+  "n_predict": 1000,
+  "modes": [
+    {
+      "name": "layer",
+      "device": "CUDA0,CUDA1",
+      "split": "layer",
+      "argv_file": "argv-layer.txt"
+    },
+    {
+      "name": "tensor",
+      "device": "CUDA0,CUDA1",
+      "split": "tensor",
+      "argv_file": "argv-tensor.txt"
+    }
+  ],
+  "machine": "Supermicro X11SPi-TF - 2x V100-SXM2-16GB NVLink",
+  "bin": "llama-server",
+  "bin_version": "0.00.000.754 I srv  llama_server: initializing ... version: 0.4.1-dev (build 1, commit 1af554f) built with GNU 13.3.0 for Linux x86_64",
+  "bin_sha256": "55d475a1218c2abae3613775e9b25e56a9e3ffe51229e950d785fe4075f19ea8",
+  "cache_k": "f16",
+  "cache_v": "f16",
+  "launch_prefix": "",
+  "tensor_split": "1/1",
+  "power_limit_w_per_gpu": 150,
+  "power_limit_gpu_count": 2,
+  "power_limit_basis": "Both V100s: power.limit and enforced.power.limit remain 150 W in all saved monitor samples",
+  "public_data_note": "Executable/model paths are generalized for publication; per-GPU diagnostic strings omitted from ladder JSON. Numerical benchmark values unchanged."
+}

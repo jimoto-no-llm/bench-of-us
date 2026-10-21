@@ -1,0 +1,39 @@
+"""Portable launcher for the exact measured runtime configuration."""
+import json
+import os
+import sys
+from pathlib import Path
+
+root = Path(__file__).resolve().parent
+meta = json.loads((root / "run-info.json").read_text())
+runtime = meta["runtime_settings"]
+# At the pinned FreeToken commit, radix becomes hybrid_radix for this GDN model.
+# There is no startup --num-mamba-slots flag. These supported settings determine
+# the usable pool; the engine adds one reserved padding slot. bench.py also
+# verifies /v1/stats.mamba.total_slots before submitting measured requests.
+running = runtime["max_running_requests"]
+state_ratio = runtime["linear_state_cache_ratio"]
+mtp_k = runtime["mtp_speculative_tokens"]
+usable_slots = 4 * running + max(int(state_ratio * running), max(0, mtp_k - 2) * running)
+if usable_slots != runtime["mamba_slots"]:
+    raise RuntimeError(f"startup settings yield {usable_slots} Mamba slots, not {runtime['mamba_slots']}")
+source = Path(os.environ["FREETOKEN_SOURCE"]).resolve()
+model = Path(os.environ["MODEL_DIR"]).resolve()
+ple = Path(os.environ["PLE_TABLE"]).resolve()
+assert source.joinpath("python/freetoken/benchmark_timing.py").is_file(), "Apply the instrumentation patch first"
+assert model.joinpath("tokenizer.json").is_file() and ple.is_file()
+env = {k:v for k,v in os.environ.items() if not k.startswith("FREETOKEN_")}
+env.update(meta["freetoken_environment"])
+env.update(FREETOKEN_PLE_TABLE_FILE=str(ple), FREETOKEN_BENCH_TIMING_FILE=str(root / "backend-timings.jsonl"),
+           PYTHONDONTWRITEBYTECODE="1", TVM_FFI_CUDA_ARCH_LIST="12.0")
+env["PYTHONPATH"] = str(source / "python") + (":" + env["PYTHONPATH"] if env.get("PYTHONPATH") else "")
+args = [sys.executable, "-m", "freetoken.cli", "serve", "--model-path", str(model),
+        "--served-model-name", meta["model"], "--expert-load", "serial", "--nvfp4-backend", "triton",
+        "--moe-cache-size", "4816", "--num-pages", "10000", "--max-running-requests", str(running),
+        "--cache-type", "radix", "--linear-state-cache-ratio", str(state_ratio),
+        "--max-prefill-length", "4096", "--max-seq-len-override", "262144",
+        "--memory-ratio", "0.9", "--host", "127.0.0.1", "--port", "8082", "--enable-cache-report",
+        "--decode-log-interval", "50", "--moe-backend", "offload", "--moe-cache-policy", "lru",
+        "--qsa-kv-quant", "k5v6-g32", "--mtp-speculative-tokens", str(mtp_k), "--mtp-moe-quant", "nvfp4",
+        "--mtp-moe-cache-size", "80"]
+os.execvpe(sys.executable, args, env)

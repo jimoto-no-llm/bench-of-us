@@ -1,0 +1,27 @@
+diff --git a/ggml/src/ggml-cuda/common.cuh b/ggml/src/ggml-cuda/common.cuh
+index 928607c..29f207c 100644
+--- a/ggml/src/ggml-cuda/common.cuh
++++ b/ggml/src/ggml-cuda/common.cuh
+@@ -64,6 +64,22 @@
+ #define GGML_CUDA_CC_OFFSET_MTHREADS 0x0100000
+ #define GGML_CUDA_CC_IS_NVIDIA(cc)   (cc < GGML_CUDA_CC_OFFSET_MTHREADS)
+ 
++// Kepler / pre-Volta (compute capability < 7.0) compatibility shims.
++// The "*_sync" warp intrinsics were introduced for independent thread
++// scheduling on Volta.  On CC < 700 all 32 lanes of a warp are converged,
++// so the full-mask calls degrade safely to the legacy builtins.
++#if defined(__CUDA_ARCH__) && (__CUDA_ARCH__ > 0) && (__CUDA_ARCH__ < GGML_CUDA_CC_VOLTA)
++#define GGML_CUDA_PRE_VOLTA 1
++#define __shfl_sync(mask, var, srcLane, ...)       __shfl(var, srcLane, ##__VA_ARGS__)
++#define __shfl_up_sync(mask, var, delta, ...)      __shfl_up(var, delta, ##__VA_ARGS__)
++#define __shfl_down_sync(mask, var, delta, ...)    __shfl_down(var, delta, ##__VA_ARGS__)
++#define __shfl_xor_sync(mask, var, laneMask, ...)  __shfl_xor(var, laneMask, ##__VA_ARGS__)
++#define __ballot_sync(mask, pred)                  __ballot(pred)
++#define __any_sync(mask, pred)                     __any(pred)
++#define __all_sync(mask, pred)                     __all(pred)
++#define __syncwarp(...)                            ((void)0)
++#endif // pre-Volta warp-intrinsic compatibility shims
++
+ // AMD
+ // GCN/CDNA, wave size is 64
+ #define GGML_CUDA_CC_GCN4       (GGML_CUDA_CC_OFFSET_AMD + 0x803)  // Tonga, Fiji, Polaris, minimum for fast fp16

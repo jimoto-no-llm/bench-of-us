@@ -1,0 +1,58 @@
+# FreeToken / bench-of-us adapter protocol
+
+Fixed before the full run on 2026-09-28. Three repetitions; no model tuning between repetitions.
+
+## Model and isolation
+
+- FreeToken fork `a72b8e3979021888ee3f0a429a816e572c660605` plus the saved benchmark-only instrumentation patch.
+- RTX 5090 32GB, Core Ultra 7 265K, 96GB RAM, ASRock Z890 Pro RS WiFi.
+- Production model and launcher settings: OrcaRouter Qwen3.8-Flash-Next Uncensored NVFP4, K5V6 G32, 10,000 KV pages (640,000 tokens shared), 4,816 Expert slots, maximum 8 running requests, per-request limit 262,144, 4,096-token prefill chunks, MTP K=1, vision loaded.
+- Measurements submit one request at a time. The 8-request capacity is retained, not resized to favor this single-request workload.
+- A separate transient service binds loopback port 8082. The production service was stopped before this task and remains stopped.
+- Existing compiled native extensions are reused with hashes in `native-extensions.json`.
+
+## Reference and requests
+
+- Protocol reference: `kuraneko1/llama-split-bench` at `7af72d4085aa5073677d41389144112dd94fcb74`.
+- Raw `/v1/completions`, no chat template or additional system instruction.
+- Three complete measured repetitions. Each repetition includes PP0, a ladder, and three real prompts, in that order.
+- PP0: stock filler and TAIL, nominal 512 / 2048 / 8192 at 4.3 characters per token, temperature 0, 64 generated tokens, EOS ignored, prefix cleared before each request. Exact input counts are recorded.
+- Ladder: targets 0 / 32000 / 64000 / 128000 / 196000 / 258000, 1000 generated tokens, temperature 0, EOS ignored. Stock moving-TAIL text and stock depth-0 capital question. Prefix cleared before each ladder; reuse allowed within it.
+- Ladder prompts are prepared once and reused across repetitions. Local tokenizer counts adjust the character/token estimate, and guard the 262,144 limit before submission. Actual server token counts remain authoritative. This differs slightly from stock's after-request adjustment of that estimate.
+- Real prompts: exact stock design / review / qa text, temperature 0.7, top_p 0.9, maximum 1200 generated tokens, EOS allowed, prefix cleared before each. Sampling has no fixed seed; all runs are retained.
+- Explicit top_k=0 (unrestricted) and top_p=1 for greedy runs avoid inheriting checkpoint sampling defaults. No thinking toggle is injected into raw completions.
+- A tiny 8-token warmup is sent at the beginning of each repetition. Smoke requests precede the full run and are excluded from results.
+
+## Cache semantics
+
+An initial smoke test confirmed partial-prefix reuse (1,792 of 3,729 tokens) and same-prompt reuse (3,712 of 3,729 tokens). Reused counts come from the scheduler's admission accounting and must agree with API usage.
+
+The normal same-size runtime rebuild rejected the production geometry during preflight, before teardown, while leaving the server healthy. The benchmark copy adds an idle-only same-size prefix flush to that existing RPC: rebuild the prefix ownership/free-list against the existing physical page table and reclaim idle linear-state slots. It preserves physical KV allocation, CUDA graphs, expert cache and PLE mmap. It runs outside the timed request. The smoke test must verify zero cached tokens after this operation before the full run.
+
+This flush makes the request **KV-prefix cold**, not disk/OS-page-cache cold. No OS cache drop is performed. PLE and Expert warming may change results between repetitions, so all individual results and their range will be reported.
+
+## Timing definitions
+
+The benchmark-only timer records `perf_counter()` in the scheduler:
+
+1. Start: the request's first successfully prepared prefill admission.
+2. First generated token: entry into result publication after the scheduler's existing GPU synchronization.
+3. Last generated token: the equivalent publication point for the terminal token.
+
+There is no added GPU synchronization and no per-token file write. Counters stay in memory; one JSON record is appended after completion. Batched MTP output tokens are counted separately.
+
+- **Backend prefill wall time** = first-token publication minus admission. It includes chunked scheduling, any required MTP catch-up and first-token sampling. It excludes frontend tokenization and waiting before admission. It is not a sum of CUDA kernel durations and is not claimed byte-for-byte equivalent to llama.cpp's native timer.
+- **Prefill rate** = newly evaluated prompt tokens / backend prefill wall time. Reused prefix tokens are excluded from the numerator.
+- **Decode rate** = (all generated tokens − tokens in the first publication batch) / (last − first publication time). First-token sampling belongs to prefill; usually the first batch has one token.
+- Client-observed TTFT and full HTTP wall time are recorded independently. They are not relabeled as backend prefill time.
+- Generated token count, prompt count and cached count must agree between scheduler telemetry and final API usage. Full-length synthetic requests must end with exactly their requested output length and a valid SSE DONE.
+- Backend instance ID must remain constant. Requests are rejected from the measurement if other requests are active.
+- MTP acceptance rates are omitted because correspondence to stock draft counters has not been established.
+
+The plot may show the ratio of short real-prompt decode to synthetic depth-0 decode as a reference only. Applying that ratio to deeper contexts would be an extrapolation, not a measured deep-context real-workload speed.
+
+## Artifacts and publication
+
+`requests.jsonl` and per-repetition results retain every measured record. `backend-timings.jsonl` contains no prompt or generated text. Generated responses stay under `private-responses/` for local inspection; they and `server.log`, local paths, host identifiers, model files, environments and the source checkout are excluded from any proposed public report attachment.
+
+The initial loader failure in the isolated checkout (missing ignored native extensions) and the rejected runtime rebuild are preserved as preflight evidence. Neither belongs to the performance measurements. No changes are applied to the serving source checkout or pushed to either repository by this benchmark task.

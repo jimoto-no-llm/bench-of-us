@@ -1,0 +1,66 @@
+{
+  "token_serialization": "Python json.dumps(list[int]), UTF-8",
+  "text_serialization": "Concatenated choices[].text, UTF-8",
+  "results": [
+    {
+      "case": "ladder-0",
+      "output_tokens": 1000,
+      "output_token_ids_sha256": "e8cc12bfd815dbfcd32d75b694609841618cd98439889f6228c02732e854f781",
+      "output_text_sha256": "fa916cfce16e29b9340960b1b26e8eef309c83c131592d77aa4e39cf968f2b4a"
+    },
+    {
+      "case": "ladder-8000",
+      "output_tokens": 1000,
+      "output_token_ids_sha256": "74efd89ddcc9bc0b1f9fada0e3efc4d528000957a5572ec21842d37953703d71",
+      "output_text_sha256": "73fb29785d915997921fd2e4ae19142bd8deed0fa7affe04a912e1bc37d4683a"
+    },
+    {
+      "case": "ladder-16000",
+      "output_tokens": 1000,
+      "output_token_ids_sha256": "72d5ef31ce7658b75cac79f99f610418c06ad6fed250e8138d9e576f7e9eed43",
+      "output_text_sha256": "b1c7bed4495540c85728facc2528d8d1c1a3974b833bd44c218c6ed482fe326a"
+    },
+    {
+      "case": "ladder-32000",
+      "output_tokens": 1000,
+      "output_token_ids_sha256": "8c50d959648fa6d25c0f195eeff2402f0990e6a1bafb30f66709e4711867fe2e",
+      "output_text_sha256": "27d7dcc7c5550c419c6f28af137b6cc2c39ea190a541f079121c119221b130da"
+    },
+    {
+      "case": "pp512",
+      "output_tokens": 64,
+      "output_token_ids_sha256": "0a6e7574750e89d0f5f24eff06edd1f432317dc2edce742b88d909d3e31fd1e8",
+      "output_text_sha256": "9598040cea3e8fc942c7a2dc3961b6752e42121821cf3eb69a26cb6999d6b1b1"
+    },
+    {
+      "case": "pp2048",
+      "output_tokens": 64,
+      "output_token_ids_sha256": "0f85a67b929b1aba12035d805020252ad6dabc1e7a9a702658b0a289a238bf1f",
+      "output_text_sha256": "6483e5669a32ac72ea89026b3cdc3050b458f010c151a4f4ef790895a096214c"
+    },
+    {
+      "case": "pp8192",
+      "output_tokens": 64,
+      "output_token_ids_sha256": "0100dc4178a260f34bf79989b134d8ec96732ba4be291b9900bed0dcd9ae790a",
+      "output_text_sha256": "bdf1138b21b5b66c561354eaa6c2cfd83f3bf08d99ede1e9eb9c2b2cd1bdc630"
+    },
+    {
+      "case": "real-design",
+      "output_tokens": 1200,
+      "output_token_ids_sha256": "4e95845aa7abfd9891fc93f80547d510c9f3bd3768576e9e809af5ecd8527e0c",
+      "output_text_sha256": "d3cbfd46a7681b73a6765add3872aafb98f599de576975dbf9a4e3624abcd438"
+    },
+    {
+      "case": "real-review",
+      "output_tokens": 1200,
+      "output_token_ids_sha256": "dd397e0678184aa8c41fd80eeb32ac616a2ad4e288906e60e43ab4b7a85ec096",
+      "output_text_sha256": "19e0565be0cf217c7ccbb26c677e0ee7120cb834b2f863375e6fc67543367dc7"
+    },
+    {
+      "case": "real-qa",
+      "output_tokens": 1200,
+      "output_token_ids_sha256": "9e6b6215aef743cd6116da92cdd76c18b0610cda7e5643e4c391535ec30f40b1",
+      "output_text_sha256": "2591dc1bc08579cd573c2d5a5d91b87e3e7620dc7c218baa17de3bfdde04fd00"
+    }
+  ]
+}

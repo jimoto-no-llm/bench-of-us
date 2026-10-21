@@ -1,0 +1,112 @@
+#!/usr/bin/env python3
+"""Read AMD sysfs sensors into JSONL without elevated privileges or GPU work."""
+import argparse
+import json
+import re
+import signal
+import time
+from datetime import datetime, timezone
+from pathlib import Path
+
+
+def discover(root=Path('/sys/class/drm')):
+    found = []
+    for card in sorted(root.iterdir()):
+        if not re.fullmatch(r'card\d+', card.name):
+            continue
+        dev = card / 'device'
+        try:
+            if (dev / 'vendor').read_text().strip() != '0x1002':
+                continue
+            chip = (dev / 'device').read_text().strip()
+        except OSError:
+            continue
+        found.append({'id': card.name, 'device_id': chip,
+                      'name': {'0x7551': 'Radeon AI PRO R9700', '0x73a1': 'Radeon Pro V620'}.get(chip, 'AMD GPU'),
+                      'device': str(dev), 'pci_bdf': dev.resolve().name})
+    return found
+
+
+def read_sample(gpu):
+    dev = Path(gpu['device'])
+    errors = {}
+
+    def value(path, divisor=1):
+        try:
+            number = int(path.read_text().strip())
+            return number if divisor == 1 else number / divisor
+        except (OSError, ValueError) as error:
+            errors[str(path.relative_to(dev))] = type(error).__name__
+            return None
+
+    result = {k: gpu[k] for k in ('id', 'name', 'device_id')}
+    result.update(vram_used_bytes=value(dev / 'mem_info_vram_used'),
+                  vram_total_bytes=value(dev / 'mem_info_vram_total'),
+                  gpu_busy_pct=value(dev / 'gpu_busy_percent'))
+    result.update(temperature_c={}, power_w={}, power_cap_w={}, frequency_mhz={})
+    for hw in sorted((dev / 'hwmon').glob('hwmon*')):
+        try:
+            if (hw / 'name').read_text().strip() != 'amdgpu':
+                continue
+        except OSError:
+            continue
+        for family, suffix, unit, dest in [('temp', 'input', 1000, 'temperature_c'),
+                                           ('power', 'average', 1000000, 'power_w'),
+                                           ('power', 'cap', 1000000, 'power_cap_w'),
+                                           ('freq', 'input', 1000000, 'frequency_mhz')]:
+            for path in sorted(hw.glob(f'{family}[0-9]*_{suffix}')):
+                base = path.name.rsplit('_', 1)[0]
+                try:
+                    label = (hw / (base + '_label')).read_text().strip()
+                except OSError:
+                    label = base
+                result[dest][label] = value(path, unit)
+    result['errors'] = errors
+    return result
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument('--output', type=Path, required=True)
+    ap.add_argument('--interval', type=float, default=1.0)
+    ap.add_argument('--duration', type=float)
+    ap.add_argument('--stop-file', type=Path)
+    args = ap.parse_args()
+    if args.interval <= 0 or (args.duration is not None and args.duration <= 0):
+        ap.error('interval and duration must be positive')
+    gpus = discover()
+    if not gpus:
+        raise SystemExit('No AMD DRM devices found')
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    stopping = False
+
+    def stop(*_):
+        nonlocal stopping
+        stopping = True
+
+    signal.signal(signal.SIGTERM, stop)
+    signal.signal(signal.SIGINT, stop)
+    start = time.monotonic()
+    deadline = start
+    with args.output.open('x', buffering=1) as output:
+        output.write(json.dumps({'record': 'metadata', 'schema': 'amd-sysfs-v1',
+                                 'interval_s': args.interval, 'gpus': gpus}) + '\n')
+        while not stopping:
+            now = time.monotonic()
+            if args.duration and now - start >= args.duration:
+                break
+            if args.stop_file and args.stop_file.exists():
+                break
+            sample = {'record': 'sample', 'monotonic_s': now,
+                      'utc': datetime.now(timezone.utc).isoformat(),
+                      'gpus': [read_sample(gpu) for gpu in gpus]}
+            sample['read_duration_s'] = time.monotonic() - now
+            output.write(json.dumps(sample) + '\n')
+            deadline += args.interval
+            if deadline < time.monotonic():
+                deadline = time.monotonic() + args.interval
+            time.sleep(max(0, deadline - time.monotonic()))
+
+
+if __name__ == '__main__':
+    main()

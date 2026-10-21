@@ -1,0 +1,30 @@
+{
+  "tag": "profile",
+  "pp512": {
+    "prompt_n": 512,
+    "cache_n": 0,
+    "prompt_ms": 1028.517,
+    "prompt_per_second": 497.80411991245643,
+    "predicted_n": 64,
+    "predicted_per_second": 88.03013704755304,
+    "wall_s": 1.78
+  },
+  "pp2048": {
+    "prompt_n": 1978,
+    "cache_n": 0,
+    "prompt_ms": 2532.376,
+    "prompt_per_second": 781.0846414592461,
+    "predicted_n": 64,
+    "predicted_per_second": 88.87095795839429,
+    "wall_s": 3.24
+  },
+  "pp8192": {
+    "prompt_n": 8077,
+    "cache_n": 0,
+    "prompt_ms": 9328.409,
+    "prompt_per_second": 865.8496856216318,
+    "predicted_n": 64,
+    "predicted_per_second": 84.02419896930316,
+    "wall_s": 10.08
+  }
+}

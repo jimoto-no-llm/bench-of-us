@@ -1,0 +1,186 @@
+"""CPU-only regression checks for the portable adapter; no real HTTP/GPU calls."""
+import importlib.machinery
+import importlib.util
+import io
+import json
+import os
+from pathlib import Path
+import runpy
+import tempfile
+import unittest
+from unittest.mock import patch
+
+ROOT = Path(__file__).resolve().parent
+
+
+def script(name):
+    plain = ROOT / name
+    return plain if plain.exists() else ROOT / (name + ".txt")
+
+
+class AdapterChecks(unittest.TestCase):
+    def setUp(self):
+        loader = importlib.machinery.SourceFileLoader("bench_under_test", str(script("bench.py")))
+        spec = importlib.util.spec_from_loader(loader.name, loader)
+        self.bench = importlib.util.module_from_spec(spec)
+        loader.exec_module(self.bench)
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.output = Path(self.temp.name)
+        self.meta = json.loads((ROOT / "run-info.json").read_text())
+        (self.output / "run-info.json").write_text(json.dumps(self.meta))
+        self.bench.ROOT = self.output
+        self.instance = "instance-a"
+        self.stats_instance = None
+        self.slots = 32
+        self.calls = []
+        self.restart_on_reset = False
+        self.restart_on_completion = False
+        for name, mock in (
+            ("json_call", self.api), ("ready", lambda: self.health()),
+            ("gpu", lambda: "mock GPU"),
+        ):
+            p = patch.object(self.bench, name, side_effect=mock)
+            p.start(); self.addCleanup(p.stop)
+        p = patch.object(self.bench.importlib.metadata, "version", return_value=self.meta["packages"]["tokenizers"])
+        self.version = p.start(); self.addCleanup(p.stop)
+        p = patch.object(self.bench.urllib.request, "urlopen", side_effect=self.completion)
+        self.urlopen = p.start(); self.addCleanup(p.stop)
+        p = patch("builtins.print")
+        p.start(); self.addCleanup(p.stop)
+        self.bench.start_run()
+        self.calls.clear()
+
+    def health(self):
+        return {"instance_id": self.instance, "maintenance": "serving"}
+
+    def api(self, path, data=None, timeout=300):
+        self.calls.append(path)
+        if path == "/health":
+            return self.health()
+        if path == "/v1/stats":
+            return {"instance_id": self.stats_instance or self.instance,
+                    "mamba": {"total_slots": self.slots}, "requests": {"active": 0}}
+        if path == "/v1/cache/rebuild":
+            if self.restart_on_reset:
+                self.instance = "instance-b"
+            return {"status": "ok"}
+        raise AssertionError(f"unexpected API call: {path}")
+
+    def completion(self, req, timeout):
+        uid = self.urlopen.call_count
+        timing = {"uid": uid, "prompt_tokens": 3, "completion_tokens": 2,
+                  "cached_tokens": 0, "prompt_n": 3, "admitted_at": 0,
+                  "first_at": .001, "last_at": .005, "prefill_wall_s": .001,
+                  "decode_wall_s": .004, "prefill_tps": 3000, "decode_tps": 250,
+                  "first_batch_tokens": 1}
+        with (self.output / "backend-timings.jsonl").open("a") as f:
+            f.write(json.dumps(timing) + "\n")
+        events = [
+            {"id": f"cmpl-{uid}", "choices": [{"text": "O", "finish_reason": None}]},
+            {"id": f"cmpl-{uid}", "choices": [{"text": "K", "finish_reason": "length"}],
+             "usage": {"prompt_tokens": 3, "completion_tokens": 2,
+                       "prompt_tokens_details": {"cached_tokens": 0}}},
+        ]
+        if self.restart_on_completion:
+            self.instance = "instance-b"
+        return io.BytesIO(("".join("data: " + json.dumps(e) + "\n\n" for e in events)
+                           + "data: [DONE]\n\n").encode())
+
+    def test_same_backend_accepts_requests_and_reset(self):
+        self.bench.request("first", "test", 2)
+        self.bench.reset_prefix("between")
+        self.bench.request("second", "test", 2)
+        self.assertEqual(len((self.output / "requests.jsonl").read_text().splitlines()), 2)
+        self.assertEqual(self.urlopen.call_count, 2)
+
+    def test_restart_between_requests_is_rejected_before_next_completion(self):
+        self.bench.request("first", "test", 2)
+        self.instance = "instance-b"
+        with self.assertRaisesRegex(RuntimeError, "backend instance changed"):
+            self.bench.request("second", "test", 2)
+        self.assertEqual(self.urlopen.call_count, 1)
+        self.assertEqual(len((self.output / "requests.jsonl").read_text().splitlines()), 1)
+
+    def test_restart_during_completion_discards_result(self):
+        self.restart_on_completion = True
+        with self.assertRaisesRegex(RuntimeError, "backend instance changed"):
+            self.bench.request("interrupted", "test", 2)
+        self.assertFalse((self.output / "requests.jsonl").exists())
+
+    def test_restart_before_reset_does_not_send_reset(self):
+        self.instance = "instance-b"
+        with self.assertRaisesRegex(RuntimeError, "backend instance changed"):
+            self.bench.reset_prefix("interrupted")
+        self.assertNotIn("/v1/cache/rebuild", self.calls)
+
+    def test_restart_during_reset_is_rejected(self):
+        self.restart_on_reset = True
+        with self.assertRaisesRegex(RuntimeError, "backend instance changed"):
+            self.bench.reset_prefix("interrupted")
+        self.assertFalse((self.output / "resets.jsonl").exists())
+
+    def test_restart_between_health_and_stats_is_rejected(self):
+        self.stats_instance = "instance-b"
+        with self.assertRaisesRegex(RuntimeError, "backend instance changed"):
+            self.bench.request("interrupted", "test", 2)
+        self.urlopen.assert_not_called()
+
+    def test_wrong_or_missing_mamba_pool_is_rejected(self):
+        for slots in (31, 33, None):
+            with self.subTest(slots=slots):
+                self.slots = slots
+                with self.assertRaisesRegex(RuntimeError, "Mamba pool mismatch"):
+                    self.bench.request("wrong-pool", "test", 2)
+        self.urlopen.assert_not_called()
+
+    def test_tokenizer_mismatch_is_rejected_before_connecting(self):
+        self.version.return_value = "wrong-version"
+        self.bench.ready.reset_mock()
+        with self.assertRaisesRegex(RuntimeError, "tokenizers version mismatch"):
+            self.bench.start_run()
+        self.bench.ready.assert_not_called()
+
+    def test_missing_initial_instance_is_rejected(self):
+        self.instance = None
+        with self.assertRaisesRegex(RuntimeError, "nonempty instance_id"):
+            self.bench.start_run()
+
+
+class LauncherChecks(unittest.TestCase):
+    def check_launch(self, slots):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            launcher = root / "launch.py"
+            launcher.write_text(script("launch.py").read_text())
+            meta = json.loads((ROOT / "run-info.json").read_text())
+            meta["runtime_settings"]["mamba_slots"] = slots
+            (root / "run-info.json").write_text(json.dumps(meta))
+            source = root / "source"
+            helper = source / "python/freetoken/benchmark_timing.py"
+            helper.parent.mkdir(parents=True); helper.touch()
+            model = root / "model"; model.mkdir()
+            (model / "tokenizer.json").write_text("{}")
+            ple = root / "ple.bin"; ple.touch()
+            env = {"FREETOKEN_SOURCE": str(source), "MODEL_DIR": str(model), "PLE_TABLE": str(ple)}
+            with patch.dict(os.environ, env), patch("os.execvpe") as execute:
+                if slots != 32:
+                    with self.assertRaisesRegex(RuntimeError, "startup settings yield 32"):
+                        runpy.run_path(str(launcher))
+                    execute.assert_not_called()
+                else:
+                    runpy.run_path(str(launcher))
+                    argv = execute.call_args.args[1]
+                    for flag, value in (("--cache-type", "radix"), ("--max-running-requests", "8"),
+                                        ("--linear-state-cache-ratio", "0"), ("--mtp-speculative-tokens", "1")):
+                        self.assertEqual(argv[argv.index(flag) + 1], value)
+
+    def test_supported_startup_settings_produce_measured_pool(self):
+        self.check_launch(32)
+
+    def test_inconsistent_pool_metadata_rejected_before_launch(self):
+        self.check_launch(31)
+
+
+if __name__ == "__main__":
+    unittest.main()

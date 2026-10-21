@@ -1,0 +1,24 @@
+{
+  "date": "2026-09-26",
+  "model": "Qwen3.8-Flash-Next Uncensored (NVFP4 experts)",
+  "tool": "own script (tools/bench-of-us-arms.sh)",
+  "prefill_note": "2nd run; 1st includes warm-up",
+  "configs": [
+    {
+      "key": "hot32",
+      "ja": "高頻度エキスパート 32 個 / 層を GPU",
+      "en": "32 hot experts/layer on GPU",
+      "pp6k": 932,
+      "pp6k_tok": 5515,
+      "pp6k_s": 5.9,
+      "pp38k": 990,
+      "pp38k_tok": 35081,
+      "pp38k_s": 35.4,
+      "pp38k_first": 836,
+      "dec": [
+        51.1,
+        53.2
+      ]
+    }
+  ]
+}

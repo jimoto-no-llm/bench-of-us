@@ -1,0 +1,24 @@
+{
+  "date": "2026-09-26",
+  "model": "Qwen3.5-35B-A3B (BF16)",
+  "tool": "own script (tools/bench-of-us-arms.sh)",
+  "prefill_note": "2nd run; 1st includes warm-up",
+  "configs": [
+    {
+      "key": "hot48",
+      "ja": "高頻度エキスパート 48 個 / 層を GPU",
+      "en": "48 hot experts/layer on GPU",
+      "pp6k": 1522,
+      "pp6k_tok": 5515,
+      "pp6k_s": 3.6,
+      "pp38k": 1581,
+      "pp38k_tok": 35080,
+      "pp38k_s": 22.2,
+      "pp38k_first": 1502,
+      "dec": [
+        92.9,
+        96.7
+      ]
+    }
+  ]
+}

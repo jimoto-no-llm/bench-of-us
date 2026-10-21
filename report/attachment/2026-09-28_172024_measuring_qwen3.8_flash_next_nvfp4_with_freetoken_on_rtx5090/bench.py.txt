@@ -1,0 +1,286 @@
+"""FreeToken adapter for the pinned bench-of-us protocol.
+
+All measured requests are serial, raw completions. Backend timers are attached
+by uid to SSE responses; client TTFT and wall time are independent cross-checks.
+No external reference code is executed: prompt constants are parsed as literals.
+"""
+from __future__ import annotations
+
+import argparse
+import ast
+import hashlib
+import importlib.metadata
+import json
+import os
+import statistics
+import subprocess
+import time
+import urllib.request
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent
+BASE = os.environ.get("BENCH_BASE_URL", "http://127.0.0.1:8082")
+MODEL = "orcarouter/Qwen3.8-Flash-Next-Uncensored-NVFP4"
+TAIL = ("\n\nContinue the sequence with the next 100 numbered lines, in exactly "
+        "the same style. Do not stop and do not summarize.")
+STAGES = [0, 32000, 64000, 128000, 196000, 258000]
+RUN_INSTANCE_ID = None
+EXPECTED_MAMBA_SLOTS = None
+
+
+def json_call(path, data=None, timeout=300):
+    req = urllib.request.Request(BASE + path,
+        data=json.dumps(data).encode() if data is not None else None,
+        headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return json.load(r)
+
+
+def save(path, data):
+    path = Path(path)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n")
+    tmp.replace(path)
+
+
+def ready():
+    deadline = time.monotonic() + 600
+    while time.monotonic() < deadline:
+        try:
+            h = json_call("/health", timeout=3)
+            if h.get("maintenance") == "serving":
+                return h
+        except Exception:
+            pass
+        time.sleep(2)
+    raise RuntimeError("benchmark server did not become ready")
+
+
+def check_instance(document):
+    actual = document.get("instance_id")
+    if RUN_INSTANCE_ID is None or actual != RUN_INSTANCE_ID:
+        raise RuntimeError(
+            f"backend instance changed: expected {RUN_INSTANCE_ID!r}, got {actual!r}; "
+            "discard this incomplete run and restart with fresh timing/output files")
+    return document
+
+
+def run_health():
+    health = check_instance(json_call("/health"))
+    if health.get("maintenance") != "serving":
+        raise RuntimeError("benchmark backend is not serving")
+    return health
+
+
+def run_stats():
+    stats = check_instance(json_call("/v1/stats"))
+    slots = (stats.get("mamba") or {}).get("total_slots")
+    if EXPECTED_MAMBA_SLOTS is None or slots != EXPECTED_MAMBA_SLOTS:
+        raise RuntimeError(
+            f"Mamba pool mismatch: expected {EXPECTED_MAMBA_SLOTS} usable slots, got {slots}")
+    return stats
+
+
+def start_run():
+    global RUN_INSTANCE_ID, EXPECTED_MAMBA_SLOTS
+    meta = json.loads((ROOT / "run-info.json").read_text())
+    expected_version = meta["packages"]["tokenizers"]
+    actual_version = importlib.metadata.version("tokenizers")
+    if actual_version != expected_version:
+        raise RuntimeError(
+            f"tokenizers version mismatch: expected {expected_version}, got {actual_version}")
+    initial = ready()
+    instance_id = initial.get("instance_id")
+    if not isinstance(instance_id, str) or not instance_id:
+        raise RuntimeError("backend did not return a nonempty instance_id")
+    RUN_INSTANCE_ID = instance_id
+    EXPECTED_MAMBA_SLOTS = meta["runtime_settings"]["mamba_slots"]
+    run_stats()
+    run_health()
+
+
+def gpu():
+    fields = "name,memory.used,utilization.gpu,temperature.gpu,clocks.sm,power.draw"
+    text = subprocess.check_output(["nvidia-smi", "--query-gpu=" + fields,
+                                    "--format=csv,noheader,nounits"], text=True)
+    return text.strip()
+
+
+def reset_prefix(label):
+    # Benchmark-only same-size rebuild shortcut: discard prefix ownership while
+    # preserving Expert cache, physical pools, CUDA graphs and the PLE mmap.
+    run_health()
+    run_stats()
+    t0 = time.monotonic()
+    result = json_call("/v1/cache/rebuild", {"num_pages": 10000, "mode": "if_idle",
+                                            "timeout": 180}, timeout=240)
+    assert result["status"] == "ok", result
+    run_health()
+    run_stats()
+    with (ROOT / "resets.jsonl").open("a") as f:
+        f.write(json.dumps({"label": label, "elapsed_s": time.monotonic() - t0,
+                            "result": result}) + "\n")
+
+
+def request(label, prompt, n_predict, temperature=0.0, top_p=1.0,
+            ignore_eos=True, fresh=False):
+    health = run_health()
+    stats = run_stats()
+    assert stats["requests"]["active"] == 0, stats["requests"]
+    before_gpu = gpu()
+    payload = {"model": MODEL, "prompt": prompt, "max_tokens": n_predict,
+               "temperature": temperature, "top_p": top_p, "top_k": 0,
+               "ignore_eos": ignore_eos, "stream": True,
+               "stream_options": {"include_usage": True}}
+    req = urllib.request.Request(BASE + "/v1/completions",
+        data=json.dumps(payload).encode(), headers={"Content-Type": "application/json"})
+    start = time.perf_counter()
+    first = last = None
+    text, uid, usage, finish, done = "", None, None, None, False
+    with urllib.request.urlopen(req, timeout=1800) as r:
+        for line in r:
+            if not line.startswith(b"data:"):
+                continue
+            raw = line[5:].strip()
+            if raw == b"[DONE]":
+                done = True
+                break
+            event = json.loads(raw)
+            assert "error" not in event, event
+            if event.get("id", "").startswith("cmpl-"):
+                uid = int(event["id"].split("-", 1)[1])
+            usage = event.get("usage") or usage
+            for choice in event.get("choices", []):
+                delta = choice.get("text") or ""
+                if delta:
+                    last = time.perf_counter()
+                    first = first or last
+                    text += delta
+                finish = choice.get("finish_reason") or finish
+    elapsed = time.perf_counter() - start
+    assert done and usage and first is not None, (done, usage, first)
+    run_health()
+    run_stats()
+    all_timing = [json.loads(x) for x in (ROOT / "backend-timings.jsonl").read_text().splitlines()]
+    matching = [x for x in all_timing if x["uid"] == uid]
+    assert len(matching) == 1, (uid, len(matching))
+    timing = matching[0]
+    assert usage["prompt_tokens"] == timing["prompt_tokens"], (usage, timing)
+    assert usage["completion_tokens"] == timing["completion_tokens"], (usage, timing)
+    cached = usage.get("prompt_tokens_details", {}).get("cached_tokens", 0)
+    assert cached == timing["cached_tokens"], (usage, timing)
+    assert not fresh or cached == 0, ("unexpected prefix cache hit", label, cached)
+    if ignore_eos:
+        assert timing["completion_tokens"] == n_predict and finish == "length", (label, timing, finish)
+    assert timing["last_at"] >= timing["first_at"] > timing["admitted_at"]
+    assert elapsed >= timing["last_at"] - timing["admitted_at"] - .02
+    record = dict(label=label, uid=uid, instance_id=health["instance_id"],
+        prompt_chars=len(prompt), prompt_sha256=hashlib.sha256(prompt.encode()).hexdigest(),
+        text_sha256=hashlib.sha256(text.encode()).hexdigest(),
+        n_predict=n_predict, temperature=temperature, top_p=top_p, top_k=0,
+        ignore_eos=ignore_eos, finish_reason=finish, wall_s=elapsed,
+        client_ttft_ms=(first-start)*1000, client_stream_s=(last-first),
+        effective_depth=timing["prompt_tokens"], tokens_evaluated=timing["prompt_tokens"],
+        cache_n=cached, prompt_n=timing["prompt_n"],
+        prompt_ms=timing["prefill_wall_s"]*1000, prompt_per_second=timing["prefill_tps"],
+        predicted_n=timing["completion_tokens"], predicted_ms=timing["decode_wall_s"]*1000,
+        predicted_per_second=timing["decode_tps"], first_batch_tokens=timing["first_batch_tokens"],
+        draft_n=None, draft_n_accepted=None, draft_accept_rate=None,
+        gpu_before=before_gpu, gpu_after=gpu())
+    response_dir = ROOT / "private-responses"
+    response_dir.mkdir(exist_ok=True)
+    (response_dir / (label + ".txt")).write_text(text)
+    with (ROOT / "requests.jsonl").open("a") as f:
+        f.write(json.dumps(record, ensure_ascii=False) + "\n")
+    save(ROOT / "progress.json", record)
+    print(json.dumps({k: record[k] for k in ("label", "effective_depth", "cache_n",
+                     "prompt_per_second", "predicted_per_second", "predicted_n", "wall_s")}), flush=True)
+    return record
+
+
+def filler(chars):
+    parts, n, i = [], 0, 1
+    while n < chars:
+        part = f"Sequence {i}: the quick brown fox jumps over the lazy dog while we measure context tokens. "
+        parts.append(part)
+        n += len(part)
+        i += 1
+    return "".join(parts)[:chars]
+
+
+def prompt_set():
+    from tokenizers import Tokenizer
+    tok = Tokenizer.from_file(str(Path(os.environ["MODEL_DIR"]) / "tokenizer.json"))
+    result = {0: "The capital of France is and the capital of Germany is"}
+    ratio = 4.3
+    info = []
+    for depth in STAGES[1:]:
+        prompt = filler(int(depth * ratio)) + TAIL
+        tokens = len(tok.encode(prompt).ids)
+        if tokens + 1000 > 262144:
+            prompt = filler(int(depth * ratio * depth / tokens)) + TAIL
+            tokens = len(tok.encode(prompt).ids)
+        assert tokens + 1000 <= 262144
+        ratio = (len(prompt)-len(TAIL)) / tokens
+        result[depth] = prompt
+        info.append({"target": depth, "local_tokens": tokens, "chars": len(prompt)})
+    save(ROOT / "prompt-lengths.json", info)
+    return result
+
+
+def real_prompts():
+    tree = ast.parse((ROOT / "reference-llama-split-bench/measure_real.py").read_text())
+    for node in tree.body:
+        if isinstance(node, ast.Assign) and any(isinstance(x, ast.Name) and x.id == "PROMPTS" for x in node.targets):
+            return ast.literal_eval(node.value)
+    raise RuntimeError("reference prompts not found")
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("mode", choices=["smoke", "full"])
+    ap.add_argument("--repeats", type=int, default=3)
+    args = ap.parse_args()
+    start_run()
+    if args.mode == "smoke":
+        rows = [request("smoke-greeting", "Please answer with the word OK.", 16)]
+        rows.append(request("smoke-2k", filler(2048*4)+TAIL, 64))
+        rows.append(request("smoke-4k", filler(4096*4)+TAIL, 64))
+        rows.append(request("smoke-repeat-4k", filler(4096*4)+TAIL, 64))
+        reset_prefix("smoke-reset")
+        rows.append(request("smoke-fresh-4k", filler(4096*4)+TAIL, 64, fresh=True))
+        save(ROOT / "smoke.json", rows)
+        return
+    prompts = prompt_set()
+    for rep in range(args.repeats):
+        prefix = f"r{rep+1}"
+        reset_prefix(prefix + "-start")
+        request(prefix+"-warmup", "warmup", 8)
+        pp = {"tag": "freetoken", "repeat": rep+1}
+        for n in (512, 2048, 8192):
+            reset_prefix(prefix+f"-pp{n}")
+            pp[f"pp{n}"] = request(prefix+f"-pp{n}", filler(int(n*4.3))+TAIL, 64, fresh=True)
+            save(ROOT / f"results-freetoken-pp0-{prefix}.json", pp)
+        reset_prefix(prefix+"-ladder")
+        ladder = []
+        for stage, depth in enumerate(STAGES):
+            row = request(prefix+f"-depth{depth}", prompts[depth], 1000)
+            row.update(stage=stage, target_tokens=depth, shrunk=False)
+            ladder.append(row)
+            save(ROOT / f"results-freetoken-{prefix}.json", ladder)
+        real = []
+        for name, prompt in real_prompts():
+            reset_prefix(prefix+"-real-"+name)
+            row = request(prefix+"-real-"+name, prompt, 1200, temperature=.7,
+                          top_p=.9, ignore_eos=False, fresh=True)
+            row.update(prompt=name, prefill_tok_s=row["prompt_per_second"],
+                       decode_tok_s=row["predicted_per_second"])
+            real.append(row)
+            save(ROOT / f"results-real-{prefix}.json", real)
+    save(ROOT / "complete.json", {"status": "complete", "repeats": args.repeats,
+                                  "finished_at": time.strftime("%Y-%m-%dT%H:%M:%S%z")})
+    print("BENCH-DONE", flush=True)
+
+
+if __name__ == "__main__":
+    main()

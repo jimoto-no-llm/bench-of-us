@@ -1,0 +1,27 @@
+{
+  "tag": "tp2-170hx-262k",
+  "date": "2026-09-27T15:33:40+09:00",
+  "ctx": 262144,
+  "stages": "0,32000,64000,128000,196000,258000",
+  "n_predict": 1000,
+  "modes": [
+    {
+      "name": "tensor",
+      "device": "CUDA1,CUDA2",
+      "split": "tensor",
+      "argv_file": "argv-tensor.txt"
+    }
+  ],
+  "machine": "GIGABYTE MZ32-AR0 — 2x NVIDIA CMP 170HX (vLLM TP=2)",
+  "bin": "vllm serve (already-running server)",
+  "bin_version": "vllm 0.1.dev20073+g8e685d198",
+  "bin_sha256": "",
+  "server_fingerprint": "vllm-0.1.dev20073+g8e685d198-tp2-ep-6d91553e",
+  "cache_k": "auto",
+  "cache_v": "auto",
+  "launch_prefix": "",
+  "tensor_split": "",
+  "engine_label": "vLLM 0.1.dev20073+g8e685d198 (TP=2, expert-parallel, MTP n=4)",
+  "harness": "vllm-split-bench.py (llama-split-bench protocol over the vLLM OpenAI API)",
+  "deepest_measured": 257947
+}

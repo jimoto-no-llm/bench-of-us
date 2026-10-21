@@ -1,0 +1,21 @@
+{
+  "tag": "gt710",
+  "pp512": {
+    "prompt_n": 617,
+    "cache_n": 0,
+    "prompt_ms": 10718.161,
+    "prompt_per_second": 57.56584548412736,
+    "predicted_n": 64,
+    "predicted_per_second": 5.60874665344783,
+    "wall_s": 22.01
+  },
+  "pp1024": {
+    "prompt_n": 1201,
+    "cache_n": 0,
+    "prompt_ms": 20698.299,
+    "prompt_per_second": 58.024091738166504,
+    "predicted_n": 64,
+    "predicted_per_second": 5.12928651624559,
+    "wall_s": 32.98
+  }
+}

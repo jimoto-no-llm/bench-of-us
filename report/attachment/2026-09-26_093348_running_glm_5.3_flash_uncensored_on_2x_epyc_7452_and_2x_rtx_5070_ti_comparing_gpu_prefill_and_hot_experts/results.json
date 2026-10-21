@@ -1,0 +1,40 @@
+{
+  "date": "2026-09-26",
+  "model": "GLM-5.3-Flash Uncensored (FP8 + NVFP4 experts)",
+  "tool": "own script (tools/bench-of-us-arms.sh)",
+  "prefill_note": "2nd run; 1st includes warm-up",
+  "configs": [
+    {
+      "key": "gpuprefill",
+      "ja": "A: GPU prefill",
+      "en": "A: GPU prefill",
+      "pp6k": 161,
+      "pp6k_tok": 6422,
+      "pp6k_s": 39.8,
+      "pp38k": 165,
+      "pp38k_tok": 40464,
+      "pp38k_s": 244.8,
+      "pp38k_first": 162,
+      "dec": [
+        16.3,
+        16.6
+      ]
+    },
+    {
+      "key": "hot5",
+      "ja": "B: 高頻度エキスパート 5 個 / 層を GPU",
+      "en": "B: 5 hot experts/layer on GPU",
+      "pp6k": 92,
+      "pp6k_tok": 6419,
+      "pp6k_s": 69.6,
+      "pp38k": 91,
+      "pp38k_tok": 40462,
+      "pp38k_s": 446.8,
+      "pp38k_first": 90,
+      "dec": [
+        18.0,
+        18.0
+      ]
+    }
+  ]
+}

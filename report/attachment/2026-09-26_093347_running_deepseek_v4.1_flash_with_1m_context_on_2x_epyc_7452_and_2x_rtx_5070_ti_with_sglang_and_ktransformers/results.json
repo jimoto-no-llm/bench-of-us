@@ -1,0 +1,24 @@
+{
+  "date": "2026-09-26",
+  "model": "DeepSeek V4.1-Flash (FP8 + FP4 experts)",
+  "tool": "own script (tools/bench-of-us-arms.sh)",
+  "prefill_note": "2nd run; 1st includes warm-up",
+  "configs": [
+    {
+      "key": "hot5",
+      "ja": "高頻度エキスパート 5 個 / 層を GPU",
+      "en": "5 hot experts/layer on GPU",
+      "pp6k": 258,
+      "pp6k_tok": 6050,
+      "pp6k_s": 23.4,
+      "pp38k": 256,
+      "pp38k_tok": 38072,
+      "pp38k_s": 148.5,
+      "pp38k_first": 214,
+      "dec": [
+        27.9,
+        28.4
+      ]
+    }
+  ]
+}

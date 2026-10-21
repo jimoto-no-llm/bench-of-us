@@ -1,0 +1,10 @@
+[
+  {
+    "relative_path": "freetoken/kernel/_pinned_tensor.cpython-312-x86_64-linux-gnu.so",
+    "sha256": "ef70444bb543e8d2bd1a6d9c1864277d6e3c09b1d617f932bd52f10db288ecc8"
+  },
+  {
+    "relative_path": "freetoken/kernel/_cpu_moe.cpython-312-x86_64-linux-gnu.so",
+    "sha256": "de85a0ae3d87377dd6a6be57b42383efdbd616a06e4c6b0af2030594f3f51a9c"
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "date": "2026-09-26",
+  "model": "DeepSeek V4-Flash-Vision-Exp abliterated (MXFP4)",
+  "tool": "own script (tools/bench-of-us-arms.sh)",
+  "prefill_note": "2nd run; 1st includes warm-up",
+  "configs": [
+    {
+      "key": "hot10",
+      "ja": "高頻度エキスパート 10 個 / 層を GPU",
+      "en": "10 hot experts/layer on GPU",
+      "pp6k": 627,
+      "pp6k_tok": 6053,
+      "pp6k_s": 9.6,
+      "pp38k": 615,
+      "pp38k_tok": 38073,
+      "pp38k_s": 61.9,
+      "pp38k_first": 558,
+      "dec": [
+        42.9,
+        43.7
+      ]
+    }
+  ]
+}

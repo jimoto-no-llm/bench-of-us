@@ -1,0 +1,21 @@
+{
+  "tag": "l-kepler",
+  "pp512": {
+    "prompt_n": 617,
+    "cache_n": 0,
+    "prompt_ms": 8324.309,
+    "prompt_per_second": 74.12026631880195,
+    "predicted_n": 64,
+    "predicted_per_second": 6.778417304115845,
+    "wall_s": 17.68
+  },
+  "pp1024": {
+    "prompt_n": 1201,
+    "cache_n": 0,
+    "prompt_ms": 14684.36,
+    "prompt_per_second": 81.78769793167696,
+    "predicted_n": 64,
+    "predicted_per_second": 6.212706503461169,
+    "wall_s": 24.83
+  }
+}

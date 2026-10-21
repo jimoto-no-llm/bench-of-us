@@ -1,0 +1,188 @@
+#!/usr/bin/env python3
+"""Replay llama-split-bench workloads against vLLM; keep API and engine timers distinct."""
+import argparse
+import gzip
+import hashlib
+import importlib.util
+import json
+import re
+import time
+import urllib.request
+from pathlib import Path
+
+
+def post(url, route, payload):
+    request = urllib.request.Request(url + route, json.dumps(payload).encode(),
+                                     {'Content-Type': 'application/json'})
+    with urllib.request.urlopen(request, timeout=1800) as response:
+        return json.load(response)
+
+
+def metrics(url):
+    with urllib.request.urlopen(url + '/metrics', timeout=10) as response:
+        text = response.read().decode()
+    result = {}
+    for line in text.splitlines():
+        match = re.match(r'^(vllm:[\w:]+)(?:\{[^}]*\})?\s+([\d.eE+-]+)$', line)
+        if match and '_bucket' not in match[1] and not match[1].endswith('_created'):
+            result[match[1]] = result.get(match[1], 0) + float(match[2])
+    return result
+
+
+def load_module(path, name):
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def request_case(url, model, case, output, salt):
+    prompt = case['prompt']
+    tokenized = post(url, '/tokenize', {'model': model, 'prompt': prompt, 'add_special_tokens': False})
+    token_ids = tokenized['tokens']
+    expected = case.get('expected_llama_prompt_tokens')
+    if expected is not None and len(token_ids) != expected:
+        raise RuntimeError(f'input length differs from llama: {len(token_ids)} != {expected}')
+    before = metrics(url)
+    payload = {'model': model, 'prompt': token_ids, 'max_tokens': case['n_predict'],
+               'temperature': case.get('temperature', 0.0), 'stream': True,
+               'ignore_eos': case.get('ignore_eos', True), 'return_token_ids': True,
+               'stream_options': {'include_usage': True}, 'cache_salt': salt}
+    if case.get('fresh'):
+        payload['skip_reading_prefix_cache'] = True
+    if 'top_p' in case:
+        payload['top_p'] = case['top_p']
+    request = urllib.request.Request(url + '/v1/completions', json.dumps(payload).encode(),
+                                     {'Content-Type': 'application/json'})
+    chunks = []
+    usage = None
+    first = last = None
+    first_count = 0
+    total_stream_tokens = 0
+    finish = None
+    start = time.monotonic()
+    with urllib.request.urlopen(request, timeout=1800) as response:
+        for raw in response:
+            if not raw.startswith(b'data: '):
+                continue
+            data = raw[6:].strip()
+            if data == b'[DONE]':
+                break
+            chunk = json.loads(data)
+            now = time.monotonic()
+            chunks.append({'t_s': now, 'response': chunk})
+            if chunk.get('usage'):
+                usage = chunk['usage']
+            for choice in chunk.get('choices', []):
+                ids = choice.get('token_ids') or []
+                if ids:
+                    if first is None:
+                        first, first_count = now, len(ids)
+                    last = now
+                    total_stream_tokens += len(ids)
+                if choice.get('finish_reason'):
+                    finish = choice['finish_reason']
+    end = time.monotonic()
+    if not usage or first is None:
+        raise RuntimeError('missing usage or token-ID stream; refusing inferred token timing')
+    if usage['prompt_tokens'] != len(token_ids) or usage['completion_tokens'] != total_stream_tokens:
+        raise RuntimeError('stream/usage token mismatch')
+    if case.get('ignore_eos', True) and usage['completion_tokens'] != case['n_predict']:
+        raise RuntimeError('generation shorter than requested fixed length')
+    base_count = before.get('vllm:request_prefill_time_seconds_count', 0)
+    after = metrics(url)
+    deadline = time.monotonic() + 12
+    while after.get('vllm:request_prefill_time_seconds_count', 0) - base_count < 1 and time.monotonic() < deadline:
+        time.sleep(0.25)
+        after = metrics(url)
+    delta = {k: v - before.get(k, 0) for k, v in after.items()
+             if k.endswith(('_sum', '_count', '_total'))}
+    isolated = delta.get('vllm:request_prefill_time_seconds_count') == 1
+    prefill_s = delta.get('vllm:request_prefill_time_seconds_sum') if isolated else None
+    decode_s = delta.get('vllm:request_decode_time_seconds_sum') if isolated else None
+    computed = delta.get('vllm:request_prefill_kv_computed_tokens_sum') if isolated else None
+    row = {'case': case['name'], 'kind': case['kind'], 'target_tokens': case.get('target_tokens'),
+           'prompt_sha256': hashlib.sha256(prompt.encode()).hexdigest(),
+           'input_ids_sha256': hashlib.sha256(json.dumps(token_ids).encode()).hexdigest(),
+           'prompt_tokens': len(token_ids), 'output_tokens': total_stream_tokens,
+           'expected_llama_prompt_tokens': case.get('expected_llama_prompt_tokens'),
+           'start_monotonic_s': start, 'end_monotonic_s': end,
+           'api_ttft_s': first - start, 'api_e2e_s': end - start,
+           'api_tail_s': last - first, 'first_event_tokens': first_count,
+           'api_tail_tok_s': ((total_stream_tokens - first_count) / (last - first)) if last > first else None,
+           'finish_reason': finish, 'fresh': bool(case.get('fresh')), 'usage': usage,
+           'engine_metric_isolated': isolated, 'engine_prefill_s': prefill_s,
+           'engine_decode_s': decode_s, 'engine_computed_prompt_tokens': computed,
+           'engine_prefill_tok_s': computed / prefill_s if computed is not None and prefill_s else None,
+           'engine_decode_tok_s': (total_stream_tokens - 1) / decode_s if decode_s else None,
+           'engine_timing_note': 'prefill=first scheduled to first new token; decode=first to last new token',
+           'metrics_delta': delta}
+    (output / (case['name'] + '-stream.json')).write_text(json.dumps(chunks) + '\n')
+    return row
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument('--url', default='http://127.0.0.1:18184')
+    ap.add_argument('--model', default='Qwen3.8')
+    ap.add_argument('--llama-run', type=Path, required=True)
+    ap.add_argument('--out', type=Path, required=True)
+    ap.add_argument('--repeats', type=int, default=3)
+    ap.add_argument('--upstream', type=Path,
+                    default=Path(__file__).resolve().parents[1] / 'src/llama-split-bench',
+                    help='Path to the pinned llama-split-bench checkout')
+    args = ap.parse_args()
+    args.out.mkdir(parents=True, exist_ok=False)
+    upstream = args.upstream
+    pp0 = load_module(upstream / 'measure_pp0.py', 'upstream_pp0')
+    real = load_module(upstream / 'measure_real.py', 'upstream_real')
+    cases = []
+    for row in json.loads((args.llama_run / 'results-profile.json').read_text()):
+        target, index = row['target_tokens'], row['stage']
+        saved = args.llama_run / f'responses-profile/prompt{index}-{target}.txt.gz'
+        if saved.exists():
+            with gzip.open(saved, 'rt') as stream:
+                prompt = stream.read()
+        elif target == 0:
+            prompt = 'The capital of France is and the capital of Germany is'
+        else:
+            # Public reports omit raw prompt dumps. The standard synthetic
+            # workload is reconstructible from the stored character count.
+            prompt = pp0.fill_text(row['prompt_chars'] - len(pp0.TAIL)) + pp0.TAIL
+        cases.append({'name': f'ladder-{target}', 'kind': 'ladder', 'prompt': prompt,
+                      'target_tokens': target, 'expected_llama_prompt_tokens': row['effective_depth'],
+                      'n_predict': 1000})
+    for size in (512, 2048, 8192):
+        cases.append({'name': f'pp{size}', 'kind': 'pp0', 'target_tokens': size,
+                      'prompt': pp0.fill_text(int(size * 4.3)) + pp0.TAIL,
+                      'n_predict': 64, 'fresh': True})
+    for name, prompt in real.PROMPTS:
+        cases.append({'name': f'real-{name}', 'kind': 'real', 'prompt': prompt,
+                      'n_predict': 1200, 'ignore_eos': False, 'temperature': 0.7,
+                      'top_p': 0.9, 'fresh': True})
+    (args.out / 'workload.json').write_text(json.dumps(cases, ensure_ascii=False, indent=2) + '\n')
+    for repetition in range(1, args.repeats + 1):
+        run = args.out / f'r{repetition}'
+        run.mkdir()
+        salt = f'benchofus-{args.out.name}-{repetition}'
+        warmups = []
+        for size in (512, 8192):
+            warmup = {'name': f'warmup-{size}', 'kind': 'warmup',
+                      'prompt': pp0.fill_text(int(size * 4.3)) + pp0.TAIL,
+                      'n_predict': 128, 'fresh': True}
+            row = request_case(args.url, args.model, warmup, run, salt + f'-warmup-{size}')
+            warmups.append(row)
+            print(json.dumps({'event': 'warmup', **row}), flush=True)
+        (run / 'warmup.json').write_text(json.dumps(warmups, indent=2) + '\n')
+        records = []
+        for case in cases:
+            row = request_case(args.url, args.model, case, run, salt if not case.get('fresh') else salt + '-' + case['name'])
+            row['repetition'] = repetition
+            records.append(row)
+            (run / 'results-api.json').write_text(json.dumps(records, ensure_ascii=False, indent=2) + '\n')
+            print(json.dumps(row), flush=True)
+    print('BENCH-DONE vllm-api', flush=True)
+
+
+if __name__ == '__main__':
+    main()

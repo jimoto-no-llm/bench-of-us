@@ -1,0 +1,31 @@
+{
+  "schema": "vllm-replay-run-reference-v1",
+  "date": "2026-09-28",
+  "engine": "GGZ14/Radiance vLLM 0.27.1",
+  "repetition": 2,
+  "gpu": "Radeon AI PRO R9700 x1",
+  "context_limit": 40960,
+  "target_stages": [
+    0,
+    8000,
+    16000,
+    32000
+  ],
+  "ladder_output_tokens": 1000,
+  "measurement_counts": {
+    "ladder": 4,
+    "pp0": 3,
+    "real": 3
+  },
+  "warmup_count_excluded": 2,
+  "results_file": "results-api.json",
+  "results_sha256": "8a836e01fd579441f05dfc240c068ab08ab202e355237e1eac973a7693f04265",
+  "shared_runtime_and_argv": "../ggz14-run-info.json",
+  "shared_model_identity": "../measurement-identity.json",
+  "timer_semantics": "prefill=first scheduled to first new token; decode=first to last new token",
+  "figures": [
+    "profile-ja.png",
+    "profile-en.png"
+  ],
+  "note": "Existing measurements; figures and indexes added without a benchmark rerun."
+}

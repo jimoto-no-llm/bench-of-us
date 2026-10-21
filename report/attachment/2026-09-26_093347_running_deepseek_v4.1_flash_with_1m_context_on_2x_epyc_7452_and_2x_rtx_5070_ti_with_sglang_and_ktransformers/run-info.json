@@ -1,0 +1,26 @@
+{
+  "machine": "HUANANZHI H12D-16D + RTX 5070 Ti x2",
+  "date": "2026-09-28",
+  "ctx": 262144,
+  "stages": "0,32000,64000,128000",
+  "n_predict": 1000,
+  "cache_k": "fp8_e4m3",
+  "cache_v": "fp8_e4m3",
+  "engine": "sglang + KTransformers (kt-kernel AVX2)",
+  "modes": [
+    {
+      "name": "hot5",
+      "device": "TP2, 5 hot experts/layer on GPU"
+    }
+  ],
+  "tool": "sglang-ladder.py (llama-split-bench 7af72d4 protocol ported to sglang)",
+  "sampling": "greedy, ignore_eos",
+  "pp0_prompts": [
+    512,
+    2048,
+    8192
+  ],
+  "filler": "llama-split-bench fill_text + TAIL",
+  "concurrency": 1,
+  "notes": []
+}

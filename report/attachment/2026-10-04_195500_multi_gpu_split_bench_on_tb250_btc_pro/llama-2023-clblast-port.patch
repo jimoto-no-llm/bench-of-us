@@ -1,0 +1,118 @@
+diff --git a/convert.py b/convert.py
+index ece5a0266..e465a57d1 100644
+--- a/convert.py
++++ b/convert.py
+@@ -147,7 +147,7 @@ class Params:
+             n_vocab=n_vocab,
+             n_embd=n_embd,
+             n_mult=256,
+-            n_head=n_embd // 128,
++            n_head=(32 if n_embd == 3200 else n_embd // 128),
+             n_layer=next(i for i in itertools.count() if f"layers.{i}.attention.wq.weight" not in model),
+             file_type=file_type,
+         )
+@@ -597,7 +597,8 @@ def convert_transformers_to_orig(model: LazyModel) -> LazyModel:
+     out["norm.weight"] = model["model.norm.weight"]
+     out["output.weight"] = model["lm_head.weight"]
+ 
+-    n_head = model["model.layers.0.self_attn.q_proj.weight"].shape[1] // 128
++    _d = model["model.layers.0.self_attn.q_proj.weight"].shape[1]
++    n_head = 32 if _d == 3200 else _d // 128
+     for i in itertools.count():
+         if f"model.layers.{i}.self_attn.q_proj.weight" not in model:
+             break
+@@ -753,8 +754,13 @@ def lazy_load_safetensors_file(fp: IO[bytes], path: Path) -> ModelPlus:
+     byte_buf = mapped[8 + header_size:]
+ 
+     def convert(info: Dict[str, Any]) -> LazyTensor:
+-        data_type = SAFETENSORS_DATA_TYPES[info['dtype']]
+-        numpy_dtype = DATA_TYPE_TO_NUMPY[data_type]
++        dtype_str = info["dtype"]
++        if dtype_str == "BF16":
++            data_type = DT_F32
++            numpy_dtype = np.dtype(np.uint16)
++        else:
++            data_type = SAFETENSORS_DATA_TYPES[dtype_str]
++            numpy_dtype = DATA_TYPE_TO_NUMPY[data_type]
+         shape: List[int] = info['shape']
+         begin, end = info['data_offsets']
+         assert 0 <= begin <= end <= len(byte_buf)
+@@ -762,7 +768,10 @@ def lazy_load_safetensors_file(fp: IO[bytes], path: Path) -> ModelPlus:
+         buf = byte_buf[begin:end]
+ 
+         def load() -> UnquantizedTensor:
+-            return UnquantizedTensor(np.frombuffer(buf, dtype=numpy_dtype).reshape(shape))
++            arr = np.frombuffer(buf, dtype=numpy_dtype).reshape(shape)
++            if dtype_str == "BF16":
++                arr = (arr.astype(np.uint32) << 16).view(np.float32)
++            return UnquantizedTensor(arr)
+         description = f'safetensors begin={begin} end={end} type={data_type} path={path}'
+         return LazyTensor(load, shape, data_type, description)
+     model = {name: convert(info) for (name, info) in header.items() if name != '__metadata__'}
+diff --git a/llama.cpp b/llama.cpp
+index 5a19316b3..77e236f25 100644
+--- a/llama.cpp
++++ b/llama.cpp
+@@ -42,6 +42,8 @@
+ // available llama models
+ enum e_model {
+     MODEL_UNKNOWN,
++    MODEL_1B,
++    MODEL_3B,
+     MODEL_7B,
+     MODEL_13B,
+     MODEL_30B,
+@@ -58,6 +60,8 @@ static const size_t MB = 1024*1024;
+ static const std::map<e_model, size_t> & MEM_REQ_SCRATCH0()
+ {
+     static std::map<e_model, size_t> k_sizes = {
++        { MODEL_1B,    256ull * MB },
++        { MODEL_3B,    512ull * MB },
+         { MODEL_7B,    512ull * MB },
+         { MODEL_13B,   512ull * MB },
+         { MODEL_30B,   512ull * MB },
+@@ -69,6 +73,8 @@ static const std::map<e_model, size_t> & MEM_REQ_SCRATCH0()
+ static const std::map<e_model, size_t> & MEM_REQ_SCRATCH1()
+ {
+     static std::map<e_model, size_t> k_sizes = {
++        { MODEL_1B,    256ull * MB },
++        { MODEL_3B,    512ull * MB },
+         { MODEL_7B,    512ull * MB },
+         { MODEL_13B,   512ull * MB },
+         { MODEL_30B,   512ull * MB },
+@@ -81,6 +87,8 @@ static const std::map<e_model, size_t> & MEM_REQ_SCRATCH1()
+ static const std::map<e_model, size_t> & MEM_REQ_KV_SELF()
+ {
+     static std::map<e_model, size_t> k_sizes = {
++        { MODEL_1B,    369ull * MB },
++        { MODEL_3B,    681ull * MB },
+         { MODEL_7B,   1026ull * MB },
+         { MODEL_13B,  1608ull * MB },
+         { MODEL_30B,  3124ull * MB },
+@@ -94,6 +102,8 @@ static const std::map<e_model, size_t> & MEM_REQ_KV_SELF()
+ static const std::map<e_model, size_t> & MEM_REQ_EVAL()
+ {
+     static std::map<e_model, size_t> k_sizes = {
++        { MODEL_1B,    256ull * MB },
++        { MODEL_3B,    512ull * MB },
+         { MODEL_7B,   768ull * MB },
+         { MODEL_13B, 1024ull * MB },
+         { MODEL_30B, 1280ull * MB },
+@@ -899,6 +909,8 @@ static const char *llama_ftype_name(enum llama_ftype ftype) {
+ 
+ static const char *llama_model_type_name(e_model type) {
+     switch (type) {
++        case MODEL_1B: return "1B";
++        case MODEL_3B: return "3B";
+         case MODEL_7B: return "7B";
+         case MODEL_13B: return "13B";
+         case MODEL_30B: return "30B";
+@@ -932,6 +944,8 @@ static void llama_model_load_internal(
+ 
+     {
+         switch (hparams.n_layer) {
++            case 22: model.type = e_model::MODEL_1B; break;
++            case 26: model.type = e_model::MODEL_3B; break;
+             case 32: model.type = e_model::MODEL_7B; break;
+             case 40: model.type = e_model::MODEL_13B; break;
+             case 60: model.type = e_model::MODEL_30B; break;

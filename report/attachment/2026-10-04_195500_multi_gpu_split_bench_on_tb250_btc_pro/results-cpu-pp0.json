@@ -1,0 +1,21 @@
+{
+  "tag": "cpu",
+  "pp512": {
+    "prompt_n": 512,
+    "cache_n": 0,
+    "prompt_ms": 101027.643,
+    "prompt_per_second": 5.067919876147165,
+    "predicted_n": 64,
+    "predicted_per_second": 3.6833838112825905,
+    "wall_s": 118.14
+  },
+  "pp2048": {
+    "prompt_n": 1978,
+    "cache_n": 0,
+    "prompt_ms": 440007.952,
+    "prompt_per_second": 4.495373301798873,
+    "predicted_n": 64,
+    "predicted_per_second": 2.777601544593357,
+    "wall_s": 462.69
+  }
+}

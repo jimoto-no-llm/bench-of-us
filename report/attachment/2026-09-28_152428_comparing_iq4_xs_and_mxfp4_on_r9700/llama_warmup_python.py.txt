@@ -1,0 +1,40 @@
+#!/usr/bin/python3
+"""Add explicit warmup before the unmodified upstream ladder measurement."""
+import importlib.util
+import json
+import os
+import sys
+import time
+import urllib.request
+from pathlib import Path
+
+arguments = sys.argv[1:]
+if arguments and Path(arguments[0]).name == 'measure_ladder.py':
+    script = Path(arguments[0])
+    url = arguments[arguments.index('--url') + 1]
+    output = Path(arguments[arguments.index('--out') + 1])
+    spec = importlib.util.spec_from_file_location('upstream_ladder', script)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    warmups = []
+    for target in (512, 8192):
+        # A distinct prefix prevents the server's default RAM prompt cache from
+        # making the first measured filler prompt a warmup cache hit.
+        payload = {'prompt': 'Warmup-only input, excluded from benchmark: ' + module.fill_text(int(target * 4.3)) + module.TAIL,
+                   'n_predict': 128, 'cache_prompt': False, 'temperature': 0,
+                   'ignore_eos': True}
+        started = time.monotonic()
+        request = urllib.request.Request(url + '/completion', json.dumps(payload).encode(),
+                                         {'Content-Type': 'application/json'})
+        with urllib.request.urlopen(request, timeout=900) as response:
+            result = json.load(response)
+        timings = result.get('timings', {})
+        if timings.get('predicted_n') != 128:
+            raise SystemExit('Warmup generation incomplete')
+        row = {'event': 'warmup', 'target_prompt_tokens': target,
+               'start_monotonic_s': started, 'end_monotonic_s': time.monotonic(),
+               'timings': timings, 'included_in_results': False}
+        warmups.append(row)
+        print(json.dumps(row), flush=True)
+    (output / 'warmup.json').write_text(json.dumps(warmups, indent=2) + '\n')
+os.execv('/usr/bin/python3', ['/usr/bin/python3'] + arguments)

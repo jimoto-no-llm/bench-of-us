@@ -1,0 +1,27 @@
+[
+  {
+    "target": 32000,
+    "local_tokens": 32093,
+    "chars": 137718
+  },
+  {
+    "target": 64000,
+    "local_tokens": 64806,
+    "chars": 274520
+  },
+  {
+    "target": 128000,
+    "local_tokens": 128788,
+    "chars": 542096
+  },
+  {
+    "target": 196000,
+    "local_tokens": 196429,
+    "chars": 824943
+  },
+  {
+    "target": 258000,
+    "local_tokens": 259601,
+    "chars": 1083485
+  }
+]

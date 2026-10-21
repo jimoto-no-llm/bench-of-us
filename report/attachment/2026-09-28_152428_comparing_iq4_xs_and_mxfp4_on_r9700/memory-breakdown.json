@@ -1,0 +1,22 @@
+{
+  "source": "local startup log; model-loading scope verified against installed vLLM model_runner.py",
+  "model_loading_gib": 19.13,
+  "model_loading_includes_draft": true,
+  "kv_cache_pool_gib": 5.5,
+  "kv_cache_capacity_tokens": 108081,
+  "graph_capture_gib": 1.08,
+  "peak_activation_gib": 2.21,
+  "weights_plus_non_torch_gib": 23.52,
+  "gpu_memory_utilization": 0.98,
+  "max_model_len": 40960,
+  "max_num_seqs": 3,
+  "observed_vram_peak_gib": 29.42,
+  "note": "different measurement times/scopes; overlapping categories must not be summed as an exact allocation ledger",
+  "bf16_embedding_gib": 2.3681640625,
+  "bf16_lm_head_gib": 2.3681640625,
+  "bf16_embedding_and_head_shape": [
+    248320,
+    5120
+  ],
+  "bf16_payload_source": "current target-mtpfp8 safetensors header"
+}

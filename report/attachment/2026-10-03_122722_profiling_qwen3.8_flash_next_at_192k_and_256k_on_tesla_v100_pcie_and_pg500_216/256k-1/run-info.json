@@ -1,0 +1,23 @@
+{
+  "tag": "fn256k-C2-pl250-1003",
+  "date": "2026-10-03T12:08:21+09:00",
+  "ctx": 262144,
+  "stages": "0,32000,64000,128000,190000,250000",
+  "n_predict": 1000,
+  "modes": [
+    {
+      "name": "profile",
+      "device": "CUDA0,CUDA1",
+      "split": "",
+      "argv_file": "argv-profile.txt"
+    }
+  ],
+  "machine": "MSI MPG X570 GAMING EDGE WIFI - Tesla V100-PCIE-32GB + Tesla PG500-216",
+  "bin": "/opt/llm/bin/fn-best-c2-20261003/llama-server",
+  "bin_version": "0.00.001.694 I srv  llama_server: initializing ... version: 0.5.0-dev (build 1, commit 7fe450e) built with GNU 15.2.0 for Linux x86_64",
+  "bin_sha256": "7fab8d305b29e96844959a9e17a585c2802fedbd1b15bb4e69c880756bb15fb7",
+  "cache_k": "q8_0",
+  "cache_v": "q8_0",
+  "launch_prefix": "env CUDA_VISIBLE_DEVICES=GPU-<uuid>,GPU-<uuid> GGML_CUDA_GRAPH_OPT=1 GGML_CUDA_DISABLE_GRAPHS=1 GGML_FT_GRAPH_CACHE=1 GGML_FT_GRAPH_CACHE_MIN_NODES=32 LLAMA_QWEN4EXP_HC_FUSION=1 LLAMA_HC_FUSED=2 LLAMA_MTP_PAD=5 LLAMA_MTP_N_UBATCH=32 LLAMA_GPU_ARGMAX=1 MTMD_ON_DEMAND=1 GGML_CUDA_EVICT_MIB=2048 LD_LIBRARY_PATH=/opt/llm/bin/fn-best-c2-20261003:/opt/llm/venv-nccl/lib/python3.14/site-packages/nvidia/nccl/lib:/opt/llm/cuda-12.9/lib64 LLAMA_KV_PAD_GEO=2 LLAMA_PP_REUSE_MAX_TOKENS=16 CUDA_SCALE_LAUNCH_QUEUES=4x LLAMA_QSA_BLK_REBUILD=1 LLAMA_PP_PLAN_AHEAD=1 LLAMA_MTP_DRAFT_VOCAB=/opt/llm/bin/fn-best-c2-20261003/ids_65536.txt",
+  "tensor_split": ""
+}
