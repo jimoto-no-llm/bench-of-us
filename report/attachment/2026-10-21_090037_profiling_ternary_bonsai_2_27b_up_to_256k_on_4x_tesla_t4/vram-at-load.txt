@@ -1,0 +1,19 @@
+Ternary Bonsai 2 27B — VRAM usage right after `llama-server` became healthy (262,144 ctx, KV f16/f16)
+Harness output: run-bench.sh prints `nvidia-smi --query-gpu=index,memory.used` just after /health returns ok.
+
+[bonsai-pq2-layer-262k]  model=Ternary-Bonsai-2-27B-PQ2_0.gguf  device=CUDA0-3  split=layer
+0, 7121 MiB 1, 7019 MiB 2, 7059 MiB 3, 7241 MiB
+
+[bonsai-ptq1-layer-262k] model=Ternary-Bonsai-2-27B-PTQ1_0.gguf  device=CUDA0-3  split=layer
+0, 6831 MiB 1, 6747 MiB 2, 6787 MiB 3, 6929 MiB
+
+[bonsai-ptq1-mtp-t4x4-262k] model=Ternary-Bonsai-2-27B-PTQ1_0-mtp.gguf  device=CUDA0-3  split=layer  spec=draft-mtp n-max 2
+0, 6913 MiB 1, 6825 MiB 2, 6953 MiB 3, 10139 MiB
+
+[bonsai-ptq1-mtp-t4x2-262k] model=Ternary-Bonsai-2-27B-PTQ1_0-mtp.gguf  device=CUDA0,1  split=layer  spec=draft-mtp n-max 2
+0, 12407 MiB 1, 14899 MiB 2, 3 MiB 3, 3 MiB
+  -> aborted at the 32k stage:
+     0.04.662.504 E ggml_backend_cuda_buffer_type_alloc_buffer: allocating 1186.07 MiB on device 1: cudaMalloc failed: out of memory
+     0.38.369.604 E CUDA error: out of memory
+
+(Source: runs/<tag>.log and runs/<tag>/server-*.log of the same llama-split-bench runs that produced the attached results JSON.)

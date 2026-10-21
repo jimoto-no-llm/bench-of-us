@@ -1,0 +1,48 @@
+{
+    "date": "2026-10-21T18:20:47+09:00",
+    "model": "Ternary-Bonsai-2-27B-PTQ1_0-mtp.gguf",
+    "ctx": 8192,
+    "cache_k": "f16",
+    "cache_v": "f16",
+    "max_tokens": 600,
+    "temperature": 0,
+    "prompt": "Write a Python function that returns the nth Fibonacci number, then explain it briefly.",
+    "probes": [
+        {
+            "gpus": 4,
+            "spec_draft_n_max": 2,
+            "device": "CUDA0,CUDA1,CUDA2,CUDA3",
+            "prompt_n": 68,
+            "predicted_n": 224,
+            "prompt_per_second": 61.86,
+            "predicted_per_second": 29.41,
+            "draft_n": 188,
+            "draft_n_accepted": 131,
+            "draft_accept_rate": 0.697
+        },
+        {
+            "gpus": 2,
+            "spec_draft_n_max": 2,
+            "device": "CUDA0,CUDA1",
+            "prompt_n": 68,
+            "predicted_n": 224,
+            "prompt_per_second": 73.57,
+            "predicted_per_second": 46.17,
+            "draft_n": 188,
+            "draft_n_accepted": 131,
+            "draft_accept_rate": 0.697
+        },
+        {
+            "gpus": 2,
+            "spec_draft_n_max": 1,
+            "device": "CUDA0,CUDA1",
+            "prompt_n": 68,
+            "predicted_n": 224,
+            "prompt_per_second": 71.85,
+            "predicted_per_second": 43.77,
+            "draft_n": 122,
+            "draft_n_accepted": 101,
+            "draft_accept_rate": 0.828
+        }
+    ]
+}

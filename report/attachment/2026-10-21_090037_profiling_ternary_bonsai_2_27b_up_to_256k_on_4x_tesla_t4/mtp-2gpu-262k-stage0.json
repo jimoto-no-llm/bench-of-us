@@ -1,0 +1,21 @@
+{
+  "stage": 0,
+  "target_tokens": 0,
+  "shrunk": false,
+  "prompt_chars": 54,
+  "tokens_evaluated": 11,
+  "cache_n": 0,
+  "prompt_n": 11,
+  "effective_depth": 11,
+  "prompt_ms": 407.746,
+  "prompt_per_second": 26.977579179194894,
+  "predicted_n": 1000,
+  "predicted_ms": 18886.305,
+  "predicted_per_second": 52.895471083412026,
+  "draft_n": 716,
+  "draft_n_accepted": 641,
+  "draft_accept_rate": 0.895,
+  "wall_s": 19.3,
+  "gpu_before": "0, 12407 MiB, 0 %, 76, 585 MHz, 35.22 W\n1, 14899 MiB, 0 %, 75, 585 MHz, 33.51 W\n2, 3 MiB, 0 %, 61, 300 MHz, 18.84 W\n3, 3 MiB, 0 %, 62, 300 MHz, 17.76 W",
+  "gpu_after": "0, 12407 MiB, 42 %, 81, 1215 MHz, 41.98 W\n1, 14899 MiB, 53 %, 80, 1455 MHz, 48.04 W\n2, 3 MiB, 0 %, 59, 300 MHz, 18.44 W\n3, 3 MiB, 0 %, 60, 300 MHz, 17.46 W"
+}

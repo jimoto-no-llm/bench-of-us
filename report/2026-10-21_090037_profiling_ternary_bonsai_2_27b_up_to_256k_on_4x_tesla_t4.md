@@ -113,7 +113,7 @@ prefill は 258k で PQ2_0 90.9 対 PTQ1_0 90.4 t/s、32k で 312.7 対 300.8 t/
 
 ![GPU 枚数の比較](attachment/2026-10-21_090037_profiling_ternary_bonsai_2_27b_up_to_256k_on_4x_tesla_t4/ptq1-scale-32k/split-bench-ja.png)
 
-いずれも layer 分割、KV f16 です。
+いずれも layer 分割、KV f16 です。この図では薄い破線の「実運用推定」を外しています。補正係数（1.439）は 1 枚の腕の実プロンプト計測から求めた値で、そのまま 2 枚・4 枚の腕に当てると実測より高い線になり誤解を招くためです。
 
 | 構成 | prefill（32k） | decode（depth 0） | decode（32k） |
 |------|------:|------:|------:|
@@ -164,13 +164,23 @@ MTP なしの PTQ1_0（同じ 4 枚・262k・KV f16）との比較です。
 | PTQ1_0（MTP なし、2 枚） | 30.59 | 24.63 | — |
 | PTQ1_0 + MTP（2 枚、n-max 2） | 51.00 | 48.95 | 0.993 |
 
-同じ 2 枚・32k で比べると、MTP は decode を **1.67 倍（depth 0）/ 1.99 倍（32k）** に伸ばしました。27B 級を T4 2 枚で約 49 t/s で回せる計算になります。深さ 32k で採択率が 0.993 まで上がるのは、フィラーで埋めた長いプロンプトの続きを書かせる計測の性質上、下書きが当たりやすいためです。この腕は実プロンプト補正の前（32k 段の直後）に中断したため、上の表はラダー値そのままで、4 枚の実測（補正係数 0.780）を当てはめると実運用は 40 t/s 前後になります。参考として、8k コンテキスト・コード生成プロンプト（600 トークン、temperature 0）の手動計測では 2 枚 + MTP が 46.3 t/s（採択率 0.697、n-max 2）、44.3 t/s（同 0.828、n-max 1）でした。**n-max 2 の方が速く**、4 枚 + MTP の同条件は 30.5 t/s（同 0.754）でした。
+同じ 2 枚・32k で比べると、MTP は decode を **1.67 倍（depth 0）/ 1.99 倍（32k）** に伸ばしました。27B 級を T4 2 枚で約 49 t/s で回せる計算になります。深さ 32k で採択率が 0.993 まで上がるのは、フィラーで埋めた長いプロンプトの続きを書かせる計測の性質上、下書きが当たりやすいためです。この腕は実プロンプト補正の前（32k 段の直後）に中断したため、上の表はラダー値そのままで、4 枚の実測（補正係数 0.780）を当てはめると実運用は 40 t/s 前後になります。
 
-262k を 2 枚で確保しようとした腕は、32k 段の prefill 時に CUDA1 の計算バッファ（約 1.2 GB）を確保できず `cudaMalloc failed: out of memory` で中断しました（ロード直後の時点で GPU0 12,407 MiB / GPU1 14,899 MiB を使用）。f16 KV の 262k は 2 枚では計算バッファの余裕が残らないため、**256k で MTP を使うなら 4 枚か、KV の量子化が必要**です。なお、この中断した腕でも depth 0 の decode は 52.90 t/s（採択率 0.895）と記録されています。
+参考として、8k コンテキスト・コード生成プロンプト（600 トークン、temperature 0）の手動計測を別途 3 回行いました（生の `timings` は [manual-mtp-probe.json](attachment/2026-10-21_090037_profiling_ternary_bonsai_2_27b_up_to_256k_on_4x_tesla_t4/manual-mtp-probe.json)）。
+
+| 構成 | decode | 採択率 |
+|------|------:|------:|
+| 2 枚 + MTP（n-max 2） | 46.17 t/s | 0.697 |
+| 2 枚 + MTP（n-max 1） | 43.77 t/s | 0.828 |
+| 4 枚 + MTP（n-max 2） | 29.41 t/s | 0.697 |
+
+**n-max 2 の方が速く**、4 枚は同じ条件でも 2 枚の 64% まで落ちます。この手動計測は 2 回実施し、decode の差は最大 4% 以内（4 枚条件で約 3.7%、2 枚条件で 0.3〜1.2%）でした。
+
+262k を 2 枚で確保しようとした腕は、32k 段の prefill 時に CUDA1 の計算バッファ（約 1.2 GB）を確保できず `cudaMalloc failed: out of memory` で中断しました（ロード直後の時点で GPU0 12,407 MiB / GPU1 14,899 MiB を使用）。f16 KV の 262k は 2 枚では計算バッファの余裕が残らないため、**256k で MTP を使うなら 4 枚か、KV の量子化が必要**です。なお、この中断した腕でも depth 0 の decode は 52.90 t/s（採択率 0.895）と記録されています。ロード直後の VRAM 使用量と OOM の実ログは [vram-at-load.txt](attachment/2026-10-21_090037_profiling_ternary_bonsai_2_27b_up_to_256k_on_4x_tesla_t4/vram-at-load.txt)、中断時点の段 0 の生データは [mtp-2gpu-262k-stage0.json](attachment/2026-10-21_090037_profiling_ternary_bonsai_2_27b_up_to_256k_on_4x_tesla_t4/mtp-2gpu-262k-stage0.json) にあります。
 
 ### 所感
 
-- **27B 級が 6〜7 GB で動き、262k まで実用速度で扱える**のは T4 のような古い 15 GB カードでは大きな意味があります。4 枚あれば VRAM はまったく余ります（262k ロード時で約 7 GB / 枚）。
+- **27B 級が 6〜7 GB で動き、262k まで実用速度で扱える**のは T4 のような古い 15 GB カードでは大きな意味があります。4 枚あれば VRAM はまったく余ります（262k ロード時で 6.8〜7.2 GB / 枚、実測は [vram-at-load.txt](attachment/2026-10-21_090037_profiling_ternary_bonsai_2_27b_up_to_256k_on_4x_tesla_t4/vram-at-load.txt)）。
 - 量子化は **迷ったら PTQ1_0**。ファイルが 1.26 GB 小さく、decode が 1.3〜1.7 倍速く、prefill の差は数 % です。モデルカードの L4 の数値（PQ2_0 29.8 / PTQ1_0 32.1 t/s）と同じ向きの結果でした。
 - **GPU は増やせば速くなるわけではありません。** layer 分割の decode は 2 枚がピークで、4 枚は NUMA 跨ぎで落ちます。既存の Ornith / Nemotron 系で 4 枚を使っていた構成をそのまま流用すると、このモデルでは損をする可能性があります。
 - MTP は効きますが、**ラダーの数字ほどではありません**。合成フィラーの連続生成では decode が 1.7〜1.9 倍になりますが、実プロンプトでは採択率が 0.5〜0.6 に落ちて実効 1.4 倍、しかも prefill が 15〜31% 遅くなります。32k までの短い文脈を 2 枚で回す用途（約 46 t/s）では効果が大きく、262k を毎回読み直す用途では相殺されがちです。メモリ余裕とのトレードオフもあり、262k × 2 枚では入りません。
@@ -189,4 +199,7 @@ MTP なしの PTQ1_0（同じ 4 枚・262k・KV f16）との比較です。
 - PTQ1_0・1/2/4 枚・32k: [run-info.json](attachment/2026-10-21_090037_profiling_ternary_bonsai_2_27b_up_to_256k_on_4x_tesla_t4/ptq1-scale-32k/run-info.json) / [results-t4x1.json](attachment/2026-10-21_090037_profiling_ternary_bonsai_2_27b_up_to_256k_on_4x_tesla_t4/ptq1-scale-32k/results-t4x1.json) / [results-t4x2.json](attachment/2026-10-21_090037_profiling_ternary_bonsai_2_27b_up_to_256k_on_4x_tesla_t4/ptq1-scale-32k/results-t4x2.json) / [results-t4x4.json](attachment/2026-10-21_090037_profiling_ternary_bonsai_2_27b_up_to_256k_on_4x_tesla_t4/ptq1-scale-32k/results-t4x4.json)
 - PTQ1_0 + MTP・4 枚・262k: [run-info.json](attachment/2026-10-21_090037_profiling_ternary_bonsai_2_27b_up_to_256k_on_4x_tesla_t4/ptq1-mtp-t4x4-262k/run-info.json) / [results-t4x4.json](attachment/2026-10-21_090037_profiling_ternary_bonsai_2_27b_up_to_256k_on_4x_tesla_t4/ptq1-mtp-t4x4-262k/results-t4x4.json) / [results-t4x4-pp0.json](attachment/2026-10-21_090037_profiling_ternary_bonsai_2_27b_up_to_256k_on_4x_tesla_t4/ptq1-mtp-t4x4-262k/results-t4x4-pp0.json) / [results-real.json](attachment/2026-10-21_090037_profiling_ternary_bonsai_2_27b_up_to_256k_on_4x_tesla_t4/ptq1-mtp-t4x4-262k/results-real.json) / [argv-t4x4.txt](attachment/2026-10-21_090037_profiling_ternary_bonsai_2_27b_up_to_256k_on_4x_tesla_t4/ptq1-mtp-t4x4-262k/argv-t4x4.txt)
 - PTQ1_0 + MTP・2 枚・32k: [results-t4x2.json](attachment/2026-10-21_090037_profiling_ternary_bonsai_2_27b_up_to_256k_on_4x_tesla_t4/ptq1-mtp-t4x2-32k/results-t4x2.json) / [results-t4x2-pp0.json](attachment/2026-10-21_090037_profiling_ternary_bonsai_2_27b_up_to_256k_on_4x_tesla_t4/ptq1-mtp-t4x2-32k/results-t4x2-pp0.json) / [argv-t4x2.txt](attachment/2026-10-21_090037_profiling_ternary_bonsai_2_27b_up_to_256k_on_4x_tesla_t4/ptq1-mtp-t4x2-32k/argv-t4x2.txt)（ラダー完了後、実プロンプト補正の前に中断したため図と run-info はありません）
+- 手動 MTP 比較（8k、n-max 1/2、2/4 枚）: [manual-mtp-probe.json](attachment/2026-10-21_090037_profiling_ternary_bonsai_2_27b_up_to_256k_on_4x_tesla_t4/manual-mtp-probe.json)
+- 262k × 2 枚の中断時 段 0: [mtp-2gpu-262k-stage0.json](attachment/2026-10-21_090037_profiling_ternary_bonsai_2_27b_up_to_256k_on_4x_tesla_t4/mtp-2gpu-262k-stage0.json)
+- ロード直後の VRAM と OOM のログ抜粋: [vram-at-load.txt](attachment/2026-10-21_090037_profiling_ternary_bonsai_2_27b_up_to_256k_on_4x_tesla_t4/vram-at-load.txt)
 
