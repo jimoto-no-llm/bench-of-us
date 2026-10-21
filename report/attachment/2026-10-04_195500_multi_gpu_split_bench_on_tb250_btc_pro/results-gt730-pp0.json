@@ -1,0 +1,21 @@
+{
+  "tag": "gt730",
+  "pp512": {
+    "prompt_n": 617,
+    "cache_n": 0,
+    "prompt_ms": 5076.076,
+    "prompt_per_second": 121.55058356100264,
+    "predicted_n": 64,
+    "predicted_per_second": 12.079874430664015,
+    "wall_s": 10.35
+  },
+  "pp1024": {
+    "prompt_n": 1201,
+    "cache_n": 0,
+    "prompt_ms": 9765.36,
+    "prompt_per_second": 122.98573734096848,
+    "predicted_n": 64,
+    "predicted_per_second": 11.012699915464417,
+    "wall_s": 15.49
+  }
+}

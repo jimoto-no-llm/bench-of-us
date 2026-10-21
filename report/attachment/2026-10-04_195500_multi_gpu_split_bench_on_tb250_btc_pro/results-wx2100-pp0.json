@@ -1,0 +1,21 @@
+{
+  "tag": "wx2100",
+  "pp512": {
+    "prompt_n": 512,
+    "cache_n": 0,
+    "prompt_ms": 2750.217,
+    "prompt_per_second": 186.1671279029982,
+    "predicted_n": 64,
+    "predicted_per_second": 24.591507732662986,
+    "wall_s": 5.32
+  },
+  "pp2048": {
+    "prompt_n": 1978,
+    "cache_n": 0,
+    "prompt_ms": 12146.807,
+    "prompt_per_second": 162.84114829518572,
+    "predicted_n": 64,
+    "predicted_per_second": 22.37076886202029,
+    "wall_s": 14.97
+  }
+}

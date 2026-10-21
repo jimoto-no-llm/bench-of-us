@@ -1,0 +1,29 @@
+{
+  "tag": "ubuntu-b11146-nccl1395-full-20261001",
+  "date": "2026-10-01T20:27:36+09:00",
+  "ctx": 262144,
+  "stages": "0,32000,64000,128000,196000,258000",
+  "n_predict": 1000,
+  "modes": [
+    {
+      "name": "layer",
+      "device": "CUDA0,CUDA1,CUDA2,CUDA3",
+      "split": "layer",
+      "argv_file": "argv-layer.txt"
+    },
+    {
+      "name": "tensor",
+      "device": "CUDA0,CUDA1,CUDA2,CUDA3",
+      "split": "tensor",
+      "argv_file": "argv-tensor.txt"
+    }
+  ],
+  "machine": "ASUS ROG CROSSHAIR VIII DARK HERO - RTX 3090 x4 - Ubuntu 26.04",
+  "bin": "llama-b11146-linux-cuda12.4-nccl/bin/llama-server",
+  "bin_version": "0.00.000.396 I srv  llama_server: initializing ... version: 0.5.0-dev (build 11146, commit 7fe450e) built with GNU 13.4.0 for Linux x86_64",
+  "bin_sha256": "1b7f7919d2cdef20ed4d9e307c4aeecc7f7b0910f45166082e50699a774549fa",
+  "cache_k": "q8_0",
+  "cache_v": "q8_0",
+  "launch_prefix": "env GGML_CUDA_ALLREDUCE=nccl NCCL_DEBUG=INFO NCCL_DEBUG_SUBSYS=INIT LD_LIBRARY_PATH=nccl-2.22.3-cuda12.4/lib",
+  "tensor_split": ""
+}

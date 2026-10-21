@@ -1,0 +1,21 @@
+{
+  "tag": "t-6400-2100",
+  "pp512": {
+    "prompt_n": 512,
+    "cache_n": 0,
+    "prompt_ms": 3465.662,
+    "prompt_per_second": 147.7351224672227,
+    "predicted_n": 64,
+    "predicted_per_second": 13.80892135227479,
+    "wall_s": 8.04
+  },
+  "pp2048": {
+    "prompt_n": 1978,
+    "cache_n": 0,
+    "prompt_ms": 14110.828,
+    "prompt_per_second": 140.17604069725746,
+    "predicted_n": 64,
+    "predicted_per_second": 12.603720618326529,
+    "wall_s": 19.12
+  }
+}

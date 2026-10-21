@@ -1,0 +1,29 @@
+{
+  "tag": "swift-qwen38-iq4xs-128k-nomtp-20260929",
+  "date": "2026-09-29T15:34:52+00:00",
+  "ctx": 131072,
+  "stages": "0,32000,64000,96000,128000",
+  "n_predict": 1000,
+  "modes": [
+    {
+      "name": "layer",
+      "device": "CUDA0,CUDA1",
+      "split": "layer",
+      "argv_file": "argv-layer.txt"
+    },
+    {
+      "name": "tensor",
+      "device": "CUDA0,CUDA1",
+      "split": "tensor",
+      "argv_file": "argv-tensor.txt"
+    }
+  ],
+  "machine": "MSI MPG Z490M GAMING EDGE WIFI — 2x TITAN V",
+  "bin": "llama-server",
+  "bin_version": "llama-server: 0.2.0-dev (build 1, commit 1a07bfa), CUDA",
+  "bin_sha256": "d0932d36ed588807f39866b3a5f840c72f41cf6004000463e107358c54658a9f",
+  "cache_k": "q8_0",
+  "cache_v": "q8_0",
+  "launch_prefix": "LD_LIBRARY_PATH=<llama-server library directory>",
+  "tensor_split": ""
+}

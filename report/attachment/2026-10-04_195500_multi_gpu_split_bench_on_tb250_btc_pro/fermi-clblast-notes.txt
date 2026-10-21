@@ -1,0 +1,35 @@
+GT 430 (Fermi GF108, sm_21) — NVIDIA 390.157 + OpenCL/CLBlast 実験ログ
+=====================================================================
+
+# nvidia-smi (390.157, kernel 6.12.107+deb13-amd64)
+GPU 0: GeForce GT 430  (964 MiB)  00000000:04:00.0
+GPU 1: GeForce GT 730  (981 MiB)  00000000:07:00.0
+GPU 2: GeForce GT 710  (2002 MiB) 00000000:08:00.0
+
+# clinfo -l （uvm ノード修正後）
+Platform #0: NVIDIA CUDA  (OpenCL 1.2 CUDA 9.1.84)
+  Device #0: GeForce GT 730   (OpenCL 1.2)
+  Device #1: GeForce GT 430   (OpenCL 1.1)   <- target
+  Device #2: GeForce GT 710   (OpenCL 1.2)
+
+# 罠: 470 時代の残滓 /dev/nvidia-uvm (major 235) が 390 uvm (major 237) と不一致
+#   -> NVIDIA ICD が clGetExportTable で segfault / clinfo 非列挙
+#   修正: mknod /dev/nvidia-uvm c 237 0, mknod /dev/nvidia-uvm-tools c 237 1
+
+# ビルド: llama.cpp @ 2e6cd4b (2023-05-23, "OpenCL Token Generation Acceleration")
+#   make LLAMA_CLBLAST=1   (-lclblast -lOpenCL, clblast 1.6.3)
+#   モデルは GGJT v3 のみ受付 -> TinyLlama-1.1B は GQA 非対応のため
+#   OpenLLaMA-3B (MHA) を convert.py (BF16 safetensors パッチ込み) -> Q4_0
+#   llama.cpp 側にも MODEL_1B/3B 登録 + n_mult=8640 修正が必要
+# 実行: GGML_OPENCL_PLATFORM=0 GGML_OPENCL_DEVICE=1 ./main -m openllama-3b-q4_0-ggml.bin -ngl N
+
+# OpenLLaMA-3B Q4_0 (1.93 GB), ctx=512, 31 tokens eval
+#   ngl=0  CPU           : 203.7 ms/tok = 4.91 t/s
+#   ngl=4  GT430         : 416.7 ms/tok = 2.40 t/s  (VRAM ~270MB)
+#   ngl=6  GT430         : 526.0 ms/tok = 1.90 t/s  (VRAM ~400MB)
+#   ngl=8  GT430         : 634.8 ms/tok = 1.58 t/s  (VRAM 531MB)
+#   ngl=10 GT430         : 743.1 ms/tok = 1.35 t/s  (VRAM 664MB)
+#   ngl=12 GT430         : load ok (797MB) だが推論中に CL_MEM_OBJECT_ALLOCATION_FAILURE (-4)
+#   ngl=10 GT730         : 382.6 ms/tok = 2.61 t/s
+#   ngl=20 GT710         : 1187.6 ms/tok = 0.84 t/s
+#   ngl=26 GT710         : 1728MB + prompt 用 dequant バッファで -4 (出力層 410MB fp32 等)

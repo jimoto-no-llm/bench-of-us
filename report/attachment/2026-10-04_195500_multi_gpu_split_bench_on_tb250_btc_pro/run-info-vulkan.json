@@ -1,0 +1,23 @@
+{
+  "tag": "tb250-rx6400",
+  "date": "2026-10-04T17:57:01+09:00",
+  "ctx": 8192,
+  "stages": "0,2048,4096,8192",
+  "n_predict": 300,
+  "modes": [
+    {
+      "name": "rx6400",
+      "device": "Vulkan1",
+      "split": "",
+      "argv_file": "argv-rx6400.txt"
+    }
+  ],
+  "machine": "BIOSTAR TB250-BTC PRO + Celeron G3930 (RX 6400 + Pro WX 2100 + HD 610)",
+  "bin": "~/bench/llama-bin/llama-b11384/llama-server",
+  "bin_version": "version: 0.5.0-dev (build 11384, commit 0faee5004) built with GNU 11.4.0 for Linux x86_64",
+  "bin_sha256": "47c53028f7419c95f0d2541bd6bdf7ef2d193c43ed9f5045cf314baf0112b062",
+  "cache_k": "q8_0",
+  "cache_v": "q8_0",
+  "launch_prefix": "env LD_LIBRARY_PATH=~/bench/llama-bin/llama-b11384/lib",
+  "tensor_split": ""
+}
