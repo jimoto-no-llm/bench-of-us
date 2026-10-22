@@ -1,0 +1,1649 @@
+{
+  "n": 164,
+  "pass": 145,
+  "pass@1": 0.8841,
+  "avg_wall_s": 2.96,
+  "total_predicted_n": 34599,
+  "records": [
+    {
+      "task_id": "HumanEval/0",
+      "pass": true,
+      "wall_s": 2.6,
+      "predicted_n": 168,
+      "draft_n": 154,
+      "draft_n_accepted": 90,
+      "code_chars": 502,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/1",
+      "pass": true,
+      "wall_s": 2.9,
+      "predicted_n": 208,
+      "draft_n": 198,
+      "draft_n_accepted": 108,
+      "code_chars": 866,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/2",
+      "pass": true,
+      "wall_s": 1.6,
+      "predicted_n": 97,
+      "draft_n": 90,
+      "draft_n_accepted": 51,
+      "code_chars": 360,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/3",
+      "pass": true,
+      "wall_s": 2.4,
+      "predicted_n": 152,
+      "draft_n": 148,
+      "draft_n_accepted": 77,
+      "code_chars": 550,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/4",
+      "pass": true,
+      "wall_s": 2.4,
+      "predicted_n": 164,
+      "draft_n": 148,
+      "draft_n_accepted": 89,
+      "code_chars": 570,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/5",
+      "pass": true,
+      "wall_s": 2.2,
+      "predicted_n": 141,
+      "draft_n": 130,
+      "draft_n_accepted": 75,
+      "code_chars": 440,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/6",
+      "pass": true,
+      "wall_s": 3.0,
+      "predicted_n": 203,
+      "draft_n": 196,
+      "draft_n_accepted": 104,
+      "code_chars": 809,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/7",
+      "pass": true,
+      "wall_s": 1.9,
+      "predicted_n": 107,
+      "draft_n": 104,
+      "draft_n_accepted": 54,
+      "code_chars": 353,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/8",
+      "pass": true,
+      "wall_s": 2.2,
+      "predicted_n": 150,
+      "draft_n": 134,
+      "draft_n_accepted": 82,
+      "code_chars": 464,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/9",
+      "pass": true,
+      "wall_s": 2.2,
+      "predicted_n": 143,
+      "draft_n": 128,
+      "draft_n_accepted": 78,
+      "code_chars": 439,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/10",
+      "pass": true,
+      "wall_s": 3.2,
+      "predicted_n": 231,
+      "draft_n": 218,
+      "draft_n_accepted": 121,
+      "code_chars": 875,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/11",
+      "pass": true,
+      "wall_s": 1.9,
+      "predicted_n": 108,
+      "draft_n": 106,
+      "draft_n_accepted": 54,
+      "code_chars": 297,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/12",
+      "pass": true,
+      "wall_s": 2.3,
+      "predicted_n": 154,
+      "draft_n": 140,
+      "draft_n_accepted": 83,
+      "code_chars": 523,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/13",
+      "pass": true,
+      "wall_s": 1.6,
+      "predicted_n": 97,
+      "draft_n": 90,
+      "draft_n_accepted": 51,
+      "code_chars": 269,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/14",
+      "pass": true,
+      "wall_s": 1.4,
+      "predicted_n": 75,
+      "draft_n": 72,
+      "draft_n_accepted": 38,
+      "code_chars": 239,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/15",
+      "pass": true,
+      "wall_s": 1.6,
+      "predicted_n": 92,
+      "draft_n": 86,
+      "draft_n_accepted": 48,
+      "code_chars": 266,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/16",
+      "pass": true,
+      "wall_s": 1.5,
+      "predicted_n": 81,
+      "draft_n": 78,
+      "draft_n_accepted": 41,
+      "code_chars": 295,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/17",
+      "pass": true,
+      "wall_s": 3.4,
+      "predicted_n": 243,
+      "draft_n": 224,
+      "draft_n_accepted": 130,
+      "code_chars": 762,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/18",
+      "pass": true,
+      "wall_s": 2.6,
+      "predicted_n": 169,
+      "draft_n": 164,
+      "draft_n_accepted": 86,
+      "code_chars": 551,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/19",
+      "pass": true,
+      "wall_s": 3.2,
+      "predicted_n": 224,
+      "draft_n": 220,
+      "draft_n_accepted": 113,
+      "code_chars": 689,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/20",
+      "pass": true,
+      "wall_s": 3.5,
+      "predicted_n": 262,
+      "draft_n": 242,
+      "draft_n_accepted": 140,
+      "code_chars": 794,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/21",
+      "pass": true,
+      "wall_s": 2.4,
+      "predicted_n": 167,
+      "draft_n": 152,
+      "draft_n_accepted": 90,
+      "code_chars": 465,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/22",
+      "pass": true,
+      "wall_s": 1.9,
+      "predicted_n": 112,
+      "draft_n": 102,
+      "draft_n_accepted": 60,
+      "code_chars": 318,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/23",
+      "pass": true,
+      "wall_s": 1.1,
+      "predicted_n": 53,
+      "draft_n": 50,
+      "draft_n_accepted": 27,
+      "code_chars": 153,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/24",
+      "pass": true,
+      "wall_s": 1.4,
+      "predicted_n": 86,
+      "draft_n": 78,
+      "draft_n_accepted": 46,
+      "code_chars": 265,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/25",
+      "pass": true,
+      "wall_s": 2.6,
+      "predicted_n": 183,
+      "draft_n": 166,
+      "draft_n_accepted": 99,
+      "code_chars": 606,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/26",
+      "pass": true,
+      "wall_s": 2.2,
+      "predicted_n": 151,
+      "draft_n": 134,
+      "draft_n_accepted": 83,
+      "code_chars": 525,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/27",
+      "pass": true,
+      "wall_s": 1.4,
+      "predicted_n": 73,
+      "draft_n": 76,
+      "draft_n_accepted": 34,
+      "code_chars": 264,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/28",
+      "pass": true,
+      "wall_s": 1.3,
+      "predicted_n": 65,
+      "draft_n": 62,
+      "draft_n_accepted": 33,
+      "code_chars": 214,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/29",
+      "pass": true,
+      "wall_s": 1.7,
+      "predicted_n": 102,
+      "draft_n": 96,
+      "draft_n_accepted": 53,
+      "code_chars": 341,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/30",
+      "pass": true,
+      "wall_s": 2.0,
+      "predicted_n": 139,
+      "draft_n": 116,
+      "draft_n_accepted": 80,
+      "code_chars": 262,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/31",
+      "pass": true,
+      "wall_s": 2.7,
+      "predicted_n": 193,
+      "draft_n": 174,
+      "draft_n_accepted": 105,
+      "code_chars": 527,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/32",
+      "pass": false,
+      "wall_s": 5.3,
+      "predicted_n": 396,
+      "draft_n": 392,
+      "draft_n_accepted": 199,
+      "code_chars": 1125,
+      "error": "Traceback (most recent call last):\n  File \"/tmp/tmp9r1nvqot/prog.py\", line 82, in <module>\n    check(find_zero)\n    ~~~~~^^^^^^^^^^^\n  File \"/tmp/tmp9r1nvqot/prog.py\", line 78, in check\n    assert math.fabs(poly(coeffs, solution)) < 1e-4\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    {
+      "task_id": "HumanEval/33",
+      "pass": true,
+      "wall_s": 3.0,
+      "predicted_n": 221,
+      "draft_n": 196,
+      "draft_n_accepted": 122,
+      "code_chars": 630,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/34",
+      "pass": true,
+      "wall_s": 1.4,
+      "predicted_n": 87,
+      "draft_n": 74,
+      "draft_n_accepted": 49,
+      "code_chars": 172,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/35",
+      "pass": true,
+      "wall_s": 1.6,
+      "predicted_n": 97,
+      "draft_n": 84,
+      "draft_n_accepted": 54,
+      "code_chars": 200,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/36",
+      "pass": true,
+      "wall_s": 2.1,
+      "predicted_n": 139,
+      "draft_n": 126,
+      "draft_n_accepted": 75,
+      "code_chars": 365,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/37",
+      "pass": true,
+      "wall_s": 2.8,
+      "predicted_n": 203,
+      "draft_n": 186,
+      "draft_n_accepted": 109,
+      "code_chars": 552,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/38",
+      "pass": true,
+      "wall_s": 2.3,
+      "predicted_n": 146,
+      "draft_n": 140,
+      "draft_n_accepted": 75,
+      "code_chars": 463,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/39",
+      "pass": true,
+      "wall_s": 3.3,
+      "predicted_n": 249,
+      "draft_n": 228,
+      "draft_n_accepted": 134,
+      "code_chars": 729,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/40",
+      "pass": true,
+      "wall_s": 3.1,
+      "predicted_n": 231,
+      "draft_n": 204,
+      "draft_n_accepted": 128,
+      "code_chars": 684,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/41",
+      "pass": true,
+      "wall_s": 2.4,
+      "predicted_n": 163,
+      "draft_n": 152,
+      "draft_n_accepted": 86,
+      "code_chars": 661,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/42",
+      "pass": true,
+      "wall_s": 2.0,
+      "predicted_n": 132,
+      "draft_n": 112,
+      "draft_n_accepted": 75,
+      "code_chars": 239,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/43",
+      "pass": true,
+      "wall_s": 2.8,
+      "predicted_n": 201,
+      "draft_n": 182,
+      "draft_n_accepted": 109,
+      "code_chars": 582,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/44",
+      "pass": true,
+      "wall_s": 2.7,
+      "predicted_n": 183,
+      "draft_n": 168,
+      "draft_n_accepted": 98,
+      "code_chars": 541,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/45",
+      "pass": true,
+      "wall_s": 1.1,
+      "predicted_n": 58,
+      "draft_n": 52,
+      "draft_n_accepted": 31,
+      "code_chars": 156,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/46",
+      "pass": true,
+      "wall_s": 4.1,
+      "predicted_n": 309,
+      "draft_n": 284,
+      "draft_n_accepted": 166,
+      "code_chars": 747,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/47",
+      "pass": true,
+      "wall_s": 2.2,
+      "predicted_n": 159,
+      "draft_n": 136,
+      "draft_n_accepted": 90,
+      "code_chars": 344,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/48",
+      "pass": true,
+      "wall_s": 1.5,
+      "predicted_n": 87,
+      "draft_n": 80,
+      "draft_n_accepted": 46,
+      "code_chars": 271,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/49",
+      "pass": true,
+      "wall_s": 2.1,
+      "predicted_n": 134,
+      "draft_n": 124,
+      "draft_n_accepted": 71,
+      "code_chars": 245,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/50",
+      "pass": true,
+      "wall_s": 1.3,
+      "predicted_n": 69,
+      "draft_n": 62,
+      "draft_n_accepted": 37,
+      "code_chars": 209,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/51",
+      "pass": true,
+      "wall_s": 2.6,
+      "predicted_n": 166,
+      "draft_n": 164,
+      "draft_n_accepted": 83,
+      "code_chars": 474,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/52",
+      "pass": true,
+      "wall_s": 1.7,
+      "predicted_n": 100,
+      "draft_n": 92,
+      "draft_n_accepted": 53,
+      "code_chars": 255,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/53",
+      "pass": true,
+      "wall_s": 1.2,
+      "predicted_n": 63,
+      "draft_n": 60,
+      "draft_n_accepted": 32,
+      "code_chars": 129,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/54",
+      "pass": false,
+      "wall_s": 2.5,
+      "predicted_n": 161,
+      "draft_n": 154,
+      "draft_n_accepted": 83,
+      "code_chars": 464,
+      "error": "Traceback (most recent call last):\n  File \"/tmp/tmp9okpipej/prog.py\", line 54, in <module>\n    check(same_chars)\n    ~~~~~^^^^^^^^^^^^\n  File \"/tmp/tmp9okpipej/prog.py\", line 44, in check\n    assert candidate('eabcdzzzz', 'dddzzzzzzzddeddabc') == True\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    {
+      "task_id": "HumanEval/55",
+      "pass": true,
+      "wall_s": 1.7,
+      "predicted_n": 110,
+      "draft_n": 98,
+      "draft_n_accepted": 60,
+      "code_chars": 239,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/56",
+      "pass": true,
+      "wall_s": 2.4,
+      "predicted_n": 154,
+      "draft_n": 146,
+      "draft_n_accepted": 80,
+      "code_chars": 532,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/57",
+      "pass": true,
+      "wall_s": 2.4,
+      "predicted_n": 169,
+      "draft_n": 150,
+      "draft_n_accepted": 93,
+      "code_chars": 457,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/58",
+      "pass": true,
+      "wall_s": 2.1,
+      "predicted_n": 142,
+      "draft_n": 122,
+      "draft_n_accepted": 80,
+      "code_chars": 268,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/59",
+      "pass": true,
+      "wall_s": 2.3,
+      "predicted_n": 154,
+      "draft_n": 140,
+      "draft_n_accepted": 83,
+      "code_chars": 462,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/60",
+      "pass": true,
+      "wall_s": 2.0,
+      "predicted_n": 125,
+      "draft_n": 114,
+      "draft_n_accepted": 67,
+      "code_chars": 259,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/61",
+      "pass": true,
+      "wall_s": 2.4,
+      "predicted_n": 156,
+      "draft_n": 146,
+      "draft_n_accepted": 82,
+      "code_chars": 567,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/62",
+      "pass": true,
+      "wall_s": 2.0,
+      "predicted_n": 136,
+      "draft_n": 118,
+      "draft_n_accepted": 76,
+      "code_chars": 333,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/63",
+      "pass": true,
+      "wall_s": 3.4,
+      "predicted_n": 260,
+      "draft_n": 232,
+      "draft_n_accepted": 143,
+      "code_chars": 677,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/64",
+      "pass": false,
+      "wall_s": 2.8,
+      "predicted_n": 192,
+      "draft_n": 178,
+      "draft_n_accepted": 102,
+      "code_chars": 589,
+      "error": "Traceback (most recent call last):\n  File \"/tmp/tmpnnzmkim8/prog.py\", line 56, in <module>\n    check(vowels_count)\n    ~~~~~^^^^^^^^^^^^^^\n  File \"/tmp/tmpnnzmkim8/prog.py\", line 47, in check\n    assert candidate(\"keY\") == 2, \"Test 5\"\n           ^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Test 5\n"
+    },
+    {
+      "task_id": "HumanEval/65",
+      "pass": true,
+      "wall_s": 2.2,
+      "predicted_n": 133,
+      "draft_n": 130,
+      "draft_n_accepted": 67,
+      "code_chars": 400,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/66",
+      "pass": true,
+      "wall_s": 2.2,
+      "predicted_n": 140,
+      "draft_n": 130,
+      "draft_n_accepted": 74,
+      "code_chars": 410,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/67",
+      "pass": true,
+      "wall_s": 3.5,
+      "predicted_n": 263,
+      "draft_n": 236,
+      "draft_n_accepted": 144,
+      "code_chars": 874,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/68",
+      "pass": true,
+      "wall_s": 5.3,
+      "predicted_n": 424,
+      "draft_n": 380,
+      "draft_n_accepted": 233,
+      "code_chars": 1542,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/69",
+      "pass": true,
+      "wall_s": 3.1,
+      "predicted_n": 242,
+      "draft_n": 208,
+      "draft_n_accepted": 137,
+      "code_chars": 739,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/70",
+      "pass": true,
+      "wall_s": 2.9,
+      "predicted_n": 209,
+      "draft_n": 188,
+      "draft_n_accepted": 114,
+      "code_chars": 706,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/71",
+      "pass": true,
+      "wall_s": 2.9,
+      "predicted_n": 210,
+      "draft_n": 188,
+      "draft_n_accepted": 115,
+      "code_chars": 597,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/72",
+      "pass": true,
+      "wall_s": 3.4,
+      "predicted_n": 254,
+      "draft_n": 230,
+      "draft_n_accepted": 138,
+      "code_chars": 761,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/73",
+      "pass": true,
+      "wall_s": 3.0,
+      "predicted_n": 221,
+      "draft_n": 200,
+      "draft_n_accepted": 120,
+      "code_chars": 661,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/74",
+      "pass": true,
+      "wall_s": 3.4,
+      "predicted_n": 246,
+      "draft_n": 236,
+      "draft_n_accepted": 127,
+      "code_chars": 735,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/75",
+      "pass": false,
+      "wall_s": 2.7,
+      "predicted_n": 189,
+      "draft_n": 176,
+      "draft_n_accepted": 100,
+      "code_chars": 578,
+      "error": "Traceback (most recent call last):\n  File \"/tmp/tmpqaq29g3j/prog.py\", line 48, in <module>\n    check(is_multiply_prime)\n    ~~~~~^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpqaq29g3j/prog.py\", line 37, in check\n    assert candidate(8) == True\n           ^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    {
+      "task_id": "HumanEval/76",
+      "pass": true,
+      "wall_s": 2.9,
+      "predicted_n": 211,
+      "draft_n": 194,
+      "draft_n_accepted": 113,
+      "code_chars": 596,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/77",
+      "pass": true,
+      "wall_s": 2.9,
+      "predicted_n": 215,
+      "draft_n": 192,
+      "draft_n_accepted": 118,
+      "code_chars": 633,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/78",
+      "pass": true,
+      "wall_s": 4.6,
+      "predicted_n": 363,
+      "draft_n": 326,
+      "draft_n_accepted": 199,
+      "code_chars": 1032,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/79",
+      "pass": true,
+      "wall_s": 2.5,
+      "predicted_n": 171,
+      "draft_n": 160,
+      "draft_n_accepted": 90,
+      "code_chars": 605,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/80",
+      "pass": true,
+      "wall_s": 2.7,
+      "predicted_n": 186,
+      "draft_n": 178,
+      "draft_n_accepted": 96,
+      "code_chars": 573,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/81",
+      "pass": true,
+      "wall_s": 7.0,
+      "predicted_n": 560,
+      "draft_n": 528,
+      "draft_n_accepted": 295,
+      "code_chars": 1907,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/82",
+      "pass": true,
+      "wall_s": 2.6,
+      "predicted_n": 187,
+      "draft_n": 172,
+      "draft_n_accepted": 100,
+      "code_chars": 585,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/83",
+      "pass": false,
+      "wall_s": 2.9,
+      "predicted_n": 207,
+      "draft_n": 202,
+      "draft_n_accepted": 105,
+      "code_chars": 570,
+      "error": "Traceback (most recent call last):\n  File \"/tmp/tmp1oy1lqi8/prog.py\", line 35, in <module>\n    check(starts_one_ends)\n    ~~~~~^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp1oy1lqi8/prog.py\", line 24, in check\n    assert candidate(1) == 1\n           ^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    {
+      "task_id": "HumanEval/84",
+      "pass": true,
+      "wall_s": 2.6,
+      "predicted_n": 180,
+      "draft_n": 166,
+      "draft_n_accepted": 96,
+      "code_chars": 552,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/85",
+      "pass": true,
+      "wall_s": 1.6,
+      "predicted_n": 88,
+      "draft_n": 84,
+      "draft_n_accepted": 45,
+      "code_chars": 238,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/86",
+      "pass": true,
+      "wall_s": 2.5,
+      "predicted_n": 172,
+      "draft_n": 158,
+      "draft_n_accepted": 92,
+      "code_chars": 659,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/87",
+      "pass": true,
+      "wall_s": 4.6,
+      "predicted_n": 343,
+      "draft_n": 328,
+      "draft_n_accepted": 178,
+      "code_chars": 1026,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/88",
+      "pass": true,
+      "wall_s": 3.5,
+      "predicted_n": 268,
+      "draft_n": 236,
+      "draft_n_accepted": 149,
+      "code_chars": 750,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/89",
+      "pass": true,
+      "wall_s": 2.8,
+      "predicted_n": 199,
+      "draft_n": 182,
+      "draft_n_accepted": 107,
+      "code_chars": 725,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/90",
+      "pass": true,
+      "wall_s": 2.3,
+      "predicted_n": 166,
+      "draft_n": 144,
+      "draft_n_accepted": 93,
+      "code_chars": 488,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/91",
+      "pass": false,
+      "wall_s": 3.7,
+      "predicted_n": 268,
+      "draft_n": 254,
+      "draft_n_accepted": 140,
+      "code_chars": 1057,
+      "error": "Traceback (most recent call last):\n  File \"/tmp/tmp0b08o5na/prog.py\", line 65, in <module>\n    check(is_bored)\n    ~~~~~^^^^^^^^^^\n  File \"/tmp/tmp0b08o5na/prog.py\", line 54, in check\n    assert candidate(\"Is the sky blue?\") == 0, \"Test 2\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Test 2\n"
+    },
+    {
+      "task_id": "HumanEval/92",
+      "pass": true,
+      "wall_s": 3.1,
+      "predicted_n": 213,
+      "draft_n": 208,
+      "draft_n_accepted": 108,
+      "code_chars": 630,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/93",
+      "pass": false,
+      "wall_s": 3.6,
+      "predicted_n": 251,
+      "draft_n": 246,
+      "draft_n_accepted": 127,
+      "code_chars": 800,
+      "error": "Traceback (most recent call last):\n  File \"/tmp/tmp23llkxd4/prog.py\", line 57, in <module>\n    check(encode)\n    ~~~~~^^^^^^^^\n  File \"/tmp/tmp23llkxd4/prog.py\", line 47, in check\n    assert candidate('TEST') == 'tgst', \"This prints if this assert fails 1 (good for debugging!)\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: This prints if this assert fails 1 (good for debugging!)\n"
+    },
+    {
+      "task_id": "HumanEval/94",
+      "pass": true,
+      "wall_s": 6.0,
+      "predicted_n": 483,
+      "draft_n": 444,
+      "draft_n_accepted": 260,
+      "code_chars": 1164,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/95",
+      "pass": true,
+      "wall_s": 3.5,
+      "predicted_n": 248,
+      "draft_n": 238,
+      "draft_n_accepted": 128,
+      "code_chars": 900,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/96",
+      "pass": true,
+      "wall_s": 3.6,
+      "predicted_n": 267,
+      "draft_n": 248,
+      "draft_n_accepted": 142,
+      "code_chars": 712,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/97",
+      "pass": true,
+      "wall_s": 2.1,
+      "predicted_n": 139,
+      "draft_n": 126,
+      "draft_n_accepted": 75,
+      "code_chars": 375,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/98",
+      "pass": true,
+      "wall_s": 2.1,
+      "predicted_n": 141,
+      "draft_n": 130,
+      "draft_n_accepted": 75,
+      "code_chars": 414,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/99",
+      "pass": false,
+      "wall_s": 3.3,
+      "predicted_n": 238,
+      "draft_n": 220,
+      "draft_n_accepted": 127,
+      "code_chars": 864,
+      "error": "Traceback (most recent call last):\n  File \"/tmp/tmpym60pelw/prog.py\", line 62, in <module>\n    check(closest_integer)\n    ~~~~~^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpym60pelw/prog.py\", line 54, in check\n    assert candidate(\"-15.5\") == -16, \"Test 3\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Test 3\n"
+    },
+    {
+      "task_id": "HumanEval/100",
+      "pass": true,
+      "wall_s": 2.7,
+      "predicted_n": 198,
+      "draft_n": 174,
+      "draft_n_accepted": 110,
+      "code_chars": 664,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/101",
+      "pass": true,
+      "wall_s": 2.3,
+      "predicted_n": 149,
+      "draft_n": 140,
+      "draft_n_accepted": 78,
+      "code_chars": 500,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/102",
+      "pass": false,
+      "wall_s": 2.4,
+      "predicted_n": 157,
+      "draft_n": 148,
+      "draft_n_accepted": 82,
+      "code_chars": 468,
+      "error": "Traceback (most recent call last):\n  File \"/tmp/tmpf3bg8je7/prog.py\", line 43, in <module>\n    check(choose_num)\n    ~~~~~^^^^^^^^^^^^\n  File \"/tmp/tmpf3bg8je7/prog.py\", line 31, in check\n    assert candidate(13, 12) == -1\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    {
+      "task_id": "HumanEval/103",
+      "pass": true,
+      "wall_s": 2.9,
+      "predicted_n": 206,
+      "draft_n": 192,
+      "draft_n_accepted": 109,
+      "code_chars": 576,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/104",
+      "pass": true,
+      "wall_s": 2.3,
+      "predicted_n": 166,
+      "draft_n": 140,
+      "draft_n_accepted": 95,
+      "code_chars": 478,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/105",
+      "pass": true,
+      "wall_s": 5.6,
+      "predicted_n": 451,
+      "draft_n": 408,
+      "draft_n_accepted": 246,
+      "code_chars": 1301,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/106",
+      "pass": true,
+      "wall_s": 3.1,
+      "predicted_n": 234,
+      "draft_n": 210,
+      "draft_n_accepted": 128,
+      "code_chars": 759,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/107",
+      "pass": true,
+      "wall_s": 3.9,
+      "predicted_n": 310,
+      "draft_n": 272,
+      "draft_n_accepted": 173,
+      "code_chars": 934,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/108",
+      "pass": true,
+      "wall_s": 3.1,
+      "predicted_n": 239,
+      "draft_n": 208,
+      "draft_n_accepted": 134,
+      "code_chars": 803,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/109",
+      "pass": true,
+      "wall_s": 5.5,
+      "predicted_n": 431,
+      "draft_n": 406,
+      "draft_n_accepted": 227,
+      "code_chars": 1657,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/110",
+      "pass": true,
+      "wall_s": 3.8,
+      "predicted_n": 287,
+      "draft_n": 264,
+      "draft_n_accepted": 154,
+      "code_chars": 869,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/111",
+      "pass": true,
+      "wall_s": 3.2,
+      "predicted_n": 236,
+      "draft_n": 220,
+      "draft_n_accepted": 125,
+      "code_chars": 773,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/112",
+      "pass": true,
+      "wall_s": 3.0,
+      "predicted_n": 208,
+      "draft_n": 202,
+      "draft_n_accepted": 106,
+      "code_chars": 726,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/113",
+      "pass": true,
+      "wall_s": 3.6,
+      "predicted_n": 265,
+      "draft_n": 248,
+      "draft_n_accepted": 140,
+      "code_chars": 829,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/114",
+      "pass": true,
+      "wall_s": 2.3,
+      "predicted_n": 157,
+      "draft_n": 142,
+      "draft_n_accepted": 85,
+      "code_chars": 472,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/115",
+      "pass": false,
+      "wall_s": 4.8,
+      "predicted_n": 362,
+      "draft_n": 338,
+      "draft_n_accepted": 192,
+      "code_chars": 1129,
+      "error": "Traceback (most recent call last):\n  File \"/tmp/tmpxoj78sxk/prog.py\", line 92, in <module>\n    check(max_fill)\n    ~~~~~^^^^^^^^^^\n  File \"/tmp/tmpxoj78sxk/prog.py\", line 88, in check\n    assert candidate([[1,1,1,1], [1,1,1,1]], 9) == 2, \"Error\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Error\n"
+    },
+    {
+      "task_id": "HumanEval/116",
+      "pass": true,
+      "wall_s": 2.7,
+      "predicted_n": 198,
+      "draft_n": 168,
+      "draft_n_accepted": 113,
+      "code_chars": 521,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/117",
+      "pass": true,
+      "wall_s": 4.0,
+      "predicted_n": 276,
+      "draft_n": 282,
+      "draft_n_accepted": 134,
+      "code_chars": 976,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/118",
+      "pass": true,
+      "wall_s": 4.1,
+      "predicted_n": 282,
+      "draft_n": 294,
+      "draft_n_accepted": 134,
+      "code_chars": 982,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/119",
+      "pass": false,
+      "wall_s": 4.0,
+      "predicted_n": 291,
+      "draft_n": 280,
+      "draft_n_accepted": 150,
+      "code_chars": 1057,
+      "error": "  File \"/tmp/tmpi61wd2i9/prog.py\", line 33\n    from itertools permutations\n                   ^^^^^^^^^^^^\nSyntaxError: invalid syntax\n"
+    },
+    {
+      "task_id": "HumanEval/120",
+      "pass": true,
+      "wall_s": 3.3,
+      "predicted_n": 251,
+      "draft_n": 216,
+      "draft_n_accepted": 142,
+      "code_chars": 656,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/121",
+      "pass": true,
+      "wall_s": 2.2,
+      "predicted_n": 136,
+      "draft_n": 126,
+      "draft_n_accepted": 72,
+      "code_chars": 338,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/122",
+      "pass": true,
+      "wall_s": 2.7,
+      "predicted_n": 187,
+      "draft_n": 168,
+      "draft_n_accepted": 102,
+      "code_chars": 512,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/123",
+      "pass": true,
+      "wall_s": 4.2,
+      "predicted_n": 320,
+      "draft_n": 292,
+      "draft_n_accepted": 173,
+      "code_chars": 1079,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/124",
+      "pass": true,
+      "wall_s": 7.2,
+      "predicted_n": 591,
+      "draft_n": 548,
+      "draft_n_accepted": 316,
+      "code_chars": 1756,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/125",
+      "pass": false,
+      "wall_s": 3.0,
+      "predicted_n": 202,
+      "draft_n": 196,
+      "draft_n_accepted": 103,
+      "code_chars": 665,
+      "error": "Traceback (most recent call last):\n  File \"/tmp/tmpeswqzqb1/prog.py\", line 42, in <module>\n    check(split_words)\n    ~~~~~^^^^^^^^^^^^^\n  File \"/tmp/tmpeswqzqb1/prog.py\", line 37, in check\n    assert candidate(\"aaabb\") == 2\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    {
+      "task_id": "HumanEval/126",
+      "pass": true,
+      "wall_s": 4.5,
+      "predicted_n": 370,
+      "draft_n": 326,
+      "draft_n_accepted": 206,
+      "code_chars": 1024,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/127",
+      "pass": true,
+      "wall_s": 5.3,
+      "predicted_n": 416,
+      "draft_n": 386,
+      "draft_n_accepted": 222,
+      "code_chars": 1411,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/128",
+      "pass": true,
+      "wall_s": 3.5,
+      "predicted_n": 268,
+      "draft_n": 246,
+      "draft_n_accepted": 144,
+      "code_chars": 897,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/129",
+      "pass": false,
+      "wall_s": 8.9,
+      "predicted_n": 691,
+      "draft_n": 680,
+      "draft_n_accepted": 350,
+      "code_chars": 2474,
+      "error": "Traceback (most recent call last):\n  File \"/tmp/tmpy7mpqnzd/prog.py\", line 119, in <module>\n    check(minPath)\n    ~~~~~^^^^^^^^^\n  File \"/tmp/tmpy7mpqnzd/prog.py\", line 103, in check\n    assert candidate([[1, 2, 3], [4, 5, 6], [7, 8, 9]], 3) == [1, 2, 1]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    {
+      "task_id": "HumanEval/130",
+      "pass": false,
+      "wall_s": 4.9,
+      "predicted_n": 409,
+      "draft_n": 354,
+      "draft_n_accepted": 231,
+      "code_chars": 1063,
+      "error": "Traceback (most recent call last):\n  File \"/tmp/tmp3vcfqifw/prog.py\", line 71, in <module>\n    check(tri)\n    ~~~~~^^^^^\n  File \"/tmp/tmp3vcfqifw/prog.py\", line 57, in check\n    assert candidate(3) == [1, 3, 2.0, 8.0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    {
+      "task_id": "HumanEval/131",
+      "pass": true,
+      "wall_s": 2.2,
+      "predicted_n": 140,
+      "draft_n": 136,
+      "draft_n_accepted": 71,
+      "code_chars": 427,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/132",
+      "pass": false,
+      "wall_s": 3.0,
+      "predicted_n": 210,
+      "draft_n": 202,
+      "draft_n_accepted": 108,
+      "code_chars": 750,
+      "error": "Traceback (most recent call last):\n  File \"/tmp/tmpp5vcnc2p/prog.py\", line 64, in <module>\n    check(is_nested)\n    ~~~~~^^^^^^^^^^^\n  File \"/tmp/tmpp5vcnc2p/prog.py\", line 52, in check\n    assert candidate('[[]') == False\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    {
+      "task_id": "HumanEval/133",
+      "pass": true,
+      "wall_s": 2.7,
+      "predicted_n": 186,
+      "draft_n": 174,
+      "draft_n_accepted": 98,
+      "code_chars": 527,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/134",
+      "pass": true,
+      "wall_s": 4.1,
+      "predicted_n": 292,
+      "draft_n": 292,
+      "draft_n_accepted": 145,
+      "code_chars": 1093,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/135",
+      "pass": true,
+      "wall_s": 2.3,
+      "predicted_n": 146,
+      "draft_n": 138,
+      "draft_n_accepted": 76,
+      "code_chars": 484,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/136",
+      "pass": true,
+      "wall_s": 3.1,
+      "predicted_n": 230,
+      "draft_n": 208,
+      "draft_n_accepted": 125,
+      "code_chars": 806,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/137",
+      "pass": true,
+      "wall_s": 3.2,
+      "predicted_n": 229,
+      "draft_n": 214,
+      "draft_n_accepted": 121,
+      "code_chars": 749,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/138",
+      "pass": true,
+      "wall_s": 2.2,
+      "predicted_n": 138,
+      "draft_n": 136,
+      "draft_n_accepted": 69,
+      "code_chars": 441,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/139",
+      "pass": true,
+      "wall_s": 2.1,
+      "predicted_n": 140,
+      "draft_n": 126,
+      "draft_n_accepted": 76,
+      "code_chars": 449,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/140",
+      "pass": true,
+      "wall_s": 3.2,
+      "predicted_n": 231,
+      "draft_n": 216,
+      "draft_n_accepted": 122,
+      "code_chars": 850,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/141",
+      "pass": true,
+      "wall_s": 4.4,
+      "predicted_n": 335,
+      "draft_n": 310,
+      "draft_n_accepted": 179,
+      "code_chars": 1155,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/142",
+      "pass": true,
+      "wall_s": 3.4,
+      "predicted_n": 241,
+      "draft_n": 230,
+      "draft_n_accepted": 125,
+      "code_chars": 817,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/143",
+      "pass": true,
+      "wall_s": 3.4,
+      "predicted_n": 255,
+      "draft_n": 232,
+      "draft_n_accepted": 138,
+      "code_chars": 949,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/144",
+      "pass": true,
+      "wall_s": 3.2,
+      "predicted_n": 222,
+      "draft_n": 214,
+      "draft_n_accepted": 114,
+      "code_chars": 774,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/145",
+      "pass": false,
+      "wall_s": 2.6,
+      "predicted_n": 186,
+      "draft_n": 166,
+      "draft_n_accepted": 102,
+      "code_chars": 616,
+      "error": "Traceback (most recent call last):\n  File \"/tmp/tmpiu7hi9aw/prog.py\", line 49, in <module>\n    check(order_by_points)\n    ~~~~~^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpiu7hi9aw/prog.py\", line 37, in check\n    assert candidate([1, 11, -1, -11, -12]) == [-1, -11, 1, -12, 11]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    {
+      "task_id": "HumanEval/146",
+      "pass": true,
+      "wall_s": 3.3,
+      "predicted_n": 239,
+      "draft_n": 226,
+      "draft_n_accepted": 125,
+      "code_chars": 692,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/147",
+      "pass": false,
+      "wall_s": 4.0,
+      "predicted_n": 293,
+      "draft_n": 282,
+      "draft_n_accepted": 151,
+      "code_chars": 741,
+      "error": "Traceback (most recent call last):\n  File \"/tmp/tmpg9y0y3dh/prog.py\", line 44, in <module>\n    check(get_max_triples)\n    ~~~~~^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpg9y0y3dh/prog.py\", line 39, in check\n    assert candidate(6) == 4\n           ^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    {
+      "task_id": "HumanEval/148",
+      "pass": true,
+      "wall_s": 4.4,
+      "predicted_n": 336,
+      "draft_n": 316,
+      "draft_n_accepted": 177,
+      "code_chars": 1117,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/149",
+      "pass": true,
+      "wall_s": 3.2,
+      "predicted_n": 239,
+      "draft_n": 216,
+      "draft_n_accepted": 130,
+      "code_chars": 893,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/150",
+      "pass": true,
+      "wall_s": 2.2,
+      "predicted_n": 144,
+      "draft_n": 134,
+      "draft_n_accepted": 76,
+      "code_chars": 371,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/151",
+      "pass": true,
+      "wall_s": 2.7,
+      "predicted_n": 197,
+      "draft_n": 174,
+      "draft_n_accepted": 109,
+      "code_chars": 606,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/152",
+      "pass": true,
+      "wall_s": 3.6,
+      "predicted_n": 257,
+      "draft_n": 242,
+      "draft_n_accepted": 135,
+      "code_chars": 846,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/153",
+      "pass": true,
+      "wall_s": 5.1,
+      "predicted_n": 392,
+      "draft_n": 372,
+      "draft_n_accepted": 205,
+      "code_chars": 1473,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/154",
+      "pass": true,
+      "wall_s": 2.9,
+      "predicted_n": 194,
+      "draft_n": 194,
+      "draft_n_accepted": 96,
+      "code_chars": 657,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/155",
+      "pass": true,
+      "wall_s": 2.0,
+      "predicted_n": 132,
+      "draft_n": 120,
+      "draft_n_accepted": 71,
+      "code_chars": 391,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/156",
+      "pass": true,
+      "wall_s": 4.0,
+      "predicted_n": 294,
+      "draft_n": 284,
+      "draft_n_accepted": 151,
+      "code_chars": 834,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/157",
+      "pass": true,
+      "wall_s": 2.4,
+      "predicted_n": 157,
+      "draft_n": 148,
+      "draft_n_accepted": 82,
+      "code_chars": 473,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/158",
+      "pass": true,
+      "wall_s": 2.9,
+      "predicted_n": 209,
+      "draft_n": 196,
+      "draft_n_accepted": 110,
+      "code_chars": 792,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/159",
+      "pass": true,
+      "wall_s": 4.4,
+      "predicted_n": 339,
+      "draft_n": 306,
+      "draft_n_accepted": 185,
+      "code_chars": 1099,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/160",
+      "pass": false,
+      "wall_s": 4.3,
+      "predicted_n": 328,
+      "draft_n": 304,
+      "draft_n_accepted": 175,
+      "code_chars": 1126,
+      "error": "Traceback (most recent call last):\n  File \"/tmp/tmpdizfmjnb/prog.py\", line 77, in <module>\n    check(do_algebra)\n    ~~~~~^^^^^^^^^^^^\n  File \"/tmp/tmpdizfmjnb/prog.py\", line 69, in check\n    assert candidate(['+', '*', '-'], [2, 3, 4, 5]) == 9\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    {
+      "task_id": "HumanEval/161",
+      "pass": true,
+      "wall_s": 2.8,
+      "predicted_n": 191,
+      "draft_n": 178,
+      "draft_n_accepted": 101,
+      "code_chars": 622,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/162",
+      "pass": true,
+      "wall_s": 1.9,
+      "predicted_n": 117,
+      "draft_n": 108,
+      "draft_n_accepted": 62,
+      "code_chars": 337,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/163",
+      "pass": false,
+      "wall_s": 2.5,
+      "predicted_n": 176,
+      "draft_n": 152,
+      "draft_n_accepted": 99,
+      "code_chars": 475,
+      "error": "Traceback (most recent call last):\n  File \"/tmp/tmpm9sdmvmw/prog.py\", line 43, in <module>\n    check(generate_integers)\n    ~~~~~^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpm9sdmvmw/prog.py\", line 35, in check\n    assert candidate(132, 2) == [2, 4, 6, 8], \"Test 3\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Test 3\n"
+    }
+  ]
+}

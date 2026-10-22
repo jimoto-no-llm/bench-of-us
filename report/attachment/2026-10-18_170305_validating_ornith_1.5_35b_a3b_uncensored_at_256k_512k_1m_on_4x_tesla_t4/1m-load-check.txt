@@ -1,0 +1,12 @@
+]633;E;echo '# 1M context load check - Ornith 1.5 35B A3B Uncensored Q4_K_M';495f1b4b-8741-45ee-a1d9-adabf4ebc4cc]633;C# 1M context load check - Ornith 1.5 35B A3B Uncensored Q4_K_M
+
+command: llama-server --split-mode tensor -c 1048576 --rope-scaling yarn --rope-scale 4 --yarn-orig-ctx 262144 --cache-type-k q8_0 --cache-type-v q8_0 --spec-type draft-mtp --spec-draft-n-max 2 (CUDA0-3)
+
+## result
+LOAD_OK ctx=1048576 (YaRN factor 4.0)
+VRAM: CUDA0 12,279 MiB / CUDA1 13,559 MiB / CUDA2 12,279 MiB / CUDA3 13,559 MiB
+short generation: 22.6 t/s
+
+## note
+The 1M ladder stage was stopped manually to keep the total session time bounded
+after the Nemotron 1M stage hit the harness timeout. 256k/512k were measured.
