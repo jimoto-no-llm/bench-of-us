@@ -1,0 +1,12 @@
+# 1M context load check - Nemotron 3.5 Lightning 30B A3B CRACK Q4_K_M
+
+command: llama-server --split-mode layer -c 1048576 --cache-type-k q8_0 --cache-type-v q8_0 --spec-type draft-mtp --spec-draft-n-max 2 (CUDA0-3)
+
+## result
+LOAD_OK ctx=1048576 (YaRN none, native)
+VRAM: CUDA0 12,459 MiB / CUDA1 11,329 MiB / CUDA2 12,473 MiB / CUDA3 14,517 MiB
+short generation: 31.3 t/s
+
+## note
+The full 1M ladder stage timed out at the harness limit of 7,200 s (progress 0.72).
+The 1M stage of the benchmark run is recorded as aborted in results-layer.json.
