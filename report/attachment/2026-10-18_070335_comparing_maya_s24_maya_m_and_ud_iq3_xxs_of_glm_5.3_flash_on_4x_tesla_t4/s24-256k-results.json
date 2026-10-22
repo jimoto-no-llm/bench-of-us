@@ -1,0 +1,24 @@
+[
+  {
+    "ctx": 262144,
+    "prompt_tokens": 262064,
+    "generated": 11,
+    "finish": "stop",
+    "prompt_ms": 596864.3,
+    "decode_ms": 900.1,
+    "prefill_tok_s": 439.0679757526124,
+    "decode_tok_s": 12.220864348405733,
+    "load_s": 62.430415391922,
+    "wall_s": 597.8232481479645,
+    "ready": "READY 262144 stop pause",
+    "needle_found": true,
+    "output_head": "BENCH-OF-US-7F3A<|user|>",
+    "output_tail": "BENCH-OF-US-7F3A<|user|>",
+    "pp_lines": [
+      "PP 253951 262064 580319.6 437.5 63",
+      "PP 262063 262064 596658.7 439.1 63",
+      "PP 262064 262064 596864.3 439.0 63"
+    ],
+    "engine_log": "/tmp/maya-needle-s24-256k/engine-262144.log"
+  }
+]

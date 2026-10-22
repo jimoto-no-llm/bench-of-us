@@ -1,0 +1,5 @@
+[
+  {"name": "UD-IQ3_XXS", "decode": 22.8, "prefill2k": 180, "prefill8k": 222},
+  {"name": "Maya-S24", "decode": 31.1, "prefill2k": 203, "prefill8k": 239},
+  {"name": "Maya-M", "decode": 24.0, "prefill2k": 191, "prefill8k": 228}
+]

@@ -1,0 +1,51 @@
+Project Maya v1.1.15 benchmark, 2026-10-18 06:22
+GPUs: Tesla T4 15 GB, Tesla T4 15 GB, Tesla T4 15 GB, Tesla T4 15 GB; RAM 232 GB; CPU Intel(R) Xeon(R) Gold 6254 CPU @ 3.10GHz
+setup: maya-maya-s24.json, context 32768, GPUs [0, 1, 2, 3]
+decode (writing the answer): mean 31.1 tokens/s over 3 answers of 256 tokens (greedy, thinking off)
+    31.4 tokens/s  Write a Python function that parses a CSV file into a list of dictionaries, with type hints and a docstring.
+    29.9 tokens/s  Explain how photosynthesis works, step by step, for a high-school student.
+    32.0 tokens/s  Write a complete HTML page with a canvas that draws a bouncing ball animation in JavaScript.
+prefill (reading the prompt): 203 tokens/s, 2048 tokens
+prefill (reading the prompt): 239 tokens/s, 8192 tokens
+
+engine lines:
+glm split auto: CUDA2 (Tesla T4) memory 320 GB/s, 14.41 GB free
+glm split auto: CUDA3 (Tesla T4) memory 320 GB/s, 14.41 GB free
+glm split auto: the host reads RAM at 42 GB/s (a part's CPU lane: 10); the routes from the default coverage curve (no usage counts); a token costs the parts added
+glm split auto: layers [0, 13) on CUDA0, [13, 24) on CUDA1, [24, 35) on CUDA2, [35, 45) on CUDA3 - a token 41.3 ms predicted (CUDA0 10.9 ms, 172 slots a layer | CUDA1 10.1 ms, 168 slots a layer | CUDA2 9.9 ms, 169 slots a layer | CUDA3 10.5 ms, 173 slots a layer), 93% of the routed experts in VRAM
+glm prefill: CUDA0 chunks of 8192 tokens (--prefill auto, up to 8192; mixer sub-batches of 1024), borrowing 2001 MB of the expert pool while a prompt runs (activations 1803, weight scratch 96, expert staging 86, prestage 0: 0 experts); disk landing ring 96 experts (692 MB pinned)
+glm fast: CUDA0 VRAM before the expert pool: 2.13 of 14.58 GB in use - dense weights 1.58, state/KV (32768 ctx) 0.17, activations 0.06, other (context, MTP, scratch, prompt path) 0.31
+glm fast: the expert profile ~/project-maya/data/expert-profile-glm.bin ranks 13248 (layer, expert) pairs
+glm fast: CUDA0 layers [0,13) expert pool 11.76 GB, 149-197 slots/layer (1741 total)
+glm prefill: CUDA1 chunks of 8192 tokens (--prefill auto, up to 8192; mixer sub-batches of 1024), borrowing 1995 MB of the expert pool while a prompt runs (activations 1803, weight scratch 96, expert staging 80, prestage 0: 0 experts); disk landing ring 96 experts (642 MB pinned)
+glm fast: CUDA1 VRAM before the expert pool: 1.63 of 14.58 GB in use - dense weights 1.10, state/KV (32768 ctx) 0.16, activations 0.05, other (context, MTP, scratch, prompt path) 0.32
+glm fast: CUDA1 layers [13,24) expert pool 12.25 GB, 153-186 slots/layer (1876 total)
+glm prefill: CUDA2 chunks of 8192 tokens (--prefill auto, up to 8192; mixer sub-batches of 1024), borrowing 1995 MB of the expert pool while a prompt runs (activations 1803, weight scratch 96, expert staging 80, prestage 0: 0 experts); disk landing ring 96 experts (642 MB pinned)
+glm fast: CUDA2 VRAM before the expert pool: 1.58 of 14.58 GB in use - dense weights 1.08, state/KV (32768 ctx) 0.12, activations 0.05, other (context, MTP, scratch, prompt path) 0.32
+glm fast: CUDA2 layers [24,35) expert pool 12.31 GB, 155-193 slots/layer (1885 total)
+glm prefill: CUDA3 chunks of 8192 tokens (--prefill auto, up to 8192; mixer sub-batches of 1024), borrowing 2001 MB of the expert pool while a prompt runs (activations 1803, weight scratch 96, expert staging 86, prestage 0: 0 experts); disk landing ring 96 experts (692 MB pinned)
+glm fast: CUDA3 VRAM before the expert pool: 2.23 of 14.58 GB in use - dense weights 1.49, state/KV (32768 ctx) 0.20, activations 0.07, other (context, MTP, scratch, prompt path) 0.47
+glm fast: CUDA3 layers [35,45) expert pool 11.66 GB, 121-174 slots/layer, the draft layer 153 (1691 total)
+glm fast: CUDA0 RAM tier 10.20 GB pinned, 1521 slots
+glm fast: CUDA1 RAM tier 10.91 GB pinned, 1671 slots
+glm fast: CUDA2 RAM tier 10.85 GB pinned, 1662 slots
+glm fast: CUDA3 RAM tier 12.87 GB pinned, 1866 slots
+glm fast: CUDA0 tiers warm: 2880 experts (20.8 GB) in 27 s (0.78 GB/s)
+glm fast: CUDA1 tiers warm: 3168 experts (22.2 GB) in 34 s (0.66 GB/s)
+glm fast: CUDA2 tiers warm: 3168 experts (22.2 GB) in 34 s (0.66 GB/s)
+glm fast: CUDA3 tiers warm: 3168 experts (23.4 GB) in 32 s (0.74 GB/s)
+glm fast: CUDA0 CPU lane: 14 threads (one pool, shared by the split's GPUs), an expert 0.359 ms on the CPU vs 0.953 ms over PCIe -> of 0..8 RAM-tier experts the CPU takes 0 1 2 2 3 4 5 5 6
+glm fast: CUDA1 CPU lane: 14 threads (one pool, shared by the split's GPUs), an expert 0.267 ms on the CPU vs 0.575 ms over PCIe -> of 0..8 RAM-tier experts the CPU takes 0 1 2 2 3 4 4 5 6
+glm fast: CUDA2 CPU lane: 14 threads (one pool, shared by the split's GPUs), an expert 0.273 ms on the CPU vs 0.903 ms over PCIe -> of 0..8 RAM-tier experts the CPU takes 0 1 2 3 3 4 5 6 6
+glm fast: CUDA3 CPU lane: 14 threads (one pool, shared by the split's GPUs), an expert 0.265 ms on the CPU vs 0.904 ms over PCIe -> of 0..8 RAM-tier experts the CPU takes 0 1 2 3 3 4 5 6 6
+glm split: layers [0, 13) on CUDA0, [13, 24) on CUDA1, [24, 35) on CUDA2, [35, 45) on CUDA3 (one 64 KB host hop per boundary per token)
+glm stat: decode 35.80 ms/tok (27.93 tok/s) | vram hit 81.39% | ram fetches 5.13/tok | disk 0.00 reads/tok in 0.11 waits/tok, 0.00 ms/tok | promotions 5.24/tok | cpu lane 60.73/tok in 20.60 ms/tok | prompt 80.2 ms/tok | vram 7067/7193 ram 5310/6720
+glm stat: decode 31.87 ms/tok (31.37 tok/s) | vram hit 81.03% | ram fetches 5.87/tok | disk 0.00 reads/tok in 0.07 waits/tok, 0.00 ms/tok | promotions 5.93/tok | cpu lane 61.20/tok in 18.49 ms/tok | prompt 52.2 ms/tok | vram 7074/7193 ram 5304/6720
+glm stat: decode 33.46 ms/tok (29.89 tok/s) | vram hit 83.33% | ram fetches 4.50/tok | disk 0.00 reads/tok in 0.04 waits/tok, 0.00 ms/tok | promotions 4.54/tok | cpu lane 57.07/tok in 17.07 ms/tok | prompt 51.7 ms/tok | vram 7066/7193 ram 5318/6720
+glm stat: decode 31.29 ms/tok (31.96 tok/s) | vram hit 80.75% | ram fetches 5.57/tok | disk 0.00 reads/tok in 0.07 waits/tok, 0.00 ms/tok | promotions 5.64/tok | cpu lane 61.85/tok in 18.47 ms/tok | prompt 52.3 ms/tok | vram 7068/7193 ram 5314/6720
+glm fast: CUDA0 CPU lane timed again in decode: an expert 0.300 ms (planned with 0.359) -> RAM-tier experts to the CPU, of 0..8: 0 1 2 3 3 4 5 6 6 (PCIe share 0.13)
+glm stat (prompt only): prompt 5.1 ms/tok | vram 6483/7193 ram 5805/6720
+glm slots: saved a 2047-token conversation (0.18 GB in 0.1 s); 1 kept, 0.18 GB
+glm stat (prompt only): prompt 4.9 ms/tok | vram 6503/7193 ram 5781/6720
+glm slots: saved a 2047-token conversation (0.18 GB in 0.1 s); 2 kept, 0.36 GB
+glm stat (prompt only): prompt 4.2 ms/tok | vram 5992/7193 ram 6297/6720

@@ -1,0 +1,46 @@
+[
+  {
+    "ctx": 262144,
+    "prompt_tokens": 262064,
+    "generated": 11,
+    "finish": "stop",
+    "prompt_ms": 623720.4,
+    "decode_ms": 907.1,
+    "prefill_tok_s": 420.1626241501801,
+    "decode_tok_s": 12.126557160180795,
+    "load_s": 76.13507461547852,
+    "wall_s": 624.685720205307,
+    "ready": "READY 262144 stop pause",
+    "needle_found": true,
+    "output_head": "BENCH-OF-US-7F3A<|user|>",
+    "output_tail": "BENCH-OF-US-7F3A<|user|>",
+    "pp_lines": [
+      "PP 253951 262064 606697.2 418.5 63",
+      "PP 262063 262064 623481.0 420.2 63",
+      "PP 262064 262064 623720.3 420.1 63"
+    ],
+    "engine_log": "/tmp/maya-needle-ud-iq3_xxs/engine-262144.log"
+  },
+  {
+    "ctx": 1048576,
+    "prompt_tokens": 1048496,
+    "generated": 11,
+    "finish": "stop",
+    "prompt_ms": 3151798.8,
+    "decode_ms": 1315.8,
+    "prefill_tok_s": 332.66590494291705,
+    "decode_tok_s": 8.359933120535036,
+    "load_s": 80.06876254081726,
+    "wall_s": 3153.396227836609,
+    "ready": "READY 1048576 stop pause",
+    "needle_found": true,
+    "output_head": "BENCH-OF-US-7F3A<|user|>",
+    "output_tail": "BENCH-OF-US-7F3A<|user|>",
+    "pp_lines": [
+      "PP 1040383 1048496 3115041.2 334.0 63",
+      "PP 1048495 1048496 3151445.4 332.7 63",
+      "PP 1048496 1048496 3151798.7 332.6 63"
+    ],
+    "engine_log": "/tmp/maya-needle-ud-iq3_xxs/engine-1048576.log"
+  }
+]

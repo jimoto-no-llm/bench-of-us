@@ -1,0 +1,68 @@
+===== ctx 32768
+glm split auto: layers [0, 13) on CUDA0, [13, 24) on CUDA1, [24, 35) on CUDA2, [35, 45) on CUDA3 - a token 81.5 ms predicted (CUDA0 21.5 ms, 127 slots a layer | CUDA1 20.6 ms, 126 slots a layer | CUDA2 20.3 ms, 127 slots a layer | CUDA3 19.1 ms, 133 slots a layer), 82% of the routed experts in VRAM
+glm fast: CUDA0 RAM tier 16.78 GB pinned, 1922 slots
+glm fast: CUDA1 RAM tier 17.29 GB pinned, 2068 slots
+glm fast: CUDA2 RAM tier 17.23 GB pinned, 2061 slots
+glm fast: CUDA3 RAM tier 18.45 GB pinned, 2184 slots
+glm stat: decode 51.43 ms/tok (19.44 tok/s) | vram hit 67.13% | ram fetches 13.62/tok | disk 0.00 reads/tok in 0.75 waits/tok, 0.01 ms/tok | promotions 14.38/tok | cpu lane 98.38/tok in 39.49 ms/tok | prompt 30.0 ms/tok | vram 5345/5458 ram 7030/8235
+glm spec: 5 of 6 drafts accepted (83.3%)
+glm stat: decode 72.51 ms/tok (13.79 tok/s) | vram hit 66.08% | ram fetches 15.00/tok | disk 0.00 reads/tok in 0.27 waits/tok, 0.00 ms/tok | promotions 15.27/tok | cpu lane 96.00/tok in 34.67 ms/tok | prompt 3.2 ms/tok | vram 5335/5458 ram 7053/8235
+glm spec: 9 of 9 drafts accepted (100.0%)
+glm spec: 15 speculative positions, 93.3% accepted
+
+===== ctx 131072
+glm split auto: layers [0, 13) on CUDA0, [13, 24) on CUDA1, [24, 35) on CUDA2, [35, 45) on CUDA3 - a token 86.9 ms predicted (CUDA0 23.1 ms, 123 slots a layer | CUDA1 22.1 ms, 123 slots a layer | CUDA2 21.5 ms, 125 slots a layer | CUDA3 20.3 ms, 130 slots a layer), 81% of the routed experts in VRAM
+glm fast: CUDA0 RAM tier 16.91 GB pinned, 1937 slots
+glm fast: CUDA1 RAM tier 17.42 GB pinned, 2083 slots
+glm fast: CUDA2 RAM tier 17.35 GB pinned, 2075 slots
+glm fast: CUDA3 RAM tier 18.59 GB pinned, 2201 slots
+glm stat: decode 53.96 ms/tok (18.53 tok/s) | vram hit 67.20% | ram fetches 13.50/tok | disk 0.00 reads/tok in 1.00 waits/tok, 0.01 ms/tok | promotions 14.50/tok | cpu lane 98.00/tok in 42.96 ms/tok | prompt 30.3 ms/tok | vram 5326/5440 ram 7049/8296
+glm spec: 5 of 6 drafts accepted (83.3%)
+glm kv: KV streaming: 88.35% of 1854 block reads hit VRAM, 0.8 MiB read from RAM
+glm stat: decode 73.11 ms/tok (13.68 tok/s) | vram hit 65.24% | ram fetches 17.00/tok | disk 0.00 reads/tok in 0.09 waits/tok, 0.00 ms/tok | promotions 17.09/tok | cpu lane 96.91/tok in 36.95 ms/tok | prompt 2.7 ms/tok | vram 5315/5440 ram 7079/8296
+glm spec: 9 of 9 drafts accepted (100.0%)
+glm kv: KV streaming: 72.78% of 72099 block reads hit VRAM, 76.7 MiB read from RAM
+glm spec: 15 speculative positions, 93.3% accepted
+
+===== ctx 262144
+glm split auto: layers [0, 13) on CUDA0, [13, 24) on CUDA1, [24, 35) on CUDA2, [35, 45) on CUDA3 - a token 90.6 ms predicted (CUDA0 24.1 ms, 118 slots a layer | CUDA1 23.2 ms, 118 slots a layer | CUDA2 22.1 ms, 122 slots a layer | CUDA3 21.2 ms, 125 slots a layer), 79% of the routed experts in VRAM
+glm fast: CUDA0 RAM tier 17.05 GB pinned, 1953 slots
+glm fast: CUDA1 RAM tier 17.66 GB pinned, 2112 slots
+glm fast: CUDA2 RAM tier 17.57 GB pinned, 2101 slots
+glm fast: CUDA3 RAM tier 18.75 GB pinned, 2220 slots
+glm stat: decode 58.04 ms/tok (17.23 tok/s) | vram hit 67.64% | ram fetches 16.75/tok | disk 0.00 reads/tok in 0.62 waits/tok, 0.01 ms/tok | promotions 17.38/tok | cpu lane 93.62/tok in 50.95 ms/tok | prompt 30.3 ms/tok | vram 5308/5415 ram 7068/8386
+glm spec: 5 of 6 drafts accepted (83.3%)
+glm kv: KV streaming: 88.35% of 1854 block reads hit VRAM, 0.8 MiB read from RAM
+glm stat: decode 82.46 ms/tok (12.13 tok/s) | vram hit 65.13% | ram fetches 19.82/tok | disk 0.00 reads/tok in 0.09 waits/tok, 0.00 ms/tok | promotions 19.91/tok | cpu lane 94.45/tok in 34.60 ms/tok | prompt 2.4 ms/tok | vram 5293/5415 ram 7111/8386
+glm spec: 9 of 9 drafts accepted (100.0%)
+glm kv: KV streaming: 70.25% of 72099 block reads hit VRAM, 83.8 MiB read from RAM
+glm spec: 15 speculative positions, 93.3% accepted
+
+===== ctx 524288
+glm split auto: layers [0, 13) on CUDA0, [13, 24) on CUDA1, [24, 35) on CUDA2, [35, 45) on CUDA3 - a token 101.3 ms predicted (CUDA0 26.9 ms, 109 slots a layer | CUDA1 26.2 ms, 109 slots a layer | CUDA2 24.3 ms, 115 slots a layer | CUDA3 24.0 ms, 115 slots a layer), 76% of the routed experts in VRAM
+glm fast: CUDA0 RAM tier 17.41 GB pinned, 1995 slots
+glm fast: CUDA1 RAM tier 17.94 GB pinned, 2145 slots
+glm fast: CUDA2 RAM tier 17.83 GB pinned, 2132 slots
+glm fast: CUDA3 RAM tier 19.17 GB pinned, 2269 slots
+glm stat: decode 55.46 ms/tok (18.03 tok/s) | vram hit 66.80% | ram fetches 13.88/tok | disk 0.00 reads/tok in 1.25 waits/tok, 0.01 ms/tok | promotions 15.12/tok | cpu lane 98.75/tok in 42.25 ms/tok | prompt 30.5 ms/tok | vram 5256/5367 ram 7119/8541
+glm spec: 5 of 6 drafts accepted (83.3%)
+glm kv: KV streaming: 88.35% of 1854 block reads hit VRAM, 0.8 MiB read from RAM
+glm stat: decode 100.84 ms/tok (9.92 tok/s) | vram hit 62.03% | ram fetches 18.36/tok | disk 0.00 reads/tok in 0.18 waits/tok, 0.00 ms/tok | promotions 18.55/tok | cpu lane 106.00/tok in 36.40 ms/tok | prompt 2.5 ms/tok | vram 5245/5367 ram 7147/8541
+glm spec: 9 of 9 drafts accepted (100.0%)
+glm kv: KV streaming: 69.47% of 72099 block reads hit VRAM, 86.0 MiB read from RAM
+glm spec: 15 speculative positions, 93.3% accepted
+
+===== ctx 1048576
+glm split auto: layers [0, 12) on CUDA0, [12, 23) on CUDA1, [23, 34) on CUDA2, [34, 45) on CUDA3 - a token 121.0 ms predicted (CUDA0 25.8 ms, 102 slots a layer | CUDA1 28.0 ms, 102 slots a layer | CUDA2 31.6 ms, 91 slots a layer | CUDA3 35.7 ms, 85 slots a layer), 68% of the routed experts in VRAM
+glm fast: CUDA0 RAM tier 15.16 GB pinned, 1747 slots
+glm fast: CUDA1 RAM tier 18.93 GB pinned, 2244 slots
+glm fast: CUDA2 RAM tier 18.70 GB pinned, 2236 slots
+glm fast: CUDA3 RAM tier 22.54 GB pinned, 2671 slots
+glm stat: decode 55.37 ms/tok (18.06 tok/s) | vram hit 66.53% | ram fetches 16.38/tok | disk 0.00 reads/tok in 1.00 waits/tok, 0.01 ms/tok | promotions 17.38/tok | cpu lane 96.75/tok in 45.35 ms/tok | prompt 30.5 ms/tok | vram 5153/5266 ram 7220/8898
+glm spec: 5 of 6 drafts accepted (83.3%)
+glm kv: KV streaming: 88.12% of 1818 block reads hit VRAM, 0.8 MiB read from RAM
+glm stat: decode 119.61 ms/tok (8.36 tok/s) | vram hit 60.08% | ram fetches 24.00/tok | disk 0.00 reads/tok in 0.18 waits/tok, 0.00 ms/tok | promotions 24.18/tok | cpu lane 106.45/tok in 34.14 ms/tok | prompt 3.0 ms/tok | vram 5040/5266 ram 7281/8898
+glm spec: 9 of 9 drafts accepted (100.0%)
+glm kv: KV streaming: 66.58% of 71550 block reads hit VRAM, 93.4 MiB read from RAM
+glm spec: 15 speculative positions, 93.3% accepted
+
