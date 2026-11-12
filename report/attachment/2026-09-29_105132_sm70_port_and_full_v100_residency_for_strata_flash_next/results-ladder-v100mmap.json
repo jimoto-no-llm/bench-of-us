@@ -1,0 +1,55 @@
+{
+ "label": "v100mmap",
+ "ladder": [
+  {
+   "prompt_tokens": 130,
+   "read_tps": 40.6,
+   "gen_tokens": 256,
+   "gen_tps": 35.4,
+   "reps": 1
+  },
+  {
+   "prompt_tokens": 7852,
+   "read_tps": 340.7,
+   "gen_tokens": 256,
+   "gen_tps": 37.9,
+   "reps": 100
+  },
+  {
+   "prompt_tokens": 16042,
+   "read_tps": 439.4,
+   "gen_tokens": 256,
+   "gen_tps": 39.8,
+   "reps": 205
+  },
+  {
+   "prompt_tokens": 24076,
+   "read_tps": 441.7,
+   "gen_tokens": 256,
+   "gen_tps": 39.6,
+   "reps": 308
+  },
+  {
+   "prompt_tokens": 30472,
+   "read_tps": 433.2,
+   "gen_tokens": 256,
+   "gen_tps": 39.2,
+   "reps": 390
+  }
+ ],
+ "pp0": [
+  {
+   "prompt_tokens": 598,
+   "prefill_tps": 158.8
+  },
+  {
+   "prompt_tokens": 2080,
+   "prefill_tps": 306.2
+  },
+  {
+   "prompt_tokens": 8242,
+   "prefill_tps": 403.6
+  }
+ ],
+ "vram_peak_mib": 32063
+}
